@@ -1,0 +1,699 @@
+<!DOCTYPE HTML>
+<html lang="ru" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>4.4 Выбор модели, недообучение и переобучение - Погружение в глубокое обучение</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Русскоязычное издание учебника «Dive into Deep Learning» (动手学深度学习) с кодом на Python. Переведены главы 1 «Введение», 2 «Предварительные знания», 3 «Линейные нейронные сети», 4 «Многослойные перцептроны», 5 «Вычисления глубокого обучения», 6 «Свёрточные нейронные сети», 7 «Современные свёрточные нейронные сети», 8 «Рекуррентные нейронные сети», 9 «Современные рекуррентные нейронные сети», 10 «Механизмы внимания», 11 «Алгоритмы оптимизации», 12 «Вычислительная производительность», 13 «Компьютерное зрение», 14 «Обработка естественного языка: предобучение» и 15 «Обработка естественного языка: приложения»; предисловие, приложение и список литературы переведены.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/framework-tabs-7543ad04.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-e2003210.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-1598951f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Погружение в глубокое обучение</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus/edit/main/books/dive-into-deep-learning/src/src/04_04_underfit_overfit.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="44-выбор-модели-недообучение-и-переобучение"><a class="header" href="04_04_underfit_overfit.html#44-выбор-модели-недообучение-и-переобучение">4.4 Выбор модели, недообучение и переобучение</a></h1>
+<p>Цель специалиста по машинному обучению — находить <em>закономерности</em> (pattern).
+Но как понять, что модель действительно нашла закономерность, которая обобщается, а не просто запомнила данные?
+Например, мы хотим найти закономерность между генетическими данными пациентов и состоянием деменции, где метка принимает значения из множества <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord text"><span class="mord cyrillic_fallback">деменция</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord cyrillic_fallback">лёгкое</span><span class="mord"> </span><span class="mord cyrillic_fallback">когнитивное</span><span class="mord"> </span><span class="mord cyrillic_fallback">расстройство</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord cyrillic_fallback">здоров</span></span><span class="mclose">}</span></span></span></span>.
+Поскольку генетические данные однозначно определяют каждого человека (не считая близнецов), в этой задаче возможно просто запомнить весь набор данных.</p>
+<p>Нам не нужна модель, которая рассуждает так: «Это Боб! Я помню его! У него деменция!»
+Причина проста: когда модель будет развёрнута, ей придётся делать выводы о пациентах, которых она никогда не видела.
+Только если модель действительно выявила обобщаемую закономерность, её прогнозы будут полезны.</p>
+<p>Формально наша цель — найти такие закономерности, которые отражают свойства генеральной совокупности, из которой взят обучающий набор.
+Если это удаётся, модель может оценивать риск даже для людей, которых она никогда не встречала.
+Как находить закономерности, которые можно обобщать, — фундаментальный вопрос машинного обучения.</p>
+<p>Трудность в том, что при обучении модели мы видим лишь небольшую часть данных.
+Крупнейший открытый набор изображений содержит около миллиона изображений.
+Но чаще всего мы учимся на тысячах или десятках тысяч примеров.
+В крупной больничной системе могут быть доступны сотни тысяч медицинских карт.
+Работая с ограниченной выборкой, можно столкнуться с такой ситуацией: когда собрано больше данных, выясняется, что ранее найденная очевидная связь не выполняется.</p>
+<p>Явление, при котором модель описывает обучающие данные лучше, чем реальную закономерность в генеральной совокупности, называют <em>переобучением</em> (overfitting), а методы борьбы с ним — <em>регуляризацией</em> (regularization).
+В предыдущих главах некоторые читатели, возможно, уже наблюдали переобучение, экспериментируя с набором Fashion-MNIST.
+Если менять архитектуру модели или гиперпараметры, то при достаточном числе нейронов, слоёв и эпох обучения модель в конце концов может достичь идеальной точности на обучающем наборе, хотя точность на тестовых данных при этом падает.</p>
+<h2 id="441-ошибка-обучения-и-ошибка-обобщения"><a class="header" href="04_04_underfit_overfit.html#441-ошибка-обучения-и-ошибка-обобщения">4.4.1 Ошибка обучения и ошибка обобщения</a></h2>
+<p>Чтобы подробнее разобрать это явление, нужно понимать ошибку обучения и ошибку обобщения.
+<em>Ошибка обучения</em> (training error) — это ошибка модели, вычисленная на обучающем наборе данных.
+<em>Ошибка обобщения</em> (generalization error) — это математическое ожидание ошибки модели, когда её применяют к бесконечному числу примеров данных, взятых из того же исходного распределения, что и обучающие данные.</p>
+<p>Проблема в том, что точно вычислить ошибку обобщения нельзя: бесконечное число примеров — это абстракция.
+На практике ошибку обобщения можно оценить, применив модель к независимому тестовому набору, состоящему из случайно выбранных примеров, которые не встречались в обучающем наборе.</p>
+<p>Следующие три мысленных эксперимента помогут лучше понять эту ситуацию.
+Представим студента, который готовится к итоговому экзамену.
+Старательный студент будет решать упражнения и проверять себя на экзаменационных задачах прошлых лет.
+Тем не менее хороший результат на прошлых задачах не гарантирует, что он хорошо справится с настоящим экзаменом.
+Например, студент может пытаться подготовиться, просто заучивая ответы на задачи.
+Он даже может полностью запомнить ответы на прошлые экзамены.
+Другой студент может готовиться, пытаясь понять, почему даны именно такие ответы.
+В большинстве случаев второй сдаст экзамен лучше.</p>
+<p>Аналогично рассмотрим модель, которая отвечает на вопросы, просто заглядывая в таблицу.
+Если множество допустимых входов дискретно и достаточно мало, то после просмотра многих обучающих примеров такой метод может работать хорошо.
+Но когда модель сталкивается с никогда не виденными примерами, её результат едва ли лучше случайного угадывания.
+Дело в том, что пространство входов слишком велико, и невозможно запомнить ответ на каждый возможный вход.
+Например, рассмотрим полутоновое изображение <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">28</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">28</span></span></span></span>.
+Если каждый пиксель может принимать одно из <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">256</span></span></span></span> значений яркости, то существует <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">25</span><span class="mord"><span class="mord">6</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">784</span></span></span></span></span></span></span></span></span></span></span></span> возможных изображений.
+Это значит, что количество низкоразрешённых полутоновых изображений размером с ноготь намного больше числа атомов во Вселенной.
+Даже если нам и встретятся такие данные, хранить всю таблицу поиска мы всё равно не сможем.</p>
+<p>Наконец, рассмотрим задачу классификации результатов броска монеты (класс 0: орёл, класс 1: решка).
+Пусть монета честная: тогда, каким бы ни был алгоритм, ошибка обобщения всегда равна <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>.
+Однако для большинства алгоритмов мы должны ожидать, что ошибка обучения будет меньше (хотя это зависит от везения).
+Рассмотрим набор данных {0, 1, 1, 1, 0, 1}.
+Наш алгоритм, не имея дополнительных признаков, будет склонен всегда предсказывать <em>преобладающий класс</em>; по нашей ограниченной выборке им кажется 1.
+В этом случае модель, которая всегда предсказывает класс 1, даст ошибку <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>, что заметно лучше нашей ошибки обобщения.
+Но по мере роста объёма данных вероятность того, что доля орлов заметно отклонится от <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>, будет снижаться, и ошибка обучения будет приближаться к ошибке обобщения.</p>
+<h3 id="4411-статистическая-теория-обучения"><a class="header" href="04_04_underfit_overfit.html#4411-статистическая-теория-обучения">4.4.1.1 Статистическая теория обучения</a></h3>
+<p>Поскольку обобщение — фундаментальная проблема машинного обучения, многие математики и теоретики посвятили жизнь изучению её формальной теории.
+В <a href="https://en.wikipedia.org/wiki/Glivenko%E2%80%93Cantelli_theorem">одноимённой теореме</a> Гливенко и Кантелли вывели скорость, с которой ошибка обучения сходится к ошибке обобщения.
+В серии новаторских работ <a href="https://en.wikipedia.org/wiki/Vapnik%E2%80%93Chervonenkis_theory">Вапник и Червоненкис</a> распространили эту теорию на более широкий класс функций.
+Эти работы заложили основы статистической теории обучения.</p>
+<p>В рассмотренном и далее в книге случае обучения с учителем мы предполагаем, что обучающие и тестовые данные независимо извлечены из одного и того же распределения.
+Это предположение обычно называют <em>предположением о независимости и одинаковой распределённости</em> (i.i.d. assumption; independent and identically distributed).
+Оно означает, что процесс выборки данных не «запоминает» предыдущие примеры.
+Иначе говоря, связь между вторым и третьим извлечёнными примерами не сильнее, чем связь между вторым и двухмиллионным.</p>
+<p>Чтобы стать хорошим специалистом по машинному обучению, нужно уметь критически мыслить.
+Предположения часто уязвимы: несложно придумать ситуации, в которых они не выполняются.
+Допустим, мы обучили модель предсказания смертельного риска на данных пациентов медицинского центра Калифорнийского университета в Сан-Франциско и применили её к данным пациентов Массачусетской больницы общего профиля.
+Что тогда произойдёт? Эти два распределения могут заметно различаться.
+К тому же процесс выборки может зависеть от времени.
+Например, при классификации тем в микроблогах новостной цикл создаёт временную зависимость обсуждаемых тем, что нарушает предположение о независимости.</p>
+<p>Иногда модель продолжает работать очень хорошо, даже если предположение о независимой и одинаковой распределённости нарушено незначительно.
+Например, существует много полезных инструментов, уже применяемых на практике: распознавание лиц, распознавание речи и машинный перевод.
+В конце концов, почти в любом реальном применении есть хотя бы некоторые отклонения от этого предположения.</p>
+<p>Однако некоторые нарушения предположения точно создадут проблемы.
+Например, если мы попытаемся обучить систему распознавания лиц только на изображениях студентов, а затем использовать её для наблюдения за пожилыми людьми в доме престарелых, это вряд ли сработает, поскольку лица студентов часто сильно отличаются от лиц пожилых людей.</p>
+<p>В следующих разделах мы будем обсуждать проблемы, возникающие из-за нарушения предположения о независимой и одинаковой распределённости.
+Пока же даже при принятии этого предположения понимать обобщаемость — непростая задача.
+Более того, теоретические основы, объясняющие обобщающую способность глубоких нейронных сетей, по-прежнему ставят в тупик выдающихся учёных в области теории обучения.</p>
+<p>Когда мы обучаем модель, мы стремимся найти функцию, которая как можно лучше соответствует обучающим данным.
+Но если она подгоняется «слишком хорошо» и не может хорошо обобщаться на невидимые данные, возникает переобучение.
+Именно этого мы хотим избегать или контролировать.
+В глубоком обучении есть много эвристических приёмов, направленных на предотвращение переобучения.</p>
+<h3 id="4412-сложность-модели"><a class="header" href="04_04_underfit_overfit.html#4412-сложность-модели">4.4.1.2 Сложность модели</a></h3>
+<p>Если модель простая, а данных много, мы ожидаем, что ошибка обобщения будет близка к ошибке обучения.
+Если модель сложнее, а примеров меньше, мы ожидаем, что ошибка обучения уменьшится, а ошибка обобщения возрастёт.
+Что именно делает модель сложной, — непростой вопрос.
+Способность модели хорошо обобщаться зависит от многих факторов.
+Например, модель с большим числом параметров может считаться более сложной, а модель, у которой параметры могут принимать значения из более широкого диапазона, — тоже более сложной.
+Для нейронных сетей обычно считается, что модель, которой нужно больше итераций обучения, сложнее, а модель, для которой нужна <em>ранняя остановка</em> (early stopping), то есть меньшее число эпох обучения, — проще.</p>
+<p>Сравнивать сложность принципиально разных классов моделей (например, деревьев решений и нейронных сетей) трудно.
+Пока полезно простое эмпирическое правило: статистики считают сложной модель, которая легко объясняет произвольные факты, а модель с ограниченной выразительностью, но хорошо объясняющая данные, может быть полезнее на практике.
+В философии это тесно связано с критерием фальсифицируемости научных теорий Поппера: теория хороша, если она согласуется с данными и существуют конкретные проверки, которые могли бы доказать её неверность.
+Это важно, потому что все статистические оценки — это <em>индуктивные выводы post hoc</em>.
+То есть мы делаем оценки после наблюдения фактов, и поэтому они подвержены корреляционным ошибкам.
+Сейчас отложим философию и займёмся более практичными вопросами.</p>
+<p>Чтобы дать интуитивное представление, мы выделим несколько факторов, которые обычно влияют на обобщающую способность модели.</p>
+<ol>
+<li>Число настраиваемых параметров. Когда число настраиваемых параметров (иногда его называют <em>числом степеней свободы</em>) велико, модель, как правило, склонна к переобучению.</li>
+<li>Значения параметров. Когда веса могут принимать значения из широкого диапазона, модель может оказаться более склонной к переобучению.</li>
+<li>Число обучающих примеров. Даже простая модель может переобучиться на наборе из одного-двух примеров. А чтобы переобучиться на наборе из миллионов примеров, нужна очень гибкая модель.</li>
+</ol>
+<h2 id="442-выбор-модели"><a class="header" href="04_04_underfit_overfit.html#442-выбор-модели">4.4.2 Выбор модели</a></h2>
+<p>В машинном обучении мы обычно оцениваем несколько кандидатов и затем выбираем итоговую модель.
+Этот процесс называется <em>выбором модели</em> (model selection).
+Иногда сравниваемые модели принципиально различаются (например, дерево решений и линейная модель).
+В других случаях мы сравниваем модели одного и того же класса с разными значениями гиперпараметров.</p>
+<p>Например, при обучении многослойного перцептрона мы можем захотеть сравнить модели с разным числом скрытых слоёв, разным числом скрытых элементов и разными комбинациями функций активации.
+Чтобы определить лучшую модель среди кандидатов, обычно используют проверочный набор.</p>
+<h3 id="4421-проверочный-набор"><a class="header" href="04_04_underfit_overfit.html#4421-проверочный-набор">4.4.2.1 Проверочный набор</a></h3>
+<p>По сути, пока мы не определили все гиперпараметры, мы не хотим использовать тестовый набор.
+Если во время выбора модели использовать тестовые данные, есть риск переобучиться на тестовых данных, а это серьёзная проблема.
+Если мы переобучились на обучающих данных, оценку на тестовых данных можно использовать, чтобы это заметить.
+Но если мы переобучились на тестовых данных, как мы узнаем об этом?</p>
+<p>Поэтому ни в коем случае нельзя полагаться на тестовые данные при выборе модели.
+Однако и опираться только на обучающие данные для выбора модели нельзя, поскольку по ним мы не можем оценить ошибку обобщения.</p>
+<p>На практике ситуация сложнее.
+В идеале тестовые данные нужно использовать один раз — чтобы оценить лучшую модель или сравнить несколько моделей.
+Но на деле тестовые данные редко выбрасывают после одного использования.
+У нас редко бывает достаточно данных, чтобы для каждого этапа экспериментов брать новый тестовый набор.</p>
+<p>Частое решение этой проблемы — разделить данные на три части: помимо обучающего и тестового наборов выделить <em>проверочный набор данных</em> (validation dataset), или <em>проверочный набор</em> (validation set).
+Но на практике граница между проверочными и тестовыми данными часто размыта.
+Если явно не сказано иное, в экспериментах этой книги мы фактически используем наборы, которые правильнее было бы назвать обучающими и проверочными, и настоящего тестового набора нет.
+Поэтому точность, которую книга приводит для каждого эксперимента, — это точность на проверочном наборе, а не на тестовом.</p>
+<h3 id="4422-k-кратная-перекрёстная-проверка"><a class="header" href="04_04_underfit_overfit.html#4422-k-кратная-перекрёстная-проверка">4.4.2.2 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span>-кратная перекрёстная проверка</a></h3>
+<p>Когда обучающих данных мало, для построения достаточно большого проверочного набора их может не хватить.
+Популярное решение этой проблемы — <em><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span>-кратная перекрёстная проверка</em> (K-fold cross-validation).
+Здесь исходные обучающие данные разбиваются на <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span> непересекающихся подмножеств.
+Затем выполняются <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span> обучений и проверок модели: каждый раз модель обучается на <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> подмножествах и проверяется на оставшемся подмножестве (том, которое не использовалось для обучения в этом проходе).
+В итоге ошибки обучения и проверки оцениваются как среднее по <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span> экспериментам.</p>
+<h2 id="443-недообучение-или-переобучение"><a class="header" href="04_04_underfit_overfit.html#443-недообучение-или-переобучение">4.4.3 Недообучение или переобучение?</a></h2>
+<p>Когда мы сравниваем ошибки обучения и проверки, нужно обращать внимание на два типичных случая.
+Во-первых, стоит обратить внимание на ситуацию, когда и ошибка обучения, и ошибка проверки велики, но разница между ними невелика.
+Если модель не может снизить ошибку обучения, это может означать, что она слишком простая (то есть недостаточно выразительна) и не способна уловить закономерность, которую пытается выучить.
+Кроме того, поскольку <em>ошибка обобщения</em> (разница между ошибками обучения и проверки) мала, у нас есть основания полагать, что более сложная модель могла бы снизить ошибку обучения.
+Это явление называют <em>недообучением</em> (underfitting).</p>
+<p>С другой стороны, если ошибка обучения заметно ниже ошибки проверки, это указывает на серьёзное <em>переобучение</em> (overfitting).
+Заметим, что переобучение не всегда плохо.
+В особенности в глубоком обучении хорошо известно, что лучшие предсказательные модели часто показывают на обучающих данных результаты заметно лучше, чем на удержанных (проверочных) данных.
+В конечном счёте нас обычно больше интересует ошибка проверки, чем разрыв между ошибками обучения и проверки.</p>
+<p>Переобучение или недообучение может зависеть от сложности модели и от размера доступного обучающего набора данных, о чём речь пойдёт ниже.</p>
+<h3 id="4431-сложность-модели"><a class="header" href="04_04_underfit_overfit.html#4431-сложность-модели">4.4.3.1 Сложность модели</a></h3>
+<p>Чтобы проиллюстрировать классическую интуицию о переобучении и сложности модели, рассмотрим пример со многочленами.
+Имея обучающие данные, состоящие из одного признака <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> и соответствующей вещественной метки <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>, мы пытаемся найти многочлен степени <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span>, который оценивает метку <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1944em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:3.1138em;vertical-align:-1.2777em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8361em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8747em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0269em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<p>Это просто задача линейной регрессии: признаками служат степени <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>, весами — <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0269em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, а смещение задаётся <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0269em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> (поскольку <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> для всех <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>).
+Поскольку это линейная регрессия, в качестве функции потерь можно использовать квадратичную ошибку.</p>
+<p>Многочлен высокой степени гораздо сложнее многочлена низкой степени.
+У многочлена высокой степени больше параметров и шире выбор функций модели.
+Поэтому при фиксированном обучающем наборе данных ошибка обучения многочлена высокой степени всегда должна быть не больше (в худшем случае такой же), чем у многочлена низкой степени.
+Более того, если примеры содержат разные значения <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>, многочлен степени, равной числу примеров, может идеально подогнаться под обучающий набор.
+На рис. 4.4.1 показана связь между степенью многочлена и недообучением, а также переобучением.</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="images/capacity-vs-error.svg" alt="Влияние сложности модели на недообучение и переобучение."><span class="img-wrapper"><img src="images/capacity-vs-error.svg" alt="Влияние сложности модели на недообучение и переобучение."></span></label></p>
+<p><strong>Рис. 4.4.1.</strong> Влияние сложности модели на недообучение и переобучение</p>
+<h3 id="4432-размер-набора-данных"><a class="header" href="04_04_underfit_overfit.html#4432-размер-набора-данных">4.4.3.2 Размер набора данных</a></h3>
+<p>Ещё один важный фактор — размер набора данных.
+Чем меньше обучающих примеров, тем выше вероятность переобучения и тем оно сильнее.
+С ростом объёма обучающих данных ошибка обобщения обычно уменьшается.
+Кроме того, в общем случае больше данных не бывает лишним.
+Для фиксированной задачи и распределения данных между сложностью модели и размером набора данных обычно есть связь.
+Имея больше данных, мы можем попытаться подогнать более сложную модель.
+Способность подгонять более сложные модели может быть полезна.
+Если данных недостаточно, более простые модели могут оказаться полезнее.
+Для многих задач глубокое обучение превосходит линейные модели только при наличии тысяч обучающих примеров.
+В известной мере нынешний подъём глубокого обучения обязан дешёвым системам хранения, подключённым устройствам и огромным наборам данных, которые дала цифровая экономика.</p>
+<h2 id="444-полиномиальная-регрессия"><a class="header" href="04_04_underfit_overfit.html#444-полиномиальная-регрессия">4.4.4 Полиномиальная регрессия</a></h2>
+<p>Теперь мы можем <strong>исследовать эти понятия на примере подгонки многочленов</strong>.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">from d2l import mxnet as d2l
+from mxnet import gluon, np, npx
+from mxnet.gluon import nn
+import math
+npx.set_np()
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">from d2l import torch as d2l
+import torch
+from torch import nn
+import numpy as np
+import math
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">from d2l import tensorflow as d2l
+import tensorflow as tf
+import numpy as np
+import math
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">from d2l import paddle as d2l
+import warnings
+warnings.filterwarnings("ignore")
+import paddle
+from paddle import nn
+import numpy as np
+import math
+</code></pre>
+</div>
+
+</div>
+
+<h3 id="4441-генерация-набора-данных"><a class="header" href="04_04_underfit_overfit.html#4441-генерация-набора-данных">4.4.4.1 Генерация набора данных</a></h3>
+<p>По заданному <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> мы будем <strong>генерировать метки обучающих и тестовых данных с помощью следующего многочлена третьей степени:</strong></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1.2</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.1771em;vertical-align:-0.686em;"></span><span class="mord">3.4</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4911em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mclose">!</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.1771em;vertical-align:-0.686em;"></span><span class="mord">5.6</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4911em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">3</span><span class="mclose">!</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ϵ</span><span class="mord text"><span class="mord"> </span><span class="mord cyrillic_fallback">где</span><span class="mord"> </span></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1141em;vertical-align:-0.25em;"></span><span class="mord mathcal" style="margin-right:0.14736em;">N</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0.</span><span class="mord"><span class="mord">1</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord">.</span></span></span></span></span></p>
+<p>Шумовой член <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span> распределён нормально, с математическим ожиданием 0 и стандартным отклонением 0.1.
+В процессе оптимизации обычно хочется избегать очень больших значений градиентов и функции потерь.
+Поэтому мы масштабируем признаки от <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8247em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8247em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span></span></span></span></span></span></span> к <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.3705em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0255em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mclose mtight">!</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9021em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>.
+Это позволяет избежать очень больших значений показателей при больших <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span>.
+Мы сгенерируем по 100 примеров для обучающего и для тестового наборов.</p>
+<pre><code class="language-python">max_degree = 20  # Максимальная степень многочлена
+n_train, n_test = 100, 100  # Размеры обучающего и тестового наборов данных
+true_w = np.zeros(max_degree)  # Выделить большой объём памяти
+true_w[0:4] = np.array([5, 1.2, -3.4, 5.6])
+
+features = np.random.normal(size=(n_train + n_test, 1))
+np.random.shuffle(features)
+poly_features = np.power(features, np.arange(max_degree).reshape(1, -1))
+for i in range(max_degree):
+    poly_features[:, i] /= math.gamma(i + 1)  # gamma(n)=(n-1)!
+# Размерность labels: (n_train+n_test,)
+labels = np.dot(poly_features, true_w)
+labels += np.random.normal(scale=0.1, size=labels.shape)
+</code></pre>
+<p>Аналогично одночлены, хранящиеся в <code>poly_features</code>, перемасштабированы гамма-функцией, где <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Γ</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)!</span></span></span></span>.
+Посмотрим на <strong>первые два примера</strong> из сгенерированного набора данных.
+Первое значение — постоянный признак, соответствующий смещению.</p>
+<p><strong>PyTorch, TensorFlow, PaddlePaddle:</strong></p>
+<pre><code class="language-python"># Преобразовать NumPy ndarray в tensor
+true_w, features, poly_features, labels = [d2l.tensor(x, dtype=
+    d2l.float32) for x in [true_w, features, poly_features, labels]]
+</code></pre>
+<pre><code class="language-python">features[:2], poly_features[:2, :], labels[:2]
+</code></pre>
+<h3 id="4442-обучение-и-тестирование-модели"><a class="header" href="04_04_underfit_overfit.html#4442-обучение-и-тестирование-модели">4.4.4.2 Обучение и тестирование модели</a></h3>
+<p>Сначала <strong>реализуем функцию, которая оценивает потери модели на заданном наборе данных</strong>.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet TensorFlow">
+<p class="fw-label"><strong>MXNet, TensorFlow:</strong></p>
+
+<pre><code class="language-python">def evaluate_loss(net, data_iter, loss):  #@save
+    """Оценить потери модели на заданном наборе данных"""
+    metric = d2l.Accumulator(2)  # Сумма потерь, количество примеров
+    for X, y in data_iter:
+        l = loss(net(X), y)
+        metric.add(d2l.reduce_sum(l), d2l.size(l))
+    return metric[0] / metric[1]
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">def evaluate_loss(net, data_iter, loss):  #@save
+    """Оценить потери модели на заданном наборе данных"""
+    metric = d2l.Accumulator(2)  # Сумма потерь, количество примеров
+    for X, y in data_iter:
+        out = net(X)
+        y = d2l.reshape(y, out.shape)
+        l = loss(out, y)
+        metric.add(d2l.reduce_sum(l), d2l.size(l))
+    return metric[0] / metric[1]
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">def evaluate_loss(net, data_iter, loss):  #@save
+    """Оценить потери модели на заданном наборе данных."""
+    metric = d2l.Accumulator(2)  # Сумма потерь, количество примеров
+    for X, y in data_iter:
+        out = net(X)
+        y = y.reshape(out.shape)
+        l = loss(out, y)
+        metric.add(l.sum(), l.numel())
+    return metric[0] / metric[1]
+</code></pre>
+</div>
+
+</div>
+
+<p>Теперь <strong>определим функцию обучения</strong>.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">def train(train_features, test_features, train_labels, test_labels,
+          num_epochs=400):
+    loss = gluon.loss.L2Loss()
+    net = nn.Sequential()
+    # Смещение не задаём, так как оно уже реализовано в полиномиальных признаках
+    net.add(nn.Dense(1, use_bias=False))
+    net.initialize()
+    batch_size = min(10, train_labels.shape[0])
+    train_iter = d2l.load_array((train_features, train_labels), batch_size)
+    test_iter = d2l.load_array((test_features, test_labels), batch_size,
+                               is_train=False)
+    trainer = gluon.Trainer(net.collect_params(), 'sgd',
+                            {'learning_rate': 0.01})
+    animator = d2l.Animator(xlabel='эпоха', ylabel='потери', yscale='log',
+                            xlim=[1, num_epochs], ylim=[1e-3, 1e2],
+                            legend=['обучение', 'тест'])
+    for epoch in range(num_epochs):
+        d2l.train_epoch_ch3(net, train_iter, loss, trainer)
+        if epoch == 0 or (epoch + 1) % 20 == 0:
+            animator.add(epoch + 1, (evaluate_loss(net, train_iter, loss),
+                                     evaluate_loss(net, test_iter, loss)))
+    print('вес:', net[0].weight.data().asnumpy())
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">def train(train_features, test_features, train_labels, test_labels,
+          num_epochs=400):
+    loss = nn.MSELoss(reduction='none')
+    input_shape = train_features.shape[-1]
+    # Смещение не задаём, так как оно уже реализовано в полиномиальных признаках
+    net = nn.Sequential(nn.Linear(input_shape, 1, bias=False))
+    batch_size = min(10, train_labels.shape[0])
+    train_iter = d2l.load_array((train_features, train_labels.reshape(-1,1)),
+                                batch_size)
+    test_iter = d2l.load_array((test_features, test_labels.reshape(-1,1)),
+                               batch_size, is_train=False)
+    trainer = torch.optim.SGD(net.parameters(), lr=0.01)
+    animator = d2l.Animator(xlabel='эпоха', ylabel='потери', yscale='log',
+                            xlim=[1, num_epochs], ylim=[1e-3, 1e2],
+                            legend=['обучение', 'тест'])
+    for epoch in range(num_epochs):
+        d2l.train_epoch_ch3(net, train_iter, loss, trainer)
+        if epoch == 0 or (epoch + 1) % 20 == 0:
+            animator.add(epoch + 1, (evaluate_loss(net, train_iter, loss),
+                                     evaluate_loss(net, test_iter, loss)))
+    print('вес:', net[0].weight.data.numpy())
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">def train(train_features, test_features, train_labels, test_labels,
+          num_epochs=400):
+    loss = tf.losses.MeanSquaredError()
+    input_shape = train_features.shape[-1]
+    # Смещение не задаём, так как оно уже реализовано в полиномиальных признаках
+    net = tf.keras.Sequential()
+    net.add(tf.keras.layers.Dense(1, use_bias=False))
+    batch_size = min(10, train_labels.shape[0])
+    train_iter = d2l.load_array((train_features, train_labels), batch_size)
+    test_iter = d2l.load_array((test_features, test_labels), batch_size,
+                               is_train=False)
+    trainer = tf.keras.optimizers.SGD(learning_rate=.01)
+    animator = d2l.Animator(xlabel='эпоха', ylabel='потери', yscale='log',
+                            xlim=[1, num_epochs], ylim=[1e-3, 1e2],
+                            legend=['обучение', 'тест'])
+    for epoch in range(num_epochs):
+        d2l.train_epoch_ch3(net, train_iter, loss, trainer)
+        if epoch == 0 or (epoch + 1) % 20 == 0:
+            animator.add(epoch + 1, (evaluate_loss(net, train_iter, loss),
+                                     evaluate_loss(net, test_iter, loss)))
+    print('вес:', net.get_weights()[0].T)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">def train(train_features, test_features, train_labels, test_labels,
+          num_epochs=400):
+    loss = nn.MSELoss()
+    input_shape = train_features.shape[-1]
+    # Смещение не задаём, так как оно уже реализовано в полиномиальных признаках
+    net = nn.Sequential(nn.Linear(input_shape, 1, bias_attr=False))
+    batch_size = min(10, train_labels.shape[0])
+    print(batch_size)
+    train_iter = d2l.load_array(((train_features, train_labels.reshape([-1,1]))),
+                                batch_size)
+    test_iter = d2l.load_array((test_features, test_labels.reshape([-1,1])),
+                               batch_size, is_train=False)
+    trainer = paddle.optimizer.SGD(parameters=net.parameters(), learning_rate=0.01)
+    animator = d2l.Animator(xlabel='эпоха', ylabel='потери', yscale='log',
+                            xlim=[1, num_epochs], ylim=[1e-3, 1e2],
+                            legend=['обучение', 'тест'])
+    for epoch in range(num_epochs):
+        d2l.train_epoch_ch3(net, train_iter, loss, trainer)
+        if epoch == 0 or (epoch + 1) % 20 == 0:
+            animator.add(epoch + 1, (evaluate_loss(net, train_iter, loss),
+                                     evaluate_loss(net, test_iter, loss)))
+    print('вес:', net[0].weight.numpy())
+</code></pre>
+</div>
+
+</div>
+
+<h3 id="4443-подгонка-многочленом-третьей-степени-нормальный-случай"><a class="header" href="04_04_underfit_overfit.html#4443-подгонка-многочленом-третьей-степени-нормальный-случай">4.4.4.3 Подгонка многочленом третьей степени (нормальный случай)</a></h3>
+<p>Сначала используем многочлен третьей степени — той же степени, что и функция генерации данных.
+Результаты показывают, что модель эффективно снижает потери как на обучении, так и на тесте.
+Найденные параметры модели также близки к истинным значениям <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1.2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">−</span><span class="mord">3.4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5.6</span><span class="mclose">]</span></span></span></span>.</p>
+<pre><code class="language-python"># Из полиномиальных признаков выбираем первые 4 измерения, то есть 1, x, x^2/2!, x^3/3!
+train(poly_features[:n_train, :4], poly_features[n_train:, :4],
+      labels[:n_train], labels[n_train:])
+</code></pre>
+<h3 id="4444-линейная-подгонка-недообучение"><a class="header" href="04_04_underfit_overfit.html#4444-линейная-подгонка-недообучение">4.4.4.4 Линейная подгонка (недообучение)</a></h3>
+<p>Посмотрим на линейную подгонку: снизить ошибку обучения такой модели довольно трудно.
+После последней эпохи потери на обучении остаются высокими.
+Если использовать линейную модель для приближения нелинейной зависимости, например многочлена третьей степени, она будет склонна к недообучению.</p>
+<pre><code class="language-python"># Из полиномиальных признаков выбираем первые 2 измерения, то есть 1 и x
+train(poly_features[:n_train, :2], poly_features[n_train:, :2],
+      labels[:n_train], labels[n_train:])
+</code></pre>
+<h3 id="4445-подгонка-многочленом-высокой-степени-переобучение"><a class="header" href="04_04_underfit_overfit.html#4445-подгонка-многочленом-высокой-степени-переобучение">4.4.4.5 Подгонка многочленом высокой степени (переобучение)</a></h3>
+<p>Теперь попробуем обучить модель многочленом слишком высокой степени.
+В этом случае данных недостаточно, чтобы выучить, что коэффициенты высоких степеней должны быть близки к нулю.
+Поэтому такая слишком сложная модель легко подстраивается под шум в обучающих данных.
+Хотя потери на обучении удаётся эффективно уменьшить, потери на тесте остаются высокими.
+Таким образом, сложная модель переобучилась на данных.</p>
+<pre><code class="language-python"># Берём все измерения полиномиальных признаков
+train(poly_features[:n_train, :], poly_features[n_train:, :],
+      labels[:n_train], labels[n_train:], num_epochs=1500)
+</code></pre>
+<p>В следующих разделах мы продолжим обсуждать проблему переобучения и методы борьбы с ней, например затухание весов и исключение (dropout).</p>
+<h2 id="резюме"><a class="header" href="04_04_underfit_overfit.html#резюме">Резюме</a></h2>
+<ul>
+<li>Недообучение означает, что модель не может дальше снижать ошибку обучения. Переобучение означает, что ошибка обучения заметно меньше ошибки проверки.</li>
+<li>Ошибку обобщения нельзя оценить по ошибке обучения, поэтому простая минимизация ошибки обучения не обязательно приводит к уменьшению ошибки обобщения. Модели машинного обучения нужно защищать от переобучения, то есть не допускать слишком большой ошибки обобщения.</li>
+<li>Проверочный набор можно использовать для выбора модели, но делать это следует аккуратно.</li>
+<li>Следует выбирать модель подходящей сложности и не использовать слишком мало обучающих примеров.</li>
+</ul>
+<h2 id="упражнения"><a class="header" href="04_04_underfit_overfit.html#упражнения">Упражнения</a></h2>
+<ol>
+<li>Можно ли точно решить эту задачу полиномиальной регрессии? Подсказка: используйте линейную алгебру.</li>
+<li>Рассмотрите выбор модели для многочленов.
+<ol>
+<li>Постройте график зависимости ошибки обучения от сложности модели (степени многочлена). Что вы наблюдаете? Многочлен какой степени нужен, чтобы уменьшить ошибку обучения до 0?</li>
+<li>Постройте график ошибки на тесте в этом случае.</li>
+<li>Постройте такой же график в зависимости от объёма данных.</li>
+</ol>
+</li>
+<li>Что произойдёт, если не нормировать полиномиальные признаки <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8247em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8247em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span></span></span></span></span></span></span></span> (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1/</span><span class="mord mathnormal">i</span><span class="mclose">!</span></span></span></span>)? Можно ли решить эту проблему другим способом?</li>
+<li>Может ли ошибка обобщения быть равна нулю?</li>
+</ol>
+<p><strong>MXNet:</strong>
+<a href="https://discuss.d2l.ai/t/1807">Обсуждение</a></p>
+<p><strong>PyTorch:</strong>
+<a href="https://discuss.d2l.ai/t/1806">Обсуждение</a></p>
+<p><strong>TensorFlow:</strong>
+<a href="https://discuss.d2l.ai/t/1805">Обсуждение</a></p>
+<p><strong>PaddlePaddle:</strong>
+<a href="https://discuss.d2l.ai/t/11771">Обсуждение</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="04_03_mlp_concise.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="04_05_weight_decay.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="04_03_mlp_concise.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="04_05_weight_decay.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/framework-tabs-0e82dc29.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

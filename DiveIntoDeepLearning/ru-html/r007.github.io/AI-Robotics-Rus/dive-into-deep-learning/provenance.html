@@ -1,0 +1,483 @@
+<!DOCTYPE HTML>
+<html lang="ru" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Происхождение материалов - Погружение в глубокое обучение</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Русскоязычное издание учебника «Dive into Deep Learning» (动手学深度学习) с кодом на Python. Переведены главы 1 «Введение», 2 «Предварительные знания», 3 «Линейные нейронные сети», 4 «Многослойные перцептроны», 5 «Вычисления глубокого обучения», 6 «Свёрточные нейронные сети», 7 «Современные свёрточные нейронные сети», 8 «Рекуррентные нейронные сети», 9 «Современные рекуррентные нейронные сети», 10 «Механизмы внимания», 11 «Алгоритмы оптимизации», 12 «Вычислительная производительность», 13 «Компьютерное зрение», 14 «Обработка естественного языка: предобучение» и 15 «Обработка естественного языка: приложения»; предисловие, приложение и список литературы переведены.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/framework-tabs-7543ad04.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-e2003210.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-1598951f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Погружение в глубокое обучение</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus/edit/main/books/dive-into-deep-learning/src/src/provenance.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="происхождение-материалов"><a class="header" href="provenance.html#происхождение-материалов">Происхождение материалов</a></h1>
+<h2 id="источник"><a class="header" href="provenance.html#источник">Источник</a></h2>
+<p>Материал основан на учебнике «Dive into Deep Learning» (动手学深度学习), репозиторий <a href="https://github.com/d2l-ai/d2l-zh">d2l-ai/d2l-zh</a>. Текст лицензирован по CC BY-SA 4.0, код примеров — по MIT-0.</p>
+<h2 id="что-есть-сейчас"><a class="header" href="provenance.html#что-есть-сейчас">Что есть сейчас</a></h2>
+<ul>
+<li>
+<p>Структура книги: <code>book.toml</code>, <code>meta.toml</code>, <code>NOTICE.md</code>, <code>PROVENANCE.md</code>.</p>
+</li>
+<li>
+<p>Вступительная страница <code>src/README.md</code> с кратким описанием книги.</p>
+</li>
+<li>
+<p>Глава 1 «Введение»: <code>src/01_introduction.md</code> (перевод всего главного текста, подписей, таблицы и списка литературы).</p>
+</li>
+<li>
+<p>Глава 2 «Предварительные знания»: <code>src/02_preliminaries.md</code> (вступление) и семь разделов <code>src/02_01_ndarray.md</code> … <code>src/02_07_lookup_api.md</code>. Соответствие исходникам из <code>chapter_preliminaries/</code>: <code>ndarray</code>, <code>pandas</code>, <code>linear-algebra</code>, <code>calculus</code>, <code>autograd</code>, <code>probability</code>, <code>lookup-api</code>.</p>
+</li>
+<li>
+<p>Оглавление <code>src/SUMMARY.md</code>.</p>
+</li>
+<li>
+<p>Иллюстрации главы 1 в <code>src/images/</code>: пять схем перерисованы в SVG с русскими подписями, четыре фотографии взяты из исходного репозитория.</p>
+</li>
+<li>
+<p>Иллюстрации главы 2 в <code>src/images/</code>: <code>polygon-circle.svg</code> и <code>cat-dog-pixels.png</code> скопированы без изменений (текста на них нет).</p>
+</li>
+<li>
+<p>Глава 3 «Линейные нейронные сети»: <code>src/03_linear_networks.md</code> (вступление) и семь разделов <code>src/03_01_linear_regression.md</code> … <code>src/03_07_softmax_regression_concise.md</code>. Соответствие исходникам из <code>chapter_linear-networks/</code>: <code>linear-regression</code>, <code>linear-regression-scratch</code>, <code>linear-regression-concise</code>, <code>softmax-regression</code>, <code>image-classification-dataset</code>, <code>softmax-regression-scratch</code>, <code>softmax-regression-concise</code>. Исходные файлы <code>*_origin.md</code> (английская версия) не использовались.</p>
+</li>
+<li>
+<p>Иллюстрации главы 3 в <code>src/images/</code>: <code>singleneuron.svg</code>, <code>softmaxreg.svg</code>, <code>neuron.svg</code> перерисованы с русскими подписями; <code>fit-linreg.svg</code> скопирован без изменений.</p>
+</li>
+</ul>
+<p>Предисловие, установка, обозначения, приложение и список литературы переведены; общие изменения перечислены в разделе «Сквозные изменения» в конце файла.</p>
+<ul>
+<li>Глава 4 «Многослойные перцептроны»: <code>src/04_multilayer_perceptrons.md</code> (вступление) и десять разделов <code>src/04_01_mlp.md</code> … <code>src/04_10_kaggle_house_price.md</code>. Соответствие исходникам из <code>chapter_multilayer-perceptrons/</code>: <code>index</code>, <code>mlp</code>, <code>mlp-scratch</code>, <code>mlp-concise</code>, <code>underfit-overfit</code>, <code>weight-decay</code>, <code>dropout</code>, <code>backprop</code>, <code>numerical-stability-and-init</code>, <code>environment</code>, <code>kaggle-house-price</code>. Исходные файлы <code>*_origin.md</code> (английская версия) не использовались.</li>
+<li>Иллюстрации главы 4 в <code>src/images/</code>: <code>mlp.svg</code>, <code>dropout2.svg</code>, <code>capacity-vs-error.svg</code>, <code>cat-dog-train.svg</code>, <code>cat-dog-test.svg</code> перерисованы или пересобраны с русскими подписями; <code>forward.svg</code> и <code>popvssoda.png</code> взяты без изменений.</li>
+<li>Глава 5 «Вычисления глубокого обучения»: <code>src/05_deep_learning_computation.md</code> (вступление) и шесть разделов <code>src/05_01_model_construction.md</code> … <code>src/05_06_use_gpu.md</code>. Соответствие исходникам из <code>chapter_deep-learning-computation/</code>: <code>model-construction</code>, <code>parameters</code>, <code>deferred-init</code>, <code>custom-layer</code>, <code>read-write</code>, <code>use-gpu</code>. Исходные файлы <code>*_origin.md</code> (английская версия) не использовались.</li>
+<li>Иллюстрации главы 5 в <code>src/images/</code>: <code>blocks.svg</code> скопирован без изменений (текста на нём нет), <code>copyto.svg</code> перерисован с русской подписью.</li>
+<li>Глава 6 «Свёрточные нейронные сети»: <code>src/06_convolutional_neural_networks.md</code> (вступление) и шесть разделов <code>src/06_01_why_conv.md</code> … <code>src/06_06_lenet.md</code>. Соответствие исходникам из <code>chapter_convolutional-neural-networks/</code>: <code>index</code>, <code>why-conv</code>, <code>conv-layer</code>, <code>padding-and-strides</code>, <code>channels</code>, <code>pooling</code>, <code>lenet</code>. Исходные файлы <code>*_origin.md</code> (английская версия) не использовались.</li>
+<li>Иллюстрации главы 6 в <code>src/images/</code>: <code>correlation.svg</code>, <code>conv-multi-in.svg</code>, <code>conv-1x1.svg</code>, <code>conv-pad.svg</code>, <code>conv-stride.svg</code>, <code>pooling.svg</code>, <code>lenet.svg</code>, <code>lenet-vert.svg</code> перерисованы с русскими подписями; фотографии из игры «Где Вальдо?» не включены.</li>
+</ul>
+<h2 id="глава-8-что-изменено-относительно-оригинала"><a class="header" href="provenance.html#глава-8-что-изменено-относительно-оригинала">Глава 8: что изменено относительно оригинала</a></h2>
+<ul>
+<li>Переведены вступление главы и разделы 8.1–8.7 (<code>src/08_*.md</code>): модели последовательностей, предобработка текста, языковые модели и набор данных, рекуррентные нейронные сети, реализация с нуля, краткая реализация и обратное распространение через время (BPTT). Соответствие исходникам из <code>chapter_recurrent-neural-networks/</code>: <code>index</code>, <code>sequence</code>, <code>text-preprocessing</code>, <code>language-models-and-dataset</code>, <code>rnn</code>, <code>rnn-scratch</code>, <code>rnn-concise</code>, <code>bptt</code>. Исходные файлы <code>*_origin.md</code> (английская версия) не использовались.</li>
+<li>Код не изменён: переведены комментарии, docstring и строки вывода <code>print</code> и подписи графиков (<code>'время'</code>, <code>'частота'</code>, <code>'эпоха'</code>, <code>'перплексия'</code>). Разметка <code>#@tab</code> и <code>:begin_tab:</code> заменена подписями фреймворков; общий код (<code>#@tab all</code>) выведен без подписи, как в главах 2–6.</li>
+<li>Ссылки Sphinx заменены обычным текстом: <code>:numref:</code> → «раздел 3.3», «рис. 8.4.1»; <code>:eqref:</code> → «(8.7.3)»; <code>:cite:</code> → «(Wu et al., 2017)». Нумерация формул и рисунков совпадает с книгой: формулы, которым в исходнике присвоена метка, пронумерованы по разделу (8.3.1, 8.4.1–8.4.4, 8.7.1–8.7.9).</li>
+<li>Подписи в тексте: названия фильмов «Plan 9 from Outer Space» и «Troll 2» записаны полностью, как в исходнике; ссылки на Википедию и онлайн-приложение по теории информации сохранены.</li>
+<li>Иллюстрации:
+<ul>
+<li>перерисованы заново с русскими подписями (производные работы): <code>rnn.svg</code> (рис. 8.4.1), <code>rnn-train.svg</code> (рис. 8.4.2), <code>sequence-model.svg</code> (рис. 8.1.2);</li>
+<li>скопированы без изменений: <code>rnn-bptt.svg</code> (рис. 8.7.2), <code>truncated-bptt.svg</code> (рис. 8.7.1) и <code>timemachine-5gram.svg</code> (рис. 8.3.1). На них только математические обозначения и английские данные примера, перевода не требуется;</li>
+<li><code>ftse100.png</code> (рис. 8.1.1) скопирован без изменений. Это растровый график, на котором остался английский заголовок «FTSE 100 Index» и числовые оси; перерисовка потребует исходных данных, поэтому подпись не переведена.</li>
+</ul>
+</li>
+</ul>
+<h2 id="глава-7-что-изменено-относительно-оригинала"><a class="header" href="provenance.html#глава-7-что-изменено-относительно-оригинала">Глава 7: что изменено относительно оригинала</a></h2>
+<ul>
+<li>Переведены вступление главы и разделы 7.1–7.7 (<code>src/07_*.md</code>): AlexNet, VGG, NiN, GoogLeNet, пакетная нормализация, ResNet и DenseNet.</li>
+<li>Код не изменён: переведены комментарии, docstring и строки вывода <code>print</code>. Разметка <code>#@tab</code> и <code>:begin_tab:</code> заменена подписями фреймворков (<code>**MXNet:**</code> и т. д.), как в главах 2–6.</li>
+<li>Исправления по сравнению с исходником:
+<ul>
+<li>в разделе 7.3 (NiN) исходный текст называет глобальный средний пулинг «суммированием по всем позициям»; в переводе сказано «усреднение», что соответствует самому слою;</li>
+<li>на схеме AlexNet в исходном <code>vgg.svg</code> все три последних свёрточных слоя показаны с 384 каналами; в перерисованной схеме пятый свёрточный слой имеет 256 каналов, как в коде раздела 7.1.</li>
+</ul>
+</li>
+<li>Иллюстрации перерисованы заново с русскими подписями (производные работы): <code>alexnet.svg</code>, <code>vgg.svg</code>, <code>nin.svg</code>, <code>inception.svg</code>, <code>inception-full.svg</code>, <code>residual-block.svg</code>, <code>resnet-block.svg</code>, <code>resnet18.svg</code>, <code>functionclasses.svg</code>, <code>densenet.svg</code>, <code>densenet-block.svg</code>. Номера рисунков в тексте соответствуют книге.</li>
+</ul>
+<h3 id="исключено-из-перевода"><a class="header" href="provenance.html#исключено-из-перевода">Исключено из перевода</a></h3>
+<ul>
+<li>Рис. 7.1.1 исходника (<code>filters.png</code>, фильтры первого слоя AlexNet из статьи Krizhevsky et al., 2012): рисунок стороннего издания. В тексте оставлено описание и ссылка на статью.</li>
+</ul>
+<h2 id="глава-6-что-изменено-относительно-оригинала"><a class="header" href="provenance.html#глава-6-что-изменено-относительно-оригинала">Глава 6: что изменено относительно оригинала</a></h2>
+<ul>
+<li>Вкладки фреймворков оформлены как в главах 2–5: жирная подпись фреймворка перед блоком кода (например, «<strong>PyTorch:</strong>», «<strong>MXNet, PyTorch, PaddlePaddle:</strong>»). Общий код (<code>#@tab all</code>) выведен без подписи. Маркеры <code>#@tab</code> удалены, маркеры <code>#@save</code> в коде оставлены.</li>
+<li>Текст вкладок <code>:begin_tab:</code> переведён в виде абзацев с жирной подписью фреймворка. Если текст относится к нескольким фреймворкам, подпись общая.</li>
+<li>Ссылки Sphinx заменены обычным текстом: «рис. 6.2.1», «раздел 6.1.4.1», «формула (6.1.2)», «раздел 4.8». Номера формул (6.1.1)–(6.1.3) проставлены по помеченным уравнениям раздела 6.1, как в главах 3–4. Ссылка <code>:cite:</code> оформлена как «(LeCun et al., 1998)»; список литературы приведён в разделе 6.6.</li>
+<li>Маркеры выделения <code>[**…**]</code> и <code>(**…**)</code> переведены в обычное полужирное выделение. Зачёркнутые фрагменты исходника (заголовок «1x1卷积» в разделе 6.4 и «卷积编码器和全连接层密集块» в разделе 6.6) не переносились.</li>
+<li>Подписи в выводе программ и на графиках переведены: <code>эпоха</code>, <code>потери</code>, <code>точность</code>, <code>примеров/с</code>, <code>на</code>. Легенды графиков: «потери (обучение)», «точность (обучение)», «точность (тест)». Имена функций, переменные и выражения не изменены.</li>
+<li>Ссылки «Discussions» сохранены, по каждой вкладке оформлены как «Обсуждение» (как в главах 2–5).</li>
+<li>Опечатка в исходнике: в разделе 6.1.2 вместо <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">X</span></span></span></span> написано «<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>»; в переводе использовано <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6861em;"></span><span class="mord mathbf">X</span></span></span></span>.</li>
+<li>Иллюстрации <code>where-wally-walker-books.jpg</code> и <code>waldo-mask.jpg</code> (сцены из игры «Где Вальдо?») не включены в перевод: это иллюстрации стороннего издания. Вместо них в тексте оставлены подписи с пояснением (как рис. 1.6 в главе 1).</li>
+<li>Схемы <code>correlation.svg</code>, <code>conv-multi-in.svg</code>, <code>conv-1x1.svg</code>, <code>conv-pad.svg</code>, <code>conv-stride.svg</code>, <code>pooling.svg</code>, <code>lenet.svg</code> и <code>lenet-vert.svg</code> перерисованы заново с русскими подписями по схемам оригинала (производные работы). Числа на схемах совпадают с исходными и с текстом (например, 19, 25, 37, 43 в разделе 6.2 и 56, 72, 104, 120 в разделе 6.4). На <code>lenet.svg</code> вход изображён пустой сеткой 28×28, без рукописной цифры.</li>
+</ul>
+<h2 id="глава-4-что-изменено-относительно-оригинала"><a class="header" href="provenance.html#глава-4-что-изменено-относительно-оригинала">Глава 4: что изменено относительно оригинала</a></h2>
+<ul>
+<li>Вкладки фреймворков оформлены как в главах 2–3: жирная подпись фреймворка перед блоком кода (например, «<strong>PyTorch:</strong>», «<strong>MXNet, PyTorch:</strong>»). Общий код (<code>#@tab all</code>) выведен без подписи. Маркер <code>#@tab</code> удалён, маркер <code>#@save</code> в коде оставлен.</li>
+<li>Текст вкладок <code>:begin_tab:</code> (раздел 4.5.4) переведён в виде абзацев с жирной подписью фреймворка.</li>
+<li>Ссылки Sphinx заменены обычным текстом: «рис. 4.1.1», «раздел 3.4.3», «формула (3.1.4)», «глава 3». Ссылки <code>:cite:</code> оформлены как «(Zhang et al., 2021)», «(Srivastava et al., 2014)», «(Glorot and Bengio, 2010)» и т. д. Номера формул (4.7.1), (4.7.2) и (4.9.1)–(4.9.3) проставлены через <code>\tag{}</code>.</li>
+<li>Маркеры выделения <code>[**…**]</code> и <code>(**…**)</code> переведены в обычное полужирное выделение; для формул выделение убрано. В заголовках маркеров нет.</li>
+<li>Вычеркнутое в исходнике предложение в разделе 4.5 («权重衰减是最广泛使用的正则化的技术之一») не переносилось.</li>
+<li>Подписи в выводе программ и на графиках переведены: <code>эпохи</code>, <code>потери</code>, <code>обучение</code>, <code>тест</code>, <code>вес</code>, <code>L2-норма w</code>, <code>Одна матрица</code>, <code>Фолд</code>, <code>log rmse</code> и т. п. Имена функций, переменные и выражения не изменены. В главе 3 подписи <code>Animator</code> (<code>xlabel='epoch'</code>, <code>legend=['train loss', …]</code>) оставлены на английском; в главе 4 они переведены. При желании главу 3 можно привести к тому же виду.</li>
+<li>Подписи к рисункам — текст под изображением, как в главах 1–3.</li>
+<li>Перерисованные схемы: в <code>mlp.svg</code> и <code>dropout2.svg</code> математические обозначения (<code>x</code>, <code>h</code>, <code>o</code>) оставлены как в исходнике, заменены только подписи слоёв и «До/После исключения». В <code>capacity-vs-error.svg</code> все подписи переведены, линии и стрелки сохранены. В <code>cat-dog-train.svg</code> и <code>cat-dog-test.svg</code> подписи «cat» и «dog» заменены на «кошка» и «собака», фотографии сохранены.</li>
+</ul>
+<h3 id="исключено-из-перевода-1"><a class="header" href="provenance.html#исключено-из-перевода-1">Исключено из перевода</a></h3>
+<ul>
+<li>Скриншоты страниц Kaggle (<code>kaggle.png</code>, <code>house-pricing.png</code>, <code>kaggle-submit2.png</code>) — страницы стороннего сайта, по аналогии с рис. 1.6 главы 1 они не включены. В разделе 4.10 сохранены текстовые описания и ссылка на соревнование.</li>
+</ul>
+<h2 id="глава-5-что-изменено-относительно-оригинала"><a class="header" href="provenance.html#глава-5-что-изменено-относительно-оригинала">Глава 5: что изменено относительно оригинала</a></h2>
+<ul>
+<li>Вкладки фреймворков оформлены как в главах 2–4: жирная подпись фреймворка перед блоком кода. Блоки <code>{.python .input}</code> без <code>#@tab</code> выведены с подписью «<strong>MXNet:</strong>». Общий код (<code>#@tab all</code>) выведен без подписи. Маркер <code>#@tab</code> удалён, маркер <code>#@save</code> в коде оставлен.</li>
+<li>Текст вкладок <code>:begin_tab:</code> переведён в виде абзацев с жирной подписью. Если текст относится к нескольким фреймворкам, подпись общая, например «<strong>MXNet, TensorFlow:</strong>» или «<strong>PyTorch, PaddlePaddle:</strong>».</li>
+<li>Ссылки Sphinx заменены обычным текстом: «рис. 5.1.1», «рис. 5.6.1», «раздел 2.5», «раздел 4.3», «раздел 4.8», «раздел 5.1», «раздел 12.1», «таблица 1.1». Ссылка <code>:cite:</code> оформлена как «(He et al., 2016)»; список литературы в главе не приводится, как и в главе 4.</li>
+<li>Маркеры выделения <code>[**…**]</code> и <code>(**…**)</code> переведены в обычное полужирное выделение; в заголовках маркеров нет. Номера разделов и подразделов проставлены в заголовках, как в главе 4.</li>
+<li>Подписи в выводе функций <code>my_init</code> (раздел 5.2.2.2) переведены: <code>Init</code> → «Инициализация».</li>
+<li>Схема <code>copyto.svg</code>: подпись «复制» заменена на «копирование», подписи <code>gpu(0)</code>, <code>gpu(1)</code>, <code>X</code>, <code>Y</code>, <code>Z</code> и <code>+</code> сохранены. Ширина схемы увеличена, чтобы подпись поместилась в зазор между блоками.</li>
+<li>Выражения, имена функций и параметры в коде не изменены.</li>
+</ul>
+<h3 id="замечания-к-исходнику-оставленные-без-изменений"><a class="header" href="provenance.html#замечания-к-исходнику-оставленные-без-изменений">Замечания к исходнику, оставленные без изменений</a></h3>
+<ul>
+<li>Раздел 5.2 (упражнение 1) ссылается на модель <code>FancyMLP</code>, которой нет в разделе 5.1: там определены <code>MLP</code>, <code>FixedHiddenMLP</code> и <code>NestMLP</code>. В переводе сохранено как в исходнике.</li>
+</ul>
+<h2 id="глава-3-что-изменено-относительно-оригинала"><a class="header" href="provenance.html#глава-3-что-изменено-относительно-оригинала">Глава 3: что изменено относительно оригинала</a></h2>
+<ul>
+<li>Вкладки фреймворков оформлены так же, как в главе 2: жирная подпись с названиями фреймворков (например, «<strong>PyTorch:</strong>», «<strong>MXNet, PyTorch:</strong>»). Маркеры <code>#@tab</code> удалены, <code>#@tab all</code> выведен без подписи, <code>#@save</code> оставлен в коде.</li>
+<li>Текст вкладок <code>:begin_tab:</code> (например, пояснения к <code>nn.Linear</code> и <code>Dense</code> в разделе 3.3) переведён в виде абзацев с жирной подписью фреймворка.</li>
+<li>Ссылки Sphinx заменены обычным текстом: «рис. 3.1.2», «раздел 2.1.3», «глава 11», «формула (3.4.2)». Номера формул проставлены через <code>\tag{}</code> для помеченных уравнений (3.1.1)–(3.1.4), (3.4.1)–(3.4.4).</li>
+<li>Ссылки <code>:cite:</code> оформлены как «(Russell and Norvig, 2016)», «(LeCun et al., 1998)», «(Xiao et al., 2017)», «(Zhang et al., 2021)». Список литературы по <code>d2l.bib</code> приведён в конце раздела 3.7.</li>
+<li>Подписи к рисункам: в исходнике подписи — это альтернативный текст изображений; в переводе сохранён такой же подход, как в главе 2.</li>
+<li>Зачёркнутый в исходнике заголовок «Две функции для визуализации набора данных» (раздел 3.5) не переносился. Зачёркнутые слова «softmax» (раздел 3.7) и «之前» (раздел 3.7.4) тоже опущены.</li>
+<li>Наименования классов Fashion-MNIST переведены на русский (футболка, брюки, пуловер, платье, пальто, сандалия, рубашка, кроссовок, сумка, ботильон); они используются и в списке меток, и в подписях графиков.</li>
+<li>Строки вывода и подписи графиков (<code>эпоха</code>, <code>потери</code>, <code>среднее</code>, <code>ст. откл.</code>, <code>Ошибка оценки</code>) переведены. Сами выражения и имена функций не изменены.</li>
+</ul>
+<h3 id="замечания-к-исходнику-оставленные-без-изменений-1"><a class="header" href="provenance.html#замечания-к-исходнику-оставленные-без-изменений-1">Замечания к исходнику, оставленные без изменений</a></h3>
+<ul>
+<li>Раздел 3.4.1: соответствие классов и меток в исходнике противоречиво. Целочисленная кодировка даёт 1 = собака, 2 = кошка, 3 = курица, а прямое кодирование — (1, 0, 0) = кошка, (0, 1, 0) = курица, (0, 0, 1) = собака. В переводе оставлено как в исходнике; сверить с оригиналом.</li>
+<li>Раздел 3.5.3: функция <code>load_data_fashion_mnist</code> возвращает итератор «проверочной» (validation) выборки, хотя на деле это тестовый набор Fashion-MNIST. В переводе сохранено как в исходнике.</li>
+<li>Раздел 3.6.4 и 3.7.2: ссылка на «трюк LogSumExp» ведёт на английскую Википедию; оставлена без изменений.</li>
+<li>Ссылка на приложение о распределениях и о теории информации (разделы 3.4.6.2 и 3.4.6.3) ведёт на английскую версию приложения на d2l.ai; оставлена без изменений.</li>
+</ul>
+<h2 id="глава-2-что-изменено-относительно-оригинала"><a class="header" href="provenance.html#глава-2-что-изменено-относительно-оригинала">Глава 2: что изменено относительно оригинала</a></h2>
+<ul>
+<li>Вкладки фреймворков. В исходнике каждый фрагмент кода и текста помечен для MXNet, PyTorch, TensorFlow или PaddlePaddle (<code>#@tab</code>, <code>:begin_tab:</code>). В переводе все четыре варианта сохранены, каждый помечен жирной подписью (например, «<strong>PyTorch:</strong>»). Общий код (<code>#@tab all</code>) выведен без подписи. Маркер <code>#@tab</code> удалён, маркер <code>#@save</code> в коде оставлен, как в исходной книге.</li>
+<li>Ссылки Sphinx заменены обычным текстом: «рис. 2.4.1», «раздел 2.3.10.1», «таблица 2.6.1», «формула (2.3.2)». Номера формул проставлены через <code>\tag{}</code> для помеченных уравнений (2.3.1), (2.3.2), (2.4.1).</li>
+<li>Ссылка <code>:cite:</code> в разделе 2.3 оформлена как «(Strang, 1993; Kolter, 2008; Petersen and Pedersen, 2008)». Список литературы составлен по <code>d2l.bib</code>; в записи Kolter 2008 исходный URL неполный (<code>http</code>), поэтому указано «Available online».</li>
+<li>Маркеры выделения <code>[**…**]</code> и <code>(**…**)</code> из исходника переведены в обычное полужирное выделение <code>**…**</code>.</li>
+<li>Таблицы 2.6.1 и 2.6.2 (тест на ВИЧ) получили подписи по нумерации книги. Подписи в исходнике оформлены как отдельная строка перед таблицей, здесь сохранено такое же расположение.</li>
+<li>Термин <code>插值法</code> в разделе 2.2 переведён как «импутация» (заполнение пропусков): в контексте речь именно о замене пропусков, а не об интерполяции.</li>
+<li>Замечания к исходнику, которые оставлены без изменений:
+<ul>
+<li>ссылка «Discussions» для PaddlePaddle (<code>discuss.d2l.ai/t/11684</code>) одинакова в разделах 2.4 и 2.5; вероятно, это опечатка в исходной книге, сверить с форумом;</li>
+<li>в разделе 2.3.7 определение скалярного произведения повторено в зачёркнутой строке — сохранено как в исходнике.</li>
+</ul>
+</li>
+<li>Служебные строки кода (<code>%matplotlib inline</code>, импорты, <code>npx.set_np()</code>, <code>warnings.filterwarnings</code>) оставлены без изменений.</li>
+</ul>
+<h2 id="что-изменено-относительно-оригинала"><a class="header" href="provenance.html#что-изменено-относительно-оригинала">Что изменено относительно оригинала</a></h2>
+<ul>
+<li>Схемы. В исходных SVG надписи хранятся как контуры глифов, поэтому их нельзя отредактировать. Схемы перерисованы с теми же раскладкой, цветами и стрелками, подписи набраны текстом. Исходные подписи расшифрованы из OmniGraffle-файлов исходного репозитория.</li>
+<li>Ссылки Sphinx (<code>:numref:</code>, <code>:cite:</code>, <code>:label:</code>, <code>:width:</code>) заменены обычным текстом: «рис. 1.1», «таблица 1.1», «раздел 3.4», а ссылки на литературу — парами «автор, год» (например, «(Turing, 1950)»).</li>
+<li>Список литературы составлен по записям <code>d2l.bib</code> исходного репозитория; названия работ оставлены на языке оригинала.</li>
+<li>Исправлены несогласованности и ошибки оригинала:
+<ul>
+<li>год публикации набора данных ирисов Фишера: в тексте китайской версии указаны и 1936, и 1932 год; в переводе — 1936 (статья Фишера);</li>
+<li>TD-Gammon: в китайской версии сказано «五子棋» (гомоку), но речь идёт о программе для нард (backgammon); в переводе — нарды, как в английской версии и в цитируемой работе;</li>
+<li>«库图斯» в китайской версии соответствует программе Libratus (Brown and Sandholm, 2017); в переводе использовано название Libratus;</li>
+<li>ссылки на Википедию «Jacob\uBernoulli» и «Ronald_-Fisher» исправлены на «Jacob_Bernoulli» и «Ronald_Fisher»;</li>
+<li>«克莱德定律» переведено как закон Крайдера (Kryder’s law).</li>
+</ul>
+</li>
+<li>Подписи к фотографиям и схемам переведены; подписи к таблице 1.1 и её заголовки приведены к русскому тексту.</li>
+<li>Код в главе 1 отсутствует; переведены только текстовые примеры (блоки <code>text</code>).</li>
+</ul>
+<h2 id="что-не-включено-в-перевод"><a class="header" href="provenance.html#что-не-включено-в-перевод">Что не включено в перевод</a></h2>
+<ul>
+<li>Рис. 1.6 (скриншот страницы Amazon с рекомендациями книг): изображение принадлежит стороннему сайту, поэтому вместо него в тексте оставлена подпись с пояснением.</li>
+<li>Англоязычные оригиналы глав (файлы <code>*_origin.md</code>) — это не китайский текст книги.</li>
+<li>Статические файлы сайта (<code>static/</code>), исходники схем (<code>graffle/</code>), служебные скрипты сборки (<code>ci/</code>, <code>.github/</code>), файлы вкладов сообщества (<code>contrib/</code>).</li>
+</ul>
+<h2 id="главы-912-что-изменено-относительно-оригинала"><a class="header" href="provenance.html#главы-912-что-изменено-относительно-оригинала">Главы 9–12: что изменено относительно оригинала</a></h2>
+<ul>
+<li>Переведены главы 9 «Современные рекуррентные нейронные сети», 10 «Механизмы внимания», 11 «Алгоритмы оптимизации» и 12 «Вычислительная производительность». Соответствие исходникам: <code>chapter_recurrent-modern/</code>, <code>chapter_attention-mechanisms/</code>, <code>chapter_optimization/</code>, <code>chapter_computational-performance/</code> (только основные файлы, <code>*_origin.md</code> не использовались).</li>
+<li>Вкладки фреймворков оформлены жирной подписью перед блоком кода (<code>**MXNet:**</code>, <code>**PyTorch:**</code>, <code>**TensorFlow:**</code>, <code>**PaddlePaddle:**</code>); общий код (<code>#@tab all</code>) выведен без подписи. Маркеры <code>#@tab</code> удалены, <code>#@save</code> оставлен.</li>
+<li>Ссылки Sphinx заменены обычным текстом: «рис. 12.2.1», «раздел 12.3», «таблица 12.4.1», формулы в скобках. Ссылки <code>:cite:</code> оформлены как «(He et al., 2016)» и т. п.</li>
+</ul>
+<h3 id="глава-12-замечания-к-исходнику"><a class="header" href="provenance.html#глава-12-замечания-к-исходнику">Глава 12: замечания к исходнику</a></h3>
+<ul>
+<li>12.3: в тексте сказано «<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10</span></span></span></span> раз» умножения матриц, в коде функции <code>run</code> — <code>range(50)</code>. В переводе сохранено значение из кода (50) и сказано «<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">50</span></span></span></span> раз».</li>
+<li>12.3, упражнение 1: сказано «восемь операций», хотя <code>run</code> выполняет 50 умножений. Оставлено как в исходнике.</li>
+<li>12.1: в исходнике опечатка <code>EargeTensor</code>; в переводе записано <code>EagerTensor</code>.</li>
+<li>12.4: в исходнике «Arste Asanovic» — в переводе «Krste Asanović».</li>
+</ul>
+<h3 id="глава-12-иллюстрации"><a class="header" href="provenance.html#глава-12-иллюстрации">Глава 12: иллюстрации</a></h3>
+<ul>
+<li>Перерисованы заново с русскими подписями (производные работы): <code>frontends.svg</code> (вместо растрового <code>frontends.png</code> с логотипами, без логотипов), <code>threading.svg</code>, <code>a77.svg</code>, <code>mobo-symbol.svg</code>, <code>neon128.svg</code>, <code>alexnet-original.svg</code> (упрощённая схема двух GPU по мотивам исходной схемы AlexNet, не копия рисунка статьи), <code>data-parallel.svg</code>, <code>splitting.svg</code>, <code>ps.svg</code>, <code>bw-hierarchy.svg</code>, <code>ps-distributed.svg</code>, <code>ps-multips.svg</code>, <code>ps-multimachine.svg</code>.</li>
+<li>Скопированы без изменений (на них только английские названия продуктов, код или математика, китайского текста нет): <code>asyncgraph.svg</code>, <code>computegraph.svg</code>, <code>twogpu.svg</code> (фотографии процессоров и видеокарт из исходника сохранены), <code>skylake.svg</code>, <code>falsesharing.svg</code>, <code>nvlink.svg</code>, <code>nvlink-twoloop.svg</code>, <code>ringsync.svg</code>.</li>
+<li>Не включены: <code>latencynumbers.png</code> (инфографика стороннего автора с числами по мотивам лекции Джеффа Дина; данные приведены в таблицах 12.4.1 и 12.4.2 по исходнику), <code>tensorcore.jpg</code>, <code>turing.png</code>, <code>turing-processing-block.png</code> (иллюстрации производителя GPU, в тексте оставлены пояснения).</li>
+</ul>
+<h2 id="глава-13-что-изменено-относительно-оригинала"><a class="header" href="provenance.html#глава-13-что-изменено-относительно-оригинала">Глава 13: что изменено относительно оригинала</a></h2>
+<ul>
+<li>Переведены вступление главы и разделы 13.1–13.14 (<code>src/13_*.md</code>). Соответствие исходникам из <code>chapter_computer-vision/</code>: <code>image-augmentation</code>, <code>fine-tuning</code>, <code>bounding-box</code>, <code>anchor</code>, <code>multiscale-object-detection</code>, <code>object-detection-dataset</code>, <code>ssd</code>, <code>rcnn</code>, <code>semantic-segmentation-and-dataset</code>, <code>transposed-conv</code>, <code>fcn</code>, <code>neural-style</code>, <code>kaggle-cifar10</code>, <code>kaggle-dog</code>. Исходные файлы <code>*_origin.md</code> (английская версия) не использовались.</li>
+<li>Вкладки фреймворков оформлены жирной подписью перед блоком кода (<code>**MXNet:**</code>, <code>**PyTorch:**</code>, <code>**TensorFlow:**</code>, <code>**PaddlePaddle:**</code>, при общем коде — <code>**PyTorch, PaddlePaddle:**</code> и т. п.); общий код (<code>#@tab all</code>) выведен без подписи. Маркеры <code>#@tab</code> удалены, <code>#@save</code> оставлен.</li>
+<li>Ссылки Sphinx заменены обычным текстом: «рис. 13.2.1», «раздел 7.1», «таблица» и т. п. Ссылки <code>:cite:</code> оформлены как «(Liu et al., 2016)» и т. п.</li>
+<li>Подписи в коде, комментарии, docstring и подписи графиков переведены. Вывод <code>print</code> и легенды графиков: «потери (обучение)», «точность (тест)», «эпоха» и т. п. Имена функций, переменные и выражения не изменены.</li>
+<li>Зачёркнутые в исходнике заголовки (<code>[~~数据增广~~]</code>, <code>[~~超参数~~]</code>) не переносились.</li>
+<li>Исправление в тексте: в разделе 13.1 ссылка на раздел об AlexNet переведена как раздел 7.1 (в исходнике <code>sec_alexnet</code>).</li>
+</ul>
+<h3 id="глава-13-иллюстрации"><a class="header" href="provenance.html#глава-13-иллюстрации">Глава 13: иллюстрации</a></h3>
+<ul>
+<li>Перерисованы заново с русскими подписями (производные работы): <code>anchor-label.svg</code>, <code>fcn.svg</code>, <code>finetune.svg</code>, <code>iou.svg</code>, <code>trans_conv.svg</code>, <code>trans_conv_stride2.svg</code>, <code>roi.svg</code>, <code>segmentation.svg</code>, <code>r-cnn.svg</code>, <code>fast-rcnn.svg</code>, <code>faster-rcnn.svg</code>, <code>mask-rcnn.svg</code>, <code>ssd.svg</code>, <code>neural-style.svg</code>, <code>style-transfer.svg</code>. Фотографии (кошка и собака из <code>catdog.jpg</code>, пейзаж <code>rainier.jpg</code>, картина <code>autumn-oak.jpg</code>) встроены в SVG в уменьшенном виде; так схемы отображаются корректно, когда mdBook загружает их как изображения.</li>
+<li><code>style-transfer.svg</code> показывает только два входных изображения (содержимое и стиль). Синтезированный результат в книге не воспроизведён: он получается при запуске кода раздела 13.12 и не был взят из исходника.</li>
+<li>Фотографии из <code>img/</code>, которые нужны только коду (<code>cat1.jpg</code>, <code>banana.jpg</code>), скопированы в <code>src/images/</code> без изменений.</li>
+<li>Не включены: <code>kaggle-cifar10.png</code> (рис. 13.13.1) и <code>kaggle-dog.jpg</code> (рис. 13.14.1) — скриншоты страниц соревнований Kaggle, по аналогии с главой 4 в тексте оставлено описание.</li>
+</ul>
+<h2 id="главы-1415-что-изменено-относительно-оригинала"><a class="header" href="provenance.html#главы-1415-что-изменено-относительно-оригинала">Главы 14–15: что изменено относительно оригинала</a></h2>
+<ul>
+<li>Переведены вступления и разделы 14.1–14.10 (<code>src/14_*.md</code>) и 15.1–15.7 (<code>src/15_*.md</code>). Соответствие исходникам из <code>chapter_natural-language-processing-pretraining/</code>: <code>word2vec</code>, <code>approx-training</code>, <code>word-embedding-dataset</code>, <code>word2vec-pretraining</code>, <code>glove</code>, <code>subword-embedding</code>, <code>similarity-analogy</code>, <code>bert</code>, <code>bert-dataset</code>, <code>bert-pretraining</code>; и из <code>chapter_natural-language-processing-applications/</code>: <code>sentiment-analysis-and-dataset</code>, <code>sentiment-analysis-rnn</code>, <code>sentiment-analysis-cnn</code>, <code>natural-language-inference-and-dataset</code>, <code>natural-language-inference-attention</code>, <code>finetuning-bert</code>, <code>natural-language-inference-bert</code>. Файлы <code>*_origin.md</code> (английская версия) использовались только для сверки мест, где китайский перевод оказался искажён.</li>
+<li>Вкладки фреймворков оформлены жирной подписью перед блоком кода (<code>**MXNet:**</code>, <code>**PyTorch:**</code>, <code>**PaddlePaddle:**</code>, при общем коде — <code>**MXNet, PyTorch:**</code> и т. п.); общий код (<code>#@tab all</code>) выведен без подписи, а блок без пометки в исходнике — это вкладка MXNet. Маркеры <code>#@tab</code> удалены, <code>#@save</code> оставлен.</li>
+<li>Ссылки Sphinx заменены обычным текстом: «рис. 14.1.1», «раздел 14.8», «табл. 14.5.1»; ссылки на подразделы записаны как «подраздел «…» раздела N.M». К формулам с метками добавлены номера <code>\tag{14.1.1}</code>. Ссылки <code>:cite:</code> оформлены как «(Mikolov et al., 2013b)»; две статьи Миколова 2013 года различены буквами a и b. В конце разделов с цитированием добавлен список «Литература».</li>
+<li>Подписи в коде, комментарии, docstring, вывод <code>print</code> и подписи графиков переведены; имена функций, переменные и выражения не изменены. Проверка: токены кода во всех блоках совпадают с исходником, различаются только строковые литералы.</li>
+</ul>
+<h3 id="главы-1415-замечания-к-исходнику"><a class="header" href="provenance.html#главы-1415-замечания-к-исходнику">Главы 14–15: замечания к исходнику</a></h3>
+<ul>
+<li>14.8: в исходнике особый токен назван «&lt;seq&gt;» вместо <code>&lt;sep&gt;</code>; в переводе везде <code>&lt;sep&gt;</code>.</li>
+<li>14.9: в исходнике сказано, что функция <code>_pad_bert_inputs</code> «добавляет специальные токены <code>&lt;mask&gt;</code>»; она дополняет входы токеном <code>&lt;pad&gt;</code>, в переводе так и сказано.</li>
+<li>14.6: в китайском тексте искажены примеры с символом <code>_</code> («a_all er_man»); по английскому оригиналу — «a_ tall er_ man» и «faster_», «taller_» разбиваются на «fast er_» и «tall er_».</li>
+<li>14.3, 14.6: в исходнике обрывочные комментарии (<code># Exclude</code>, <code># Readthetrainingset.</code>) заменены законченными по смыслу.</li>
+<li>15.3: ссылка на несуществующую метку <code>subsec_multi-output-channels</code> заменена ссылкой на подраздел «Несколько выходных каналов» раздела 6.4.</li>
+<li>15.4: в китайском тексте пример следования искажён («表白» — признание в любви); по английскому оригиналу гипотеза — «Две женщины проявляют нежность» (showing affection).</li>
+<li>15.5: в пояснении к формуле (15.5.2) при <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7305em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathbf" style="margin-right:0.01597em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.016em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> в исходнике стоит индекс <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span>; в переводе <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span>.</li>
+<li>15.2: в версии для PaddlePaddle в исходнике <code>stop_gradient = False</code> у весов вложений, хотя по тексту их не нужно обновлять, и опечатка <code>"weigth"</code> в условии инициализации; код оставлен без изменений.</li>
+</ul>
+<h3 id="главы-1415-иллюстрации"><a class="header" href="provenance.html#главы-1415-иллюстрации">Главы 14–15: иллюстрации</a></h3>
+<ul>
+<li>Перерисованы заново с русскими подписями (производные работы): <code>nlp-map-pretrain.svg</code>, <code>nlp-map-app.svg</code>, <code>nlp-map-sa-rnn.svg</code>, <code>nlp-map-sa-cnn.svg</code>, <code>nlp-map-nli-attention.svg</code>, <code>nlp-map-nli-bert.svg</code>, <code>elmo-gpt-bert.svg</code>, <code>bert-input.svg</code>, <code>bert-one-seq.svg</code>, <code>bert-two-seqs.svg</code>, <code>bert-tagging.svg</code>, <code>bert-qa.svg</code>, <code>conv1d.svg</code>, <code>conv1d-2d.svg</code>, <code>conv1d-channel.svg</code>, <code>textcnn.svg</code>, <code>nli-attention.svg</code>. Английские примеры внутри схем («i do need sleep», «a model loading and inference api…») сохранены. На схеме <code>nlp-map-nli-attention.svg</code> подписи архитектур выровнены с остальными схемами (в оригинале они английские: MLP, CNN, RNN, Attention).</li>
+<li>Скопированы без изменений (на них только английские слова и математика): <code>skip-gram.svg</code>, <code>cbow.svg</code>, <code>hi-softmax.svg</code>.</li>
+</ul>
+<h2 id="сквозные-изменения"><a class="header" href="provenance.html#сквозные-изменения">Сквозные изменения</a></h2>
+<ul>
+<li><strong>Нумерация.</strong> Подписи рисунков — «<strong>Рис. N.M.k.</strong> …», таблиц — «<strong>Таблица N.M.k.</strong> …». Формулы с метками переведены в <code>\tag{N.M.k}</code>. Ссылки Sphinx <code>:numref:</code> и <code>:eqref:</code> заменены на «рис. N.M.k», «раздел N.M», «формула (N.M.k)».</li>
+<li><strong>Литература.</strong> <code>:cite:</code> заменён на «(Автор et al., год)». Сводный список <code>src/references.md</code> собран из разделов «Литература» глав (155 записей). Записи, которых не было в списках глав, добавлены в разделы, где на них есть ссылка, по библиографии <code>d2l.bib</code> исходного репозитория (авторы и названия оставлены на языке оригинала).</li>
+<li><strong>Обсуждения.</strong> Ссылки на форум сохранены в виде <code>[Обсуждение](…)</code>. Для нескольких фреймворков используется отдельная строка <code>**FW:**</code>.</li>
+<li><strong>Вкладки фреймворков.</strong> Подписи <code>**MXNet:**</code>, <code>**PyTorch:**</code>, <code>**TensorFlow:**</code>, <code>**PaddlePaddle:**</code> ставятся перед блоком кода. Общий код (<code>#@tab all</code>) выведен без подписи. Маркеры <code>#@save</code> сохранены.</li>
+<li><strong>Терминология.</strong> «Прямое распространение» вместо «прямой проход». «Подавление немаксимумов» вместо «не-максимальное подавление». «Дообучение» вместо «тонкая настройка». «Минибатч» и «пакетное матричное умножение» — единые термины по всей книге.</li>
+<li><strong>Код.</strong> Переведены комментарии, строки вывода, docstring и подписи графиков. Выражения, имена переменных и функций не изменены.</li>
+<li><strong>Исключено из перевода.</strong> Скриншоты страниц сторонних сайтов (Kaggle в главе 13, Amazon в главе 16), фотографии из игры «Где Вальдо?» (глава 6), <code>filters.png</code> (рис. 7.1.1, статья Krizhevsky et al., 2012). <code>ftse100.png</code> (глава 8) оставлен с английским заголовком, так как перерисовка требует исходных данных.</li>
+<li><strong>Исправления ошибок исходника.</strong> В разделе 7.3 слово «суммирование» заменено на «усреднение», как в самом слое. На схеме AlexNet пятый свёрточный слой показан с 256 каналами, как в коде раздела 7.1. В разделе 15.6.3 тег части речи для глагола «is» исправлен с <code>VB</code> на <code>VBZ</code>. Итоговый список исправлений приведён в описании глав выше.</li>
+<li><strong>Проверки.</strong> <code>scripts/check_books.py</code> и <code>scripts/check_links.py</code> проходят без ошибок. Перекрёстная проверка «(Автор, год)» ↔ список литературы — без пропусков, кроме одной ссылки в предисловии, где в тексте стоит «Bollobas», а в списке — «Bollobás».</li>
+</ul>
+<h2 id="отображение-на-сайте"><a class="header" href="provenance.html#отображение-на-сайте">Отображение на сайте</a></h2>
+<ul>
+<li>Подряд идущие блоки кода для разных фреймворков (MXNet, PyTorch, TensorFlow, PaddlePaddle) на сайте показаны вкладками. В исходных <code>.md</code> файлах они остаются отдельными блоками с подписями «<strong>PyTorch:</strong>» и т. д.; вкладки создаёт препроцессор <code>scripts/mdbook_framework_tabs.py</code> при сборке. Выбранный фреймворк запоминается в браузере (по умолчанию PyTorch).</li>
+<li>Подписи, за которыми следует текст, а не код, остаются обычными абзацами: в исходниках не отмечено, где такой вариант заканчивается.</li>
+<li>Формулы <code>\tilde{...}</code> записаны как <code>\widetilde{...}</code>: KaTeX выводит для <code>\tilde</code> знак «~», который mdBook принимает за зачёркивание.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="notice.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="notice.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/framework-tabs-0e82dc29.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

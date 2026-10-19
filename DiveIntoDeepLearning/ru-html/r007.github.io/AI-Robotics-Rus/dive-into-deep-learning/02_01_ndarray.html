@@ -1,0 +1,1005 @@
+<!DOCTYPE HTML>
+<html lang="ru" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>2.1 Манипулирование данными - Погружение в глубокое обучение</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Русскоязычное издание учебника «Dive into Deep Learning» (动手学深度学习) с кодом на Python. Переведены главы 1 «Введение», 2 «Предварительные знания», 3 «Линейные нейронные сети», 4 «Многослойные перцептроны», 5 «Вычисления глубокого обучения», 6 «Свёрточные нейронные сети», 7 «Современные свёрточные нейронные сети», 8 «Рекуррентные нейронные сети», 9 «Современные рекуррентные нейронные сети», 10 «Механизмы внимания», 11 «Алгоритмы оптимизации», 12 «Вычислительная производительность», 13 «Компьютерное зрение», 14 «Обработка естественного языка: предобучение» и 15 «Обработка естественного языка: приложения»; предисловие, приложение и список литературы переведены.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/framework-tabs-7543ad04.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-e2003210.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-1598951f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Погружение в глубокое обучение</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus/edit/main/books/dive-into-deep-learning/src/src/02_01_ndarray.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="21-манипулирование-данными"><a class="header" href="02_01_ndarray.html#21-манипулирование-данными">2.1 Манипулирование данными</a></h1>
+<p>Чтобы выполнять различные операции с данными, нам нужен способ их хранить и обрабатывать.
+Обычно нужно сделать две важные вещи: (1) получить данные; (2) обработать их после того, как они попали в компьютер.
+Без способа хранить данные получать их не имеет смысла.</p>
+<p>Для начала познакомимся с <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>-мерными массивами, которые также называют <em>тензорами</em> (tensor).
+Тем, кто пользовался пакетом NumPy для Python, этот раздел будет знаком.
+Какой бы фреймворк глубокого обучения ни использовался, его <em>класс тензоров</em> (в MXNet это <code>ndarray</code>, в PyTorch и TensorFlow — <code>Tensor</code>) похож на <code>ndarray</code> из NumPy.
+Однако фреймворки глубокого обучения предлагают несколько важных возможностей, которых нет у <code>ndarray</code> из NumPy:
+во-первых, они хорошо поддерживают ускоренные вычисления на GPU, тогда как NumPy работает только на CPU;
+во-вторых, класс тензоров поддерживает автоматическое дифференцирование.
+Эти возможности делают класс тензоров более подходящим для глубокого обучения.
+Если не оговорено иное, под тензорами в этой книге понимаются экземпляры класса тензоров.</p>
+<h2 id="211-начало-работы"><a class="header" href="02_01_ndarray.html#211-начало-работы">2.1.1 Начало работы</a></h2>
+<p>Цель этого раздела — познакомить читателя с базовыми инструментами численных вычислений, которые понадобятся при чтении книги.
+Если вам трудно понять некоторые математические понятия или функции библиотек, не беспокойтесь:
+в следующих главах эти темы будут разобраны на практических примерах.
+Если у вас уже есть соответствующий опыт и вы хотите глубже изучить математику, можете пропустить этот раздел.</p>
+<p><strong>MXNet:</strong> Сначала импортируем модуль <code>np</code> (<code>numpy</code>) и модуль <code>npx</code> (<code>numpy_extension</code>) из MXNet.
+Модуль <code>np</code> содержит функции, которые поддерживает NumPy, а модуль <code>npx</code> — набор расширенных функций для глубокого обучения в среде, похожей на NumPy.
+При работе с тензорами почти всегда вызывают функцию <code>set_np</code>: она нужна для совместимости с другими компонентами MXNet, работающими с тензорами.</p>
+<p><strong>PyTorch:</strong> Сначала импортируем <code>torch</code>. Обратите внимание: хотя фреймворк называется PyTorch, в коде используется имя <code>torch</code>, а не <code>pytorch</code>.</p>
+<p><strong>TensorFlow:</strong> Сначала импортируем <code>tensorflow</code>. Поскольку это имя довольно длинное, после импорта часто используют короткий псевдоним <code>tf</code>.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">from mxnet import np, npx
+npx.set_np()
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">import torch
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">import tensorflow as tf
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">import warnings
+warnings.filterwarnings(action='ignore')
+import paddle
+</code></pre>
+</div>
+
+</div>
+
+<p><strong>Тензор представляет собой массив числовых значений, который может иметь несколько измерений</strong>.
+Тензор с одной осью соответствует математическому понятию <em>вектора</em> (vector);
+тензор с двумя осями соответствует математической <em>матрице</em> (matrix);
+тензоры с большим числом осей специального математического названия не имеют.</p>
+<p><strong>MXNet:</strong> Сначала создадим вектор-строку <code>x</code> с помощью <code>arange</code>. Она содержит первые 12 целых чисел, начиная с 0; по умолчанию они создаются как числа с плавающей точкой. Каждое значение тензора называют его <em>элементом</em> (element). Например, в тензоре <code>x</code> 12 элементов. Если не указано иное, новый тензор сохраняется в оперативной памяти, а вычисления выполняются на CPU.</p>
+<p><strong>PyTorch:</strong> Сначала создадим вектор-строку <code>x</code> с помощью <code>arange</code>. Она содержит первые 12 целых чисел, начиная с 0; по умолчанию они создаются как целые числа, но можно указать и тип с плавающей точкой. Каждое значение тензора называют его <em>элементом</em> (element). Например, в тензоре <code>x</code> 12 элементов. Если не указано иное, новый тензор сохраняется в оперативной памяти, а вычисления выполняются на CPU.</p>
+<p><strong>TensorFlow:</strong> Сначала создадим вектор-строку <code>x</code> с помощью <code>range</code>. Она содержит первые 12 целых чисел, начиная с 0; по умолчанию они создаются как целые числа, но можно указать и тип с плавающей точкой. Каждое значение тензора называют его <em>элементом</em> (element). Например, в тензоре <code>x</code> 12 элементов. Если не указано иное, новый тензор сохраняется в оперативной памяти, а вычисления выполняются на CPU.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">x = np.arange(12)
+x
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">x = torch.arange(12)
+x
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">x = tf.range(12)
+x
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">x = paddle.arange(12)
+x
+</code></pre>
+</div>
+
+</div>
+
+<p><strong>Форму тензора (длину вдоль каждой оси) можно получить через атрибут <code>shape</code></strong>.</p>
+<pre><code class="language-python">x.shape
+</code></pre>
+<p>Если нужно узнать только общее число элементов тензора, то есть произведение всех элементов формы, можно проверить его размер (size).
+Поскольку здесь мы работаем с вектором, его <code>shape</code> и <code>size</code> по сути совпадают.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">x.size
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">x.numel()
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">tf.size(x)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">x.numel()
+</code></pre>
+</div>
+
+</div>
+
+<p><strong>Чтобы изменить форму тензора, не меняя число элементов и их значения, можно вызвать функцию <code>reshape</code>.</strong>
+Например, можно превратить тензор <code>x</code> из вектора-строки формы (12,) в матрицу формы (3, 4).
+Новый тензор содержит те же значения, что и исходный, но теперь он рассматривается как матрица из 3 строк и 4 столбцов.
+Важно подчеркнуть: хотя форма тензора изменилась, значения его элементов не изменились.
+Обратите внимание, что при изменении формы размер тензора не меняется.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet PyTorch">
+<p class="fw-label"><strong>MXNet, PyTorch:</strong></p>
+
+<pre><code class="language-python">X = x.reshape(3, 4)
+X
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">X = tf.reshape(x, (3, 4))
+X
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">X = paddle.reshape(x, (3, 4))
+X
+</code></pre>
+</div>
+
+</div>
+
+<p>Не обязательно указывать каждое измерение вручную.
+Если целевая форма — (высота, ширина), то, зная ширину, высоту можно вычислить автоматически, и делить самостоятельно не нужно.
+В предыдущем примере, чтобы получить матрицу из 3 строк, мы вручную указали 3 строки и 4 столбца.
+К счастью, можно воспользоваться автоматическим вычислением размерности, указав <code>-1</code>.
+То есть вместо <code>x.reshape(3, 4)</code> можно написать <code>x.reshape(-1, 4)</code> или <code>x.reshape(3, -1)</code>.</p>
+<p>Иногда хочется <strong>инициализировать тензор нулями, единицами, другими константами или числами, случайно выбранными из определённого распределения</strong>.
+Например, создадим тензор формы (2, 3, 4), все элементы которого равны 0. Код выглядит так:</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">np.zeros((2, 3, 4))
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">torch.zeros((2, 3, 4))
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">tf.zeros((2, 3, 4))
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">paddle.zeros((2, 3, 4))
+</code></pre>
+</div>
+
+</div>
+
+<p>Аналогично можно создать тензор формы <code>(2, 3, 4)</code>, все элементы которого равны 1:</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">np.ones((2, 3, 4))
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">torch.ones((2, 3, 4))
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">tf.ones((2, 3, 4))
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">paddle.ones((2, 3, 4))
+</code></pre>
+</div>
+
+</div>
+
+<p>Иногда значения элементов тензора удобно получить случайной выборкой из определённого распределения.
+Например, когда мы создаём массивы как параметры нейронной сети, их значения обычно задают случайным образом.
+Следующий код создаёт тензор формы (3, 4).
+Каждый его элемент случайно выбирается из стандартного нормального (гауссова) распределения со средним 0 и стандартным отклонением 1.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">np.random.normal(0, 1, size=(3, 4))
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">torch.randn(3, 4)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">tf.random.normal(shape=[3, 4])
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">paddle.randn((3, 4),'float32')
+</code></pre>
+</div>
+
+</div>
+
+<p>Также можно <strong>задать значения элементов тензора явно, передав Python-список (или вложенный список) с числами</strong>.
+Здесь внешний список соответствует оси 0, а внутренние списки — оси 1.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">np.array([[2, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">torch.tensor([[2, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">tf.constant([[2, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">paddle.to_tensor([[2, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
+</code></pre>
+</div>
+
+</div>
+
+<h2 id="212-операторы"><a class="header" href="02_01_ndarray.html#212-операторы">2.1.2 Операторы</a></h2>
+<p>Нас интересуют не только чтение и запись данных.
+Мы хотим выполнять над данными математические операции. Самые простые и полезные из них — <em>поэлементные</em> (elementwise) операции.
+Они применяют стандартный скалярный оператор к каждому элементу массива.
+Для функций, которые принимают два массива, поэлементная операция применяет бинарный оператор к каждой паре элементов, стоящих в одинаковых позициях двух массивов.
+Поэлементную функцию можно построить на основе любой функции, которая переводит скаляр в скаляр.</p>
+<p>В математической записи унарный скалярный оператор (принимающий один аргумент) обозначается как <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6889em;"></span><span class="mord mathbb">R</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6889em;"></span><span class="mord mathbb">R</span></span></span></span>.
+Это значит, что функция отображает любое вещественное число (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6889em;"></span><span class="mord mathbb">R</span></span></span></span>) в другое вещественное число.
+Аналогично бинарный скалярный оператор (принимающий два аргумента) обозначается как <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8833em;vertical-align:-0.1944em;"></span><span class="mord mathbb">R</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathbb">R</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6889em;"></span><span class="mord mathbb">R</span></span></span></span>.
+Для любых двух векторов <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4444em;"></span><span class="mord mathbf">u</span></span></span></span> и <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4444em;"></span><span class="mord mathbf" style="margin-right:0.01597em;">v</span></span></span></span> одинаковой формы и бинарного оператора <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span> мы получаем вектор <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4444em;"></span><span class="mord mathbf">c</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathbf">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathbf" style="margin-right:0.01597em;">v</span><span class="mclose">)</span></span></span></span>.
+Вычисляется он так: <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, где <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> и <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> — элементы векторов <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4444em;"></span><span class="mord mathbf">c</span></span></span></span>, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4444em;"></span><span class="mord mathbf">u</span></span></span></span> и <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4444em;"></span><span class="mord mathbf" style="margin-right:0.01597em;">v</span></span></span></span> соответственно.
+Здесь мы превращаем скалярную функцию в поэлементную векторную операцию и получаем функцию <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0435em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8491em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span></span></span></span></span></span></span>, которая возвращает вектор.</p>
+<p>Для любых тензоров одинаковой формы <strong>стандартные арифметические операторы (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> и <code>**</code>) выполняются поэлементно</strong>.
+Поэлементную операцию можно выполнять над любыми двумя тензорами одинаковой формы.
+В примере ниже через запятую перечислены пять результатов поэлементных операций — они образуют кортеж.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">x = np.array([1, 2, 4, 8])
+y = np.array([2, 2, 2, 2])
+x + y, x - y, x * y, x / y, x ** y  # Оператор ** — возведение в степень
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">x = torch.tensor([1.0, 2, 4, 8])
+y = torch.tensor([2, 2, 2, 2])
+x + y, x - y, x * y, x / y, x ** y  # Оператор ** — возведение в степень
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">x = tf.constant([1.0, 2, 4, 8])
+y = tf.constant([2.0, 2, 2, 2])
+x + y, x - y, x * y, x / y, x ** y  # Оператор ** — возведение в степень
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">x = paddle.to_tensor([1.0, 2, 4, 8])
+y = paddle.to_tensor([2, 2, 2, 2])
+x + y, x - y, x * y, x / y, x**y  # Оператор ** — возведение в степень
+</code></pre>
+</div>
+
+</div>
+
+<p><strong>Поэлементно можно применять и другие вычисления</strong>, например унарные операторы, такие как экспонента.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">np.exp(x)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">torch.exp(x)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">tf.exp(x)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">paddle.exp(x)
+</code></pre>
+</div>
+
+</div>
+
+<p>Помимо поэлементных вычислений, можно выполнять и линейно-алгебраические операции, включая скалярное произведение векторов и умножение матриц.
+Ключевые положения линейной алгебры мы разберём в разделе 2.3.</p>
+<p><strong>Также можно <em>объединять</em> (concatenate) несколько тензоров</strong>,
+укладывая их встык в один больший тензор.
+Нужно лишь передать список тензоров и указать, по какой оси их соединять.
+В примере ниже показано, что происходит при соединении двух матриц по строкам (вдоль оси 0, первого элемента формы) и по столбцам (вдоль оси 1, второго элемента формы).
+Длина первого выходного тензора по оси 0 (6) равна сумме длин входных тензоров по оси 0 (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span>); длина второго выходного тензора по оси 1 (8) равна сумме длин входных тензоров по оси 1 (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span>).</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">X = np.arange(12).reshape(3, 4)
+Y = np.array([[2, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
+np.concatenate([X, Y], axis=0), np.concatenate([X, Y], axis=1)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">X = torch.arange(12, dtype=torch.float32).reshape((3,4))
+Y = torch.tensor([[2.0, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
+torch.cat((X, Y), dim=0), torch.cat((X, Y), dim=1)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">X = tf.reshape(tf.range(12, dtype=tf.float32), (3, 4))
+Y = tf.constant([[2.0, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
+tf.concat([X, Y], axis=0), tf.concat([X, Y], axis=1)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">X = paddle.arange(12, dtype='float32').reshape((3, 4))
+Y = paddle.to_tensor([[2.0, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]])
+paddle.concat((X, Y), axis=0), paddle.concat((X, Y), axis=1)
+</code></pre>
+</div>
+
+</div>
+
+<p>Иногда нужно <strong>построить двоичный тензор с помощью <em>логических операторов</em></strong>.
+Возьмём <code>X == Y</code>: в каждой позиции, где <code>X</code> и <code>Y</code> равны, соответствующий элемент нового тензора равен 1.
+Это значит, что логическое выражение <code>X == Y</code> в этой позиции истинно, а в остальных позициях ложно, то есть равно 0.</p>
+<pre><code class="language-python">X == Y
+</code></pre>
+<p><strong>Суммирование всех элементов тензора даёт тензор из одного элемента.</strong></p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet PyTorch PaddlePaddle">
+<p class="fw-label"><strong>MXNet, PyTorch, PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">X.sum()
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">tf.reduce_sum(X)
+</code></pre>
+</div>
+
+</div>
+
+<h2 id="213-механизм-broadcasting"><a class="header" href="02_01_ndarray.html#213-механизм-broadcasting">2.1.3 Механизм broadcasting</a></h2>
+<p>Выше мы видели, как выполнять поэлементные операции над тензорами одинаковой формы.
+<strong>Даже при разных формах можно выполнять поэлементные операции, используя <em>механизм broadcasting</em></strong>.
+Он работает так:</p>
+<ol>
+<li>Один или оба массива расширяются за счёт копирования элементов так, чтобы после преобразования оба тензора имели одинаковую форму;</li>
+<li>Над полученными массивами выполняется поэлементная операция.</li>
+</ol>
+<p>В большинстве случаев broadcasting происходит вдоль осей длины 1, как в следующем примере:</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">a = np.arange(3).reshape(3, 1)
+b = np.arange(2).reshape(1, 2)
+a, b
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">a = torch.arange(3).reshape((3, 1))
+b = torch.arange(2).reshape((1, 2))
+a, b
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">a = tf.reshape(tf.range(3), (3, 1))
+b = tf.reshape(tf.range(2), (1, 2))
+a, b
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">a = paddle.reshape(paddle.arange(3), (3, 1))
+b = paddle.reshape(paddle.arange(2), (1, 2))
+a, b
+</code></pre>
+</div>
+
+</div>
+
+<p>Поскольку <code>a</code> и <code>b</code> — матрицы формы <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> и <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>, их непосредственное сложение невозможно: формы не совпадают.
+Мы <em>расширяем</em> (broadcast) обе матрицы до одной большей матрицы <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>: матрица <code>a</code> копирует столбец, матрица <code>b</code> копирует строки, а затем результаты складываются поэлементно.</p>
+<p><strong>MXNet, PyTorch, TensorFlow, PaddlePaddle:</strong></p>
+<pre><code class="language-python">a + b
+</code></pre>
+<h2 id="214-индексация-и-срезы"><a class="header" href="02_01_ndarray.html#214-индексация-и-срезы">2.1.4 Индексация и срезы</a></h2>
+<p>Как и в любом другом массиве Python, к элементам тензора можно обращаться по индексам.
+Как и во всех массивах Python, первый элемент имеет индекс 0, а последний — индекс -1;
+для указания диапазона можно задавать границы, при которых включается первый элемент и исключается последний.</p>
+<p>Так, <strong>с помощью <code>[-1]</code> можно выбрать последний элемент, а с помощью <code>[1:3]</code> — второй и третий элементы</strong>:</p>
+<pre><code class="language-python">X[-1], X[1:3]
+</code></pre>
+<p><strong>MXNet, PyTorch:</strong> <strong>Помимо чтения, с помощью индексов можно записывать значения в элементы матрицы.</strong></p>
+<p><strong>TensorFlow:</strong> Тензоры (<code>Tensors</code>) в TensorFlow неизменяемы и не поддерживают присваивание.
+Переменные (<code>Variables</code>) в TensorFlow — изменяемые контейнеры, в которые можно присваивать значения.
+Помните, что в TensorFlow градиенты не распространяются обратно через <code>Variable</code>.
+Кроме присваивания всей переменной целиком, можно записывать значения и в отдельные элементы <code>Variable</code> по индексу.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet PyTorch PaddlePaddle">
+<p class="fw-label"><strong>MXNet, PyTorch, PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">X[1, 2] = 9
+X
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">X_var = tf.Variable(X)
+X_var[1, 2].assign(9)
+X_var
+</code></pre>
+</div>
+
+</div>
+
+<p>Если нужно <strong>присвоить одно и то же значение нескольким элементам, достаточно проиндексировать все нужные элементы и присвоить им значение.</strong>
+Например, <code>[0:2, :]</code> обращается к первой и второй строкам, где «:» означает все элементы вдоль оси 1 (столбцы).
+Хотя мы говорим об индексации матриц, это работает и для векторов, и для тензоров с более чем двумя осями.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet PyTorch PaddlePaddle">
+<p class="fw-label"><strong>MXNet, PyTorch, PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">X[0:2, :] = 12
+X
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">X_var = tf.Variable(X)
+X_var[0:2, :].assign(tf.ones(X_var[0:2,:].shape, dtype = tf.float32) * 12)
+X_var
+</code></pre>
+</div>
+
+</div>
+
+<h2 id="215-экономия-памяти"><a class="header" href="02_01_ndarray.html#215-экономия-памяти">2.1.5 Экономия памяти</a></h2>
+<p><strong>Некоторые операции могут приводить к выделению памяти под новый результат</strong>.
+Например, если написать <code>Y = X + Y</code>, то <code>Y</code> будет указывать не на прежний тензор, а на тензор в новой области памяти.</p>
+<p>В примере ниже мы покажем это с помощью функции <code>id()</code> из Python, которая возвращает адрес объекта в памяти.
+После выполнения <code>Y = Y + X</code> видно, что <code>id(Y)</code> указывает на другое место.
+Это происходит потому, что Python сначала вычисляет <code>Y + X</code>, выделяет под результат новую память, и только потом переставляет <code>Y</code> на эту новую область.</p>
+<pre><code class="language-python">before = id(Y)
+Y = Y + X
+id(Y) == before
+</code></pre>
+<p>Такое поведение может быть нежелательно по двум причинам:</p>
+<ol>
+<li>Во-первых, нам не хочется без необходимости постоянно выделять память. В машинном обучении могут быть сотни мегабайт параметров, которые обновляются многократно в секунду. Обычно такие обновления хотелось бы выполнять на месте (in-place);</li>
+<li>Во-вторых, если не обновлять на месте, на старую область памяти по-прежнему будут ссылаться другие переменные, и часть кода может случайно использовать устаревшие параметры.</li>
+</ol>
+<p><strong>MXNet, PyTorch:</strong> К счастью, <strong>выполнить операцию на месте</strong> очень просто.
+Можно присвоить результат операции заранее выделенному массиву с помощью срезов, например <code>Y[:] = &lt;выражение&gt;</code>.
+Чтобы показать это, сначала создадим новую матрицу <code>Z</code> той же формы, что и <code>Y</code>, и с помощью <code>zeros_like</code> выделим блок из одних нулей.</p>
+<p><strong>TensorFlow:</strong> <code>Variables</code> — это изменяемые контейнеры в TensorFlow, которые позволяют хранить параметры модели.
+Результат операции можно присвоить <code>Variable</code> с помощью <code>assign</code>.
+Чтобы показать это, создадим <code>Z</code> той же формы, что и тензор <code>Y</code>, и с помощью <code>zeros_like</code> выделим блок из одних нулей.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">Z = np.zeros_like(Y)
+print('id(Z):', id(Z))
+Z[:] = X + Y
+print('id(Z):', id(Z))
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">Z = torch.zeros_like(Y)
+print('id(Z):', id(Z))
+Z[:] = X + Y
+print('id(Z):', id(Z))
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">Z = tf.Variable(tf.zeros_like(Y))
+print('id(Z):', id(Z))
+Z.assign(X + Y)
+print('id(Z):', id(Z))
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">Z = paddle.zeros_like(Y)
+print('id(Z):', id(Z))
+Z = X + Y
+print('id(Z):', id(Z))
+</code></pre>
+</div>
+
+</div>
+
+<p><strong>MXNet, PyTorch:</strong> <strong>Если в дальнейших вычислениях <code>X</code> не используется, можно также написать <code>X[:] = X + Y</code> или <code>X += Y</code>, чтобы уменьшить затраты памяти на операцию.</strong></p>
+<p><strong>TensorFlow:</strong> Даже если вы храните состояние в <code>Variable</code>, может понадобиться избегать лишнего выделения памяти под тензоры, которые не являются параметрами модели, чтобы дополнительно снизить расход памяти.
+Поскольку тензоры TensorFlow неизменяемы, а градиенты не проходят через <code>Variable</code>, TensorFlow не предоставляет явного способа выполнить отдельную операцию на месте.
+Однако TensorFlow предоставляет декоратор <code>tf.function</code>, который заключает вычисления в граф TensorFlow; перед запуском граф компилируется и оптимизируется.
+Это позволяет TensorFlow удалять неиспользуемые значения и повторно использовать ранее выделенную память для значений, которые уже не нужны.
+Так расход памяти на вычисления в TensorFlow сводится к минимуму.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet PyTorch PaddlePaddle">
+<p class="fw-label"><strong>MXNet, PyTorch, PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">before = id(X)
+X += Y
+id(X) == before
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">@tf.function
+def computation(X, Y):
+    Z = tf.zeros_like(Y)  # Это неиспользуемое значение будет удалено
+    A = X + Y  # Когда оно больше не нужно, память будет переиспользована
+    B = A + Y
+    C = B + Y
+    return C + Y
+
+computation(X, Y)
+</code></pre>
+</div>
+
+</div>
+
+<h2 id="216-преобразование-в-другие-объекты-python"><a class="header" href="02_01_ndarray.html#216-преобразование-в-другие-объекты-python">2.1.6 Преобразование в другие объекты Python</a></h2>
+<p><strong>MXNet, TensorFlow:</strong> <strong>Преобразовать тензор фреймворка глубокого обучения в NumPy-тензор (<code>ndarray</code>) несложно, и обратное преобразование тоже.</strong>
+Результат при этом не разделяет память с исходным тензором.
+Эта небольшая неприятность на самом деле очень важна: при вычислениях на CPU или GPU, если пакет NumPy в Python тоже захочет использовать тот же блок памяти для других операций, не хочется останавливать вычисления и ждать его.</p>
+<p><strong>PyTorch:</strong> <strong>Преобразовать тензор фреймворка в NumPy-тензор (<code>ndarray</code>)</strong> так же просто, и обратно.
+Тензоры torch и массивы numpy разделяют одну и ту же область памяти, поэтому изменение одного из них (в том числе операцией на месте) меняет и другой.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">A = X.asnumpy()
+B = np.array(A)
+type(A), type(B)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">A = X.numpy()
+B = torch.tensor(A)
+type(A), type(B)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">A = X.numpy()
+B = tf.constant(A)
+type(A), type(B)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">A = X.numpy()
+B = paddle.to_tensor(A)
+type(A), type(B)
+</code></pre>
+</div>
+
+</div>
+
+<p>Чтобы <strong>преобразовать тензор размера 1 в скаляр Python</strong>, можно вызвать функцию <code>item</code> или встроенные функции Python.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">a = np.array([3.5])
+a, a.item(), float(a), int(a)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">a = torch.tensor([3.5])
+a, a.item(), float(a), int(a)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">a = tf.constant([3.5]).numpy()
+a, a.item(), float(a), int(a)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">a = paddle.to_tensor([3.5])
+a, a.item(), float(a), int(a)
+</code></pre>
+</div>
+
+</div>
+
+<h2 id="резюме"><a class="header" href="02_01_ndarray.html#резюме">Резюме</a></h2>
+<ul>
+<li>Основной интерфейс для хранения и обработки данных в глубоком обучении — тензор (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>-мерный массив). Он предоставляет множество возможностей: базовые математические операции, broadcasting, индексацию, срезы, экономию памяти и преобразование в другие объекты Python.</li>
+</ul>
+<h2 id="упражнения"><a class="header" href="02_01_ndarray.html#упражнения">Упражнения</a></h2>
+<ol>
+<li>Запустите код из этого раздела. Замените условие <code>X == Y</code> на <code>X &lt; Y</code> или <code>X &gt; Y</code> и посмотрите, какой тензор получится.</li>
+<li>Замените два тензора, над которыми выполняется поэлементная операция с broadcasting, на тензоры другой формы (например, трёхмерные). Совпадает ли результат с вашими ожиданиями?</li>
+</ol>
+<p><strong>MXNet:</strong>
+<a href="https://discuss.d2l.ai/t/1745">Обсуждение</a></p>
+<p><strong>PyTorch:</strong>
+<a href="https://discuss.d2l.ai/t/1747">Обсуждение</a></p>
+<p><strong>TensorFlow:</strong>
+<a href="https://discuss.d2l.ai/t/1746">Обсуждение</a></p>
+<p><strong>PaddlePaddle:</strong>
+<a href="https://discuss.d2l.ai/t/11680">Обсуждение</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="02_preliminaries.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="02_02_pandas.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="02_preliminaries.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="02_02_pandas.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/framework-tabs-0e82dc29.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

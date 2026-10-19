@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Обучение ИИ и МЛ — курсы и готовые материалы</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { max-width: 900px; margin: 2rem auto; padding: 0 1.2rem; line-height: 1.55;
+         color: #1c1c1e; background: #fbfbfd;
+         font-family: -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif; }
+  h1 { border-bottom: 2px solid #d0d0d5; padding-bottom: .3em; }
+  h2 { border-bottom: 1px solid #e0e0e5; padding-bottom: .25em; margin-top: 1.8em; }
+  h3 { margin-top: 1.4em; }
+  code { background: #f0f0f4; padding: .1em .35em; border-radius: 4px;
+         font-family: SFMono-Regular, Consolas, Liberation Mono, monospace; font-size: .9em; }
+  blockquote { margin: 1em 0; padding: .5em 1em; border-left: 4px solid #8ab4f8;
+               background: #f1f5fd; border-radius: 0 6px 6px 0; }
+  blockquote p { margin: .35em 0; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: .95em; }
+  th, td { border: 1px solid #d5d5da; padding: .4em .6em; text-align: left; vertical-align: top; }
+  th { background: #ececf2; }
+  hr { border: none; border-top: 1px solid #d5d5da; margin: 1.6em 0; }
+  a { color: #1a56c4; }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8ed; background: #16161a; }
+    code { background: #26262c; }
+    blockquote { background: #1d2433; border-left-color: #5b8def; }
+    th, td { border-color: #34343c; }
+    th { background: #232329; }
+    h1, h2 { border-color: #34343c; }
+    hr { border-top-color: #34343c; }
+    a { color: #8ab4f8; }
+  }
+</style>
+</head>
+<body>
+<h1>Обучение ИИ и МЛ — курсы и готовые материалы</h1>
+<p>Подборка для тех, кто <strong>уже умеет программировать</strong> и имеет <strong>инженерное образование</strong>:
+минимум «воды», максимум практики, математика даётся в объёме, необходимом инженеру.
+Охват — и общий ML/DL, и узкое направление <strong>МЛ для радио/SDR/сигналов (RFML)</strong>,
+в русле задач этого репозитория. Обновлено: 2026-10-19.</p>
+<p>Условные пометки: 🟢 бесплатно · 🟡 бесплатно с платным сертификатом/продлением · 🔵 платно.</p>
+<hr>
+
+<h2>1. Фундамент — математика для МЛ (без воды)</h2>
+<table><thead><tr><th>Ресурс</th><th>Что даёт</th><th>Ссылка</th></tr></thead><tbody>
+<tr><td>🟢 3Blue1Brown — Essence of Linear Algebra</td><td>интуиция по линейной алгебре (векторы, матрицы, базисы)</td><td><a href="https://www.3blue1brown.com/topics/linear-algebra">3blue1brown.com</a></td></tr>
+<tr><td>🟢 3Blue1Brown — Neural Networks</td><td>визуальная интуиция по градиентному спуску и backprop</td><td><a href="https://www.3blue1brown.com/topics/neural-networks">3blue1brown.com</a></td></tr>
+<tr><td>🟢 MIT 18.06 Linear Algebra (Gilbert Strang)</td><td>строгий курс линейной алгебры, классика</td><td><a href="https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/">MIT OCW</a></td></tr>
+<tr><td>🟢 Mathematics for Machine Learning (бесплатный PDF)</td><td>матрицы, производные, PCA, оптимизация — именно для МЛ</td><td><a href="https://mml-book.github.io/">mml-book.github.io</a></td></tr>
+<tr><td>🟢 Harvard STAT 110 — Introduction to Probability (J. Blitzstein)</td><td>вероятность и статистика, нужные в ML</td><td><a href="https://stat110.net/">stat110.net</a></td></tr>
+</tbody></table>
+<p>Инженеру с базой по матану/линейной алгебре достаточно пройти <strong>3Blue1Brown + книгу MML</strong> —
+этого хватает, чтобы читать формулы в статьях по ML/RFML.</p>
+<hr>
+
+<h2>2. Классический ML (база)</h2>
+<table><thead><tr><th>Ресурс</th><th>Что даёт</th><th>Ссылка</th></tr></thead><tbody>
+<tr><td>🟡 Andrew Ng — Machine Learning Specialization (Coursera, 2022)</td><td>вводный курс: регрессия, классификация, деревья, нейросети</td><td><a href="https://www.coursera.org/specializations/machine-learning-introduction">Coursera</a></td></tr>
+<tr><td>🟢 Stanford CS229 (Andrew Ng)</td><td>конспекты + лекции, более строгая математика</td><td><a href="https://cs229.stanford.edu/">cs229.stanford.edu</a></td></tr>
+<tr><td>🟢 Google — Machine Learning Crash Course</td><td>быстрый практический вход, TensorFlow</td><td><a href="https://developers.google.com/machine-learning/crash-course">developers.google.com</a></td></tr>
+<tr><td>🟢 ISLR — An Introduction to Statistical Learning (бесплатная книга)</td><td>статистический взгляд: линейные модели, регуляризация, деревья</td><td><a href="https://www.statlearning.com/">statlearning.com</a></td></tr>
+<tr><td>🔵 «Hands-On Machine Learning» — Aurélien Géron</td><td>практика на scikit-learn/Keras/TensorFlow</td><td><a href="https://github.com/ageron/handson-ml3">GitHub</a></td></tr>
+<tr><td>🟢 StatQuest (Josh Starmer, YouTube)</td><td>короткие разборы каждого алгоритма/метрики</td><td><a href="https://www.youtube.com/@statquest">YouTube</a></td></tr>
+</tbody></table>
+<hr>
+
+<h2>3. Глубокое обучение (PyTorch-ориентировано)</h2>
+<table><thead><tr><th>Ресурс</th><th>Что даёт</th><th>Ссылка</th></tr></thead><tbody>
+<tr><td>🟢 fast.ai — Practical Deep Learning for Coders</td><td>«сверху вниз»: обучение SOTA-моделей с первого урока</td><td><a href="https://course.fast.ai/">course.fast.ai</a></td></tr>
+<tr><td>🟡 Deep Learning Specialization (deeplearning.ai, Andrew Ng)</td><td>системно: NN, CNN, RNN, гиперпараметры, NLP</td><td><a href="https://www.deeplearning.ai/courses/deep-learning-specialization/">deeplearning.ai</a></td></tr>
+<tr><td>🟢 Andrej Karpathy — Neural Networks: Zero to Hero</td><td>реализация NN/backprop с нуля на PyTorch</td><td><a href="https://karpathy.ai/zero-to-hero.html">karpathy.ai</a></td></tr>
+<tr><td>🟢 Stanford CS231n — CNN for Visual Recognition</td><td>классика по свёрточным сетям</td><td><a href="https://cs231n.github.io/">cs231n.github.io</a></td></tr>
+<tr><td>🟢 Stanford CS224n — NLP with Deep Learning</td><td>трансформеры, языковые модели</td><td><a href="https://web.stanford.edu/class/cs224n/">web.stanford.edu</a></td></tr>
+<tr><td>🟢 MIT 6.S191 — Introduction to Deep Learning</td><td>сжатый обзор DL (лекции в открытом доступе)</td><td><a href="http://introtodeeplearning.com/">introtodeeplearning.com</a></td></tr>
+<tr><td>🟢 Dive into Deep Learning (d2l.ai)</td><td>книга-код: теория + реализация с нуля; рус. перевод (r007), оф. англ. PDF</td><td><a href="https://d2l.ai/">d2l.ai</a> · <a href="https://r007.github.io/AI-Robotics-Rus/dive-into-deep-learning/">рус. перевод</a></td></tr>
+<tr><td>🟢 Understanding Deep Learning — Simon J.D. Prince (бесплатная книга)</td><td>современная теория DL, отлично структурирована</td><td><a href="https://udlbook.github.io/udlbook/">udlbook.github.io</a></td></tr>
+<tr><td>🟢 Deep Learning — Goodfellow, Bengio, Courville (бесплатная книга)</td><td>канонический справочник</td><td><a href="https://www.deeplearningbook.org/">deeplearningbook.org</a></td></tr>
+<tr><td>🟢 Hugging Face — NLP Course</td><td>практика с трансформерами</td><td><a href="https://huggingface.co/learn/nlp-course">huggingface.co</a></td></tr>
+<tr><td>🟢 Full Stack Deep Learning</td><td>production-сторона: MLOps, деплой, данные</td><td><a href="https://fullstackdeeplearning.com/">fullstackdeeplearning.com</a></td></tr>
+</tbody></table>
+<blockquote><p><strong>Скачано в репозиторий</strong> (<code>download/DiveIntoDeepLearning/</code>): рус. исходники <code>ru/</code>
+(mdBook, 146 <code>.md</code>), офлайн-HTML <code>ru-html/</code> (готовый сайт, читается в браузере),
+англ. PDF <code>d2l-en.pdf</code>. Официальной русской версии на <code>ru.d2l.ai</code> больше нет —
+актуальный русский перевод: <a href="https://r007.github.io/AI-Robotics-Rus/dive-into-deep-learning/">r007.github.io/AI-Robotics-Rus/dive-into-deep-learning/</a>.</p></blockquote>
+<hr>
+
+<h2>4. Русскоязычные курсы и материалы</h2>
+<table><thead><tr><th>Ресурс</th><th>Что даёт</th><th>Ссылка</th></tr></thead><tbody>
+<tr><td>🟢 mlcourse.ai (OpenDataScience)</td><td>открытый курс ML на Python, с соревнованиями</td><td><a href="https://mlcourse.ai/">mlcourse.ai</a></td></tr>
+<tr><td>🟢 Хендбук по машинному обучению (Яндекс)</td><td>справочник-учебник по ML/DL</td><td><a href="https://academy.yandex.ru/handbook/ml">academy.yandex.ru</a></td></tr>
+<tr><td>🟢 Курс К.В. Воронцова (ШАД/МФТИ)</td><td>математически строгий курс машинного обучения</td><td><a href="http://www.machinelearning.ru/">machinelearning.ru</a></td></tr>
+<tr><td>🟢 ШАД — открытые лекции (YouTube: yandexdataschool)</td><td>записи курсов по ML/DL/RL</td><td><a href="https://www.youtube.com/c/yandexdataschool">YouTube</a></td></tr>
+<tr><td>🟢 Deep Learning School (ФПМИ МФТИ)</td><td>бесплатные семестровые курсы по DL</td><td><a href="https://dls.samcs.ru/">dls.samcs.ru</a></td></tr>
+<tr><td>🟡 Coursera: «Машинное обучение и анализ данных» (МФТИ + Яндекс)</td><td>структурированная русскоязычная специализация</td><td><a href="https://www.coursera.org/specializations/machine-learning-data-analysis">Coursera</a></td></tr>
+<tr><td>🟢 Stepik — «Введение в Data Science и машинное обучение»</td><td>лёгкий вход на русском</td><td><a href="https://stepik.org/course/4852">stepik.org</a></td></tr>
+</tbody></table>
+<hr>
+
+<h2>5. МЛ для радио / SDR / сигналов (RFML)</h2>
+<p>Специфика направления: входные данные — IQ-потоки и спектрограммы, а не картинки/текст;
+нужна связка DSP + ML.</p>
+<table><thead><tr><th>Ресурс</th><th>Что даёт</th><th>Ссылка</th></tr></thead><tbody>
+<tr><td>🟢 PySDR — A Guide to SDR and DSP using Python</td><td>база SDR/цифровой обработки сигналов на Python</td><td><a href="https://pysdr.org/">pysdr.org</a></td></tr>
+<tr><td>🟢 GNU Radio — Tutorials</td><td>классическая среда SDR, бесплатные уроки</td><td><a href="https://wiki.gnuradio.org/index.php/Tutorials">wiki.gnuradio.org</a></td></tr>
+<tr><td>🟢 TorchSig (DeepSig)</td><td>открытый тулкит RFML: модели, датасеты, аугментация сигналов</td><td><a href="https://torchsig.com/">torchsig.com</a> · <a href="https://github.com/torchsig/torchsig">GitHub</a></td></tr>
+<tr><td>🟢 RadioML 2016.10a / 2018.01a (DeepSig)</td><td>эталонные датасеты модуляций для классификации сигналов</td><td><a href="https://www.deepsig.ai/datasets/">deepsig.ai</a></td></tr>
+<tr><td>🟢 Sionna (NVIDIA)</td><td>библиотека link-level моделирования для ML в беспроводных системах</td><td><a href="https://nvlabs.github.io/sionna/">nvlabs.github.io</a></td></tr>
+<tr><td>🟢 torchaudio (PyTorch)</td><td>мост audio↔RF: спектрограммы, аугментация, классификация</td><td><a href="https://pytorch.org/audio/">pytorch.org</a></td></tr>
+<tr><td>🟢 O'Shea &amp; Hoydis — «An Introduction to Deep Learning for the Physical Layer»</td><td>вводная статья DL для радиоканала</td><td><a href="https://arxiv.org/abs/1702.00832">arXiv:1702.00832</a></td></tr>
+<tr><td>🟢 DeepSig — публикации и блог по RFML</td><td>обзоры и результаты по классификации сигналов</td><td><a href="https://www.deepsig.ai/">deepsig.ai</a></td></tr>
+<tr><td>🟢 Обзор «AI in Software-Defined Radio: A Survey» (IEEE Access, 2026)</td><td>уже в репозитории, переведён</td><td><code>translate/переводы2005/Artificial_Intelligence_in_SDR_A_Survey_ru.docx</code></td></tr>
+</tbody></table>
+<blockquote><p><strong>Связка с репозиторием:</strong> разборы готовых RFML-работ (ResNet/ViT/Swin по RFUAV,
+YOLO-детекторы по спектрограммам, contrastive learning) — см. <code>ANALYSIS.md</code> и
+каталоги <code>download/</code> (RFUAV, CageDroneRF, Multi-Scenario UAV RF Dataset).</p></blockquote>
+<hr>
+
+<h2>6. Практика и комьюнити</h2>
+<table><thead><tr><th>Ресурс</th><th>Что даёт</th><th>Ссылка</th></tr></thead><tbody>
+<tr><td>🟢 Kaggle</td><td>соревнования, ноутбуки, датасеты</td><td><a href="https://www.kaggle.com/">kaggle.com</a></td></tr>
+<tr><td>🟢 Papers With Code</td><td>статьи + реализация по любой задаче</td><td><a href="https://paperswithcode.com/">paperswithcode.com</a></td></tr>
+<tr><td>🟢 PyTorch Tutorials</td><td>официальные уроки и рецепты</td><td><a href="https://pytorch.org/tutorials/">pytorch.org</a></td></tr>
+<tr><td>🟢 scikit-learn</td><td>библиотека классического ML + документация</td><td><a href="https://scikit-learn.org/">scikit-learn.org</a></td></tr>
+<tr><td>🟢 Hugging Face</td><td>хабы моделей и датасетов</td><td><a href="https://huggingface.co/">huggingface.co</a></td></tr>
+<tr><td>🟢 Made With ML</td><td>«ML в production» от идеи до деплоя</td><td><a href="https://madewithml.com/">madewithml.com</a></td></tr>
+</tbody></table>
+<hr>
+
+<h2>Рекомендуемый маршрут (2 трека)</h2>
+<h3>Трек A — общий ML/DL (2–3 месяца)</h3>
+<ol>
+<li>3Blue1Brown (линал + нейросети) → книга Mathematics for ML — 1–2 недели.</li>
+<li>Andrew Ng ML Specialization <strong>или</strong> Google ML Crash Course — 3–4 недели.</li>
+<li>fast.ai Part 1 <strong>или</strong> Karpathy Zero-to-Hero — практика на PyTorch — 4–6 недель.</li>
+<li>Dive into Deep Learning (d2l.ai) как справочник + Kaggle для закрепления.</li>
+</ol>
+<h3>Трек B — RFML для SDR (после/параллельно с A)</h3>
+<ol>
+<li>PySDR + GNU Radio Tutorials — база DSP/SDR.</li>
+<li>O'Shea &amp; Hoydis (статья) — как DL применяется к физическому уровню.</li>
+<li>TorchSig + RadioML 2018.01a — классификация модуляций из коробки.</li>
+<li>Разбор датасетов этого репозитория (RFUAV/CageDroneRF) и переводов в <code>translate/</code>.</li>
+</ol>
+<p><strong>Если нужно быстро на практике:</strong> fast.ai (трек A) → PySDR + TorchSig (трек B).</p>
+</body>
+</html>

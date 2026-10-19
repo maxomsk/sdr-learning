@@ -1,0 +1,783 @@
+<!DOCTYPE HTML>
+<html lang="ru" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>5.6 Графические процессоры (GPU) - Погружение в глубокое обучение</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Русскоязычное издание учебника «Dive into Deep Learning» (动手学深度学习) с кодом на Python. Переведены главы 1 «Введение», 2 «Предварительные знания», 3 «Линейные нейронные сети», 4 «Многослойные перцептроны», 5 «Вычисления глубокого обучения», 6 «Свёрточные нейронные сети», 7 «Современные свёрточные нейронные сети», 8 «Рекуррентные нейронные сети», 9 «Современные рекуррентные нейронные сети», 10 «Механизмы внимания», 11 «Алгоритмы оптимизации», 12 «Вычислительная производительность», 13 «Компьютерное зрение», 14 «Обработка естественного языка: предобучение» и 15 «Обработка естественного языка: приложения»; предисловие, приложение и список литературы переведены.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/framework-tabs-7543ad04.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-e2003210.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-1598951f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Погружение в глубокое обучение</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus/edit/main/books/dive-into-deep-learning/src/src/05_06_use_gpu.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="56-графические-процессоры-gpu"><a class="header" href="05_06_use_gpu.html#56-графические-процессоры-gpu">5.6 Графические процессоры (GPU)</a></h1>
+<p>В таблице 1.1 мы рассмотрели быстрый рост вычислительной мощности за последние 20 лет.
+Вкратце: с 2000 года производительность GPU возрастает в 1000 раз каждые десять лет.</p>
+<p>В этом разделе мы обсудим, как использовать эту вычислительную мощность в исследованиях.
+Сначала рассмотрим работу с одним GPU, а затем — работу с несколькими GPU и с несколькими серверами (каждый из которых имеет несколько GPU).</p>
+<p>Сначала рассмотрим, как использовать один GPU NVIDIA для вычислений.
+Прежде всего убедитесь, что установлен как минимум один GPU NVIDIA.
+Затем загрузите <a href="https://developer.nvidia.com/cuda-downloads">драйвер NVIDIA и CUDA</a>
+и следуйте инструкциям по настройке нужных путей.
+Когда эти подготовительные шаги выполнены, можно использовать команду <code>nvidia-smi</code>, чтобы <strong>посмотреть информацию о видеокарте.</strong></p>
+<pre><code class="language-python">!nvidia-smi
+</code></pre>
+<p><strong>MXNet:</strong> Читатель, возможно, заметил, что тензоры MXNet почти совпадают с <code>ndarray</code> NumPy.
+Но есть и важные отличия, одно из которых — MXNet поддерживает разные аппаратные устройства.</p>
+<p>В MXNet у каждого массива есть контекст (context).
+По умолчанию все переменные и связанные с ними вычисления выделяются процессору CPU.
+Иногда контекстом может быть GPU.
+Когда мы распределяем задачи по нескольким серверам, всё становится сложнее.
+Разумно сопоставляя массивы с контекстами, можно минимизировать время передачи данных между устройствами.
+Например, при обучении нейронной сети на сервере с GPU мы обычно хотим, чтобы параметры модели находились на GPU.</p>
+<p>Далее нужно убедиться, что установлена версия MXNet с поддержкой GPU.
+Если установлена версия MXNet для CPU, её сначала нужно удалить.
+Например, командой <code>pip uninstall mxnet</code>, а затем установить версию MXNet с поддержкой GPU, соответствующую версии CUDA.
+Например, если установлена CUDA 10.0, можно установить MXNet для CUDA 10.0 командой <code>pip install mxnet-cu100</code>.</p>
+<p><strong>PyTorch:</strong> В PyTorch у каждого массива есть устройство (device), которое обычно называют контекстом (context).
+По умолчанию все переменные и связанные с ними вычисления выделяются CPU.
+Иногда контекстом может быть GPU.
+Когда мы распределяем задачи по нескольким серверам, всё становится сложнее.
+Разумно сопоставляя массивы с контекстами, можно минимизировать время передачи данных между устройствами.
+Например, при обучении нейронной сети на сервере с GPU мы обычно хотим, чтобы параметры модели находились на GPU.</p>
+<p><strong>PaddlePaddle:</strong> В PaddlePaddle у каждого тензора есть устройство (device), которое обычно называют контекстом (context).
+По умолчанию все переменные и связанные с ними вычисления выделяются CPU.
+Иногда контекстом может быть GPU.
+Когда мы распределяем задачи по нескольким серверам, всё становится сложнее.
+Разумно сопоставляя массивы с контекстами, можно минимизировать время передачи данных между устройствами.
+Например, при обучении нейронной сети на сервере с GPU мы обычно хотим, чтобы параметры модели находились на GPU.</p>
+<p>Далее нужно убедиться, что установлена версия PaddlePaddle с поддержкой GPU.
+Если установлена версия PaddlePaddle для CPU, её сначала нужно удалить.
+Затем установите версию PaddlePaddle с поддержкой GPU, соответствующую вашей версии CUDA.
+Например, если у вас установлена CUDA 10.1, можно установить PaddlePaddle для CUDA 10.1 командой
+<code>conda install paddlepaddle-gpu==2.2.2 cudatoolkit=10.1 --channel https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/Paddle/</code>.</p>
+<p>Чтобы выполнить программы из этого раздела, нужно как минимум два GPU.
+Заметим, что для большинства настольных компьютеров это может быть роскошью, но в облаке такие ресурсы легко получить.
+Например, можно использовать многопроцессорные экземпляры AWS EC2 с несколькими GPU.
+Остальные главы книги в основном не требуют нескольких GPU,
+а этот раздел лишь показывает, как данные передаются между разными устройствами.</p>
+<h2 id="561-вычислительные-устройства"><a class="header" href="05_06_use_gpu.html#561-вычислительные-устройства">5.6.1 Вычислительные устройства</a></h2>
+<p>Мы можем указать устройства, которые используются для хранения и вычислений, например CPU или GPU.
+По умолчанию тензоры создаются в оперативной памяти, а затем вычисляются на CPU.</p>
+<p><strong>MXNet:</strong> В MXNet CPU и GPU обозначаются как <code>cpu()</code> и <code>gpu()</code>.
+Важно понимать, что <code>cpu()</code> (или любое целое число в скобках) обозначает все физические CPU и память,
+то есть вычисления MXNet будут пытаться использовать все ядра CPU.
+Однако <code>gpu()</code> представляет только одну карту и соответствующую видеопамять.
+Если GPU несколько, для обозначения i-го GPU (i начинается с 0) используется <code>gpu(i)</code>.
+Кроме того, <code>gpu(0)</code> и <code>gpu()</code> эквивалентны.</p>
+<p><strong>PyTorch:</strong> В PyTorch CPU и GPU обозначаются как <code>torch.device('cpu')</code> и <code>torch.device('cuda')</code>.
+Важно понимать, что устройство <code>cpu</code> означает все физические CPU и память,
+то есть вычисления PyTorch будут пытаться использовать все ядра CPU.
+Однако устройство <code>gpu</code> представляет только одну карту и соответствующую видеопамять.
+Если GPU несколько, для обозначения i-го GPU (i начинается с 0) используется <code>torch.device(f'cuda:{i}')</code>.
+Кроме того, <code>cuda:0</code> и <code>cuda</code> эквивалентны.</p>
+<p><strong>PaddlePaddle:</strong> В PaddlePaddle CPU и GPU обозначаются как <code>paddle.device.set_device('cpu')</code> и <code>paddle.device.set_device('gpu')</code>.
+Важно понимать, что устройство <code>cpu</code> означает все физические CPU и память,
+то есть вычисления PaddlePaddle будут пытаться использовать все ядра CPU.
+Однако устройство <code>gpu</code> представляет только одну карту и соответствующую видеопамять.
+Если GPU несколько, используется <code>paddle.device.get_device()</code>, где выведенное число — это номер карты
+(например, <code>gpu:3</code> означает карту 3; учтите, что нумерация GPU начинается с 0).
+Кроме того, <code>gpu:0</code> и <code>gpu</code> эквивалентны.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">from mxnet import np, npx
+from mxnet.gluon import nn
+npx.set_np()
+
+npx.cpu(), npx.gpu(), npx.gpu(1)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">import torch
+from torch import nn
+
+torch.device('cpu'), torch.device('cuda'), torch.device('cuda:1')
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">import tensorflow as tf
+
+tf.device('/CPU:0'), tf.device('/GPU:0'), tf.device('/GPU:1')
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">import paddle
+from paddle import nn
+
+paddle.device.set_device("cpu"), paddle.CUDAPlace(0), paddle.CUDAPlace(1)
+</code></pre>
+</div>
+
+</div>
+
+<p>Мы можем <strong>узнать количество доступных GPU.</strong></p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">npx.num_gpus()
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">torch.cuda.device_count()
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">len(tf.config.experimental.list_physical_devices('GPU'))
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">paddle.device.cuda.device_count()
+</code></pre>
+</div>
+
+</div>
+
+<p>Теперь определим две удобные функции,
+<strong>которые позволяют запускать код даже при отсутствии всех нужных GPU.</strong></p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">def try_gpu(i=0):  #@save
+    """Если существует, возвращает gpu(i), иначе cpu()"""
+    return npx.gpu(i) if npx.num_gpus() &gt;= i + 1 else npx.cpu()
+
+def try_all_gpus():  #@save
+    """Возвращает все доступные GPU; если GPU нет, возвращает [cpu()]"""
+    devices = [npx.gpu(i) for i in range(npx.num_gpus())]
+    return devices if devices else [npx.cpu()]
+
+try_gpu(), try_gpu(10), try_all_gpus()
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">def try_gpu(i=0):  #@save
+    """Если существует, возвращает gpu(i), иначе cpu()"""
+    if torch.cuda.device_count() &gt;= i + 1:
+        return torch.device(f'cuda:{i}')
+    return torch.device('cpu')
+
+def try_all_gpus():  #@save
+    """Возвращает все доступные GPU; если GPU нет, возвращает [cpu(),]"""
+    devices = [torch.device(f'cuda:{i}')
+             for i in range(torch.cuda.device_count())]
+    return devices if devices else [torch.device('cpu')]
+
+try_gpu(), try_gpu(10), try_all_gpus()
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">def try_gpu(i=0):  #@save
+    """Если существует, возвращает gpu(i), иначе cpu()"""
+    if len(tf.config.experimental.list_physical_devices('GPU')) &gt;= i + 1:
+        return tf.device(f'/GPU:{i}')
+    return tf.device('/CPU:0')
+
+def try_all_gpus():  #@save
+    """Возвращает все доступные GPU; если GPU нет, возвращает [cpu(),]"""
+    num_gpus = len(tf.config.experimental.list_physical_devices('GPU'))
+    devices = [tf.device(f'/GPU:{i}') for i in range(num_gpus)]
+    return devices if devices else [tf.device('/CPU:0')]
+
+try_gpu(), try_gpu(10), try_all_gpus()
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">#@save
+def try_gpu(i=0):  
+    """Если существует, возвращает gpu(i), иначе cpu()."""
+    if paddle.device.cuda.device_count() &gt;= i + 1:
+        return paddle.CUDAPlace(i)
+    return paddle.CPUPlace()
+
+#@save
+def try_all_gpus():  
+    """Возвращает все доступные GPU; если GPU нет, возвращает [cpu(),]."""
+    devices = [paddle.CUDAPlace(i)
+               for i in range(paddle.device.cuda.device_count())]
+    return devices if devices else paddle.CPUPlace()
+
+try_gpu(),try_gpu(10),try_all_gpus()
+</code></pre>
+</div>
+
+</div>
+
+<h2 id="562-тензоры-и-gpu"><a class="header" href="05_06_use_gpu.html#562-тензоры-и-gpu">5.6.2 Тензоры и GPU</a></h2>
+<p>Мы можем <strong>определить, на каком устройстве находится тензор.</strong>
+По умолчанию тензоры создаются на CPU.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">x = np.array([1, 2, 3])
+x.ctx
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">x = torch.tensor([1, 2, 3])
+x.device
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">x = tf.constant([1, 2, 3])
+x.device
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">x = paddle.to_tensor([1, 2, 3])
+x.place
+</code></pre>
+</div>
+
+</div>
+
+<p>Важно помнить, что когда мы выполняем операции над несколькими объектами, они должны находиться на одном и том же устройстве.
+Например, если мы складываем два тензора, нужно убедиться, что оба тензора находятся на одном устройстве.
+В противном случае фреймворк не будет знать, где сохранить результат и даже где выполнить вычисления.</p>
+<h3 id="5621-хранение-на-gpu"><a class="header" href="05_06_use_gpu.html#5621-хранение-на-gpu">5.6.2.1 Хранение на GPU</a></h3>
+<p>Есть несколько способов хранить тензоры на GPU.
+Например, мы можем указать устройство хранения при создании тензора.
+Далее мы создаём тензорную переменную <code>X</code> на первом <code>gpu</code>.
+Тензор, созданный на GPU, занимает видеопамять только этого GPU.
+Использование памяти можно посмотреть командой <code>nvidia-smi</code>.
+В общем случае нужно следить за тем, чтобы не создавать данные, которые превышают объём видеопамяти GPU.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">X = np.ones((2, 3), ctx=try_gpu())
+X
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">X = torch.ones(2, 3, device=try_gpu())
+X
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">with try_gpu():
+    X = tf.ones((2, 3))
+X
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">X = paddle.to_tensor(paddle.ones(shape=[2, 3]), place=try_gpu())
+X
+</code></pre>
+</div>
+
+</div>
+
+<p>Предположим, что у нас есть как минимум два GPU. Тогда следующий код <strong>создаст случайный тензор на втором GPU.</strong></p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">Y = np.random.uniform(size=(2, 3), ctx=try_gpu(1))
+Y
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">Y = torch.rand(2, 3, device=try_gpu(1))
+Y
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">with try_gpu(1):
+    Y = tf.random.uniform((2, 3))
+Y
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">Y = paddle.to_tensor(paddle.rand([2, 3]), place=try_gpu(1))
+Y
+</code></pre>
+</div>
+
+</div>
+
+<h3 id="5622-копирование"><a class="header" href="05_06_use_gpu.html#5622-копирование">5.6.2.2 Копирование</a></h3>
+<p>Если мы <strong>хотим вычислить <code>X + Y</code>, нужно решить, где выполнить эту операцию.</strong>
+Например, как показано на рис. 5.6.1, мы можем передать <code>X</code> на второй GPU и выполнить операцию там.
+<em>Не</em> нужно просто складывать <code>X</code> и <code>Y</code>, так как это приведёт к исключению:
+среда выполнения не знает, что делать, и не может найти данные на одном устройстве.
+Поскольку <code>Y</code> находится на втором GPU, нам нужно сначала переместить туда <code>X</code>, и только затем выполнить сложение.</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="images/copyto.svg" alt="Копирование данных для выполнения операций на одном устройстве"><span class="img-wrapper"><img src="images/copyto.svg" alt="Копирование данных для выполнения операций на одном устройстве"></span></label></p>
+<p><strong>Рис. 5.6.1.</strong> Копирование данных для выполнения операций на одном устройстве</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">Z = X.copyto(try_gpu(1))
+print(X)
+print(Z)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch PaddlePaddle">
+<p class="fw-label"><strong>PyTorch, PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">Z = X.cuda(1)
+print(X)
+print(Z)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">with try_gpu(1):
+    Z = X
+print(X)
+print(Z)
+</code></pre>
+</div>
+
+</div>
+
+<p>Теперь данные находятся на одном GPU (<code>Z</code> и <code>Y</code> находятся на нём), и мы можем <strong>их сложить.</strong></p>
+<pre><code class="language-python">Y + Z
+</code></pre>
+<p><strong>MXNet:</strong> Предположим, что переменная <code>Z</code> уже находится на втором GPU.
+Если теперь вызвать <code>Z.copyto(gpu(1))</code>, что произойдёт?
+Даже если переменная уже находится на целевом устройстве (втором GPU), она всё равно будет скопирована и сохранена в новом выделенном участке видеопамяти.
+Иногда мы хотим копировать переменную, только если она находится на другом устройстве.
+В таком случае можно вызвать <code>as_in_ctx</code>.
+Если переменная уже находится на указанном устройстве, эта функция ничего не делает.
+Выбирайте <code>as_in_ctx</code>, если только вам специально не нужна копия.</p>
+<p><strong>PyTorch:</strong> Предположим, что переменная <code>Z</code> уже находится на втором GPU.
+Если мы всё равно вызовем <code>Z.cuda(1)</code>, что произойдёт?
+Она вернёт <code>Z</code>, не копируя данные и не выделяя новую память.</p>
+<p><strong>TensorFlow:</strong> Предположим, что переменная <code>Z</code> уже находится на втором GPU.
+Если мы по-прежнему вызовем <code>Z2 = Z</code> в той же области устройства, что произойдёт?
+Она вернёт <code>Z</code>, не копируя данные и не выделяя новую память.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">Z.as_in_ctx(try_gpu(1)) is Z
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch PaddlePaddle">
+<p class="fw-label"><strong>PyTorch, PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">Z.cuda(1) is Z
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">with try_gpu(1):
+    Z2 = Z
+Z2 is Z
+</code></pre>
+</div>
+
+</div>
+
+<h3 id="5623-дополнительные-замечания"><a class="header" href="05_06_use_gpu.html#5623-дополнительные-замечания">5.6.2.3 Дополнительные замечания</a></h3>
+<p>GPU используют для машинного обучения, поскольку отдельный GPU работает сравнительно быстро.
+Однако передача данных между устройствами (CPU, GPU и другими машинами) занимает гораздо больше времени, чем вычисления.
+Это также усложняет распараллеливание, потому что приходится ждать, пока данные будут отправлены (или получены),
+прежде чем выполнять дальнейшие операции.
+Поэтому операции копирования требуют особой осторожности.
+Как правило, много мелких операций гораздо хуже одной крупной.
+Кроме того, выполнять несколько операций за раз лучше, чем множество отдельных операций, разбросанных по коду.
+Если одно устройство должно ждать другое, чтобы выполнить следующую операцию, такая операция может блокироваться.
+Это немного похоже на заказ кофе стоя в очереди — в отличие от предварительного заказа по телефону,
+когда к приходу гостя в кафе кофе уже готов.</p>
+<p>Наконец, когда мы выводим тензор или преобразуем его в формат NumPy, а данных в оперативной памяти нет,
+фреймворк сначала копирует их в память, что создаёт дополнительные накладные расходы на передачу.
+Хуже того, такие операции подчиняются глобальной блокировке интерпретатора, и всё вынуждено ждать, пока Python завершит работу.</p>
+<h2 id="563-нейронные-сети-и-gpu"><a class="header" href="05_06_use_gpu.html#563-нейронные-сети-и-gpu">5.6.3 Нейронные сети и GPU</a></h2>
+<p>Аналогично нейронные сети тоже могут задавать устройство.
+Приведённый ниже код размещает параметры модели на GPU.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">net = nn.Sequential()
+net.add(nn.Dense(1))
+net.initialize(ctx=try_gpu())
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">net = nn.Sequential(nn.Linear(3, 1))
+net = net.to(device=try_gpu())
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">strategy = tf.distribute.MirroredStrategy()
+with strategy.scope():
+    net = tf.keras.models.Sequential([
+        tf.keras.layers.Dense(1)])
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">net = nn.Sequential(nn.Linear(3, 1))
+net=net.to(try_gpu())
+</code></pre>
+</div>
+
+</div>
+
+<p>В следующих главах мы увидим больше примеров запуска моделей на GPU,
+так как вычисления там станут более ресурсоёмкими.</p>
+<p>Когда входные данные являются тензорами на GPU, модель будет вычислять результат на том же GPU.</p>
+<pre><code class="language-python">net(X)
+</code></pre>
+<p>Убедимся, что <strong>параметры модели хранятся на том же GPU.</strong></p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">net[0].weight.data().ctx
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">net[0].weight.data.device
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">net.layers[0].weights[0].device, net.layers[0].weights[1].device
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">net[0].weight.place
+</code></pre>
+</div>
+
+</div>
+
+<p>Итак, пока все данные и параметры находятся на одном устройстве, мы можем эффективно обучать модель.
+В следующих разделах мы увидим несколько таких примеров.</p>
+<h2 id="резюме"><a class="header" href="05_06_use_gpu.html#резюме">Резюме</a></h2>
+<ul>
+<li>Можно указать устройство для хранения и вычислений, например CPU или GPU. По умолчанию данные создаются в основной памяти, а затем вычисляются на CPU.</li>
+<li>Фреймворки глубокого обучения требуют, чтобы все входные данные для вычислений находились на одном устройстве, будь то CPU или GPU.</li>
+<li>Неосторожное перемещение данных может значительно снизить производительность. Типичная ошибка выглядит так: вычисляется потеря на GPU для каждого минибатча, а затем она выводится пользователю в командной строке (или записывается в <code>ndarray</code> NumPy). Это вызывает глобальную блокировку интерпретатора и блокирует все GPU. Лучше выделить память на GPU под журнал и переносить только крупные порции данных.</li>
+</ul>
+<h2 id="упражнения"><a class="header" href="05_06_use_gpu.html#упражнения">Упражнения</a></h2>
+<ol>
+<li>Попробуйте более ресурсоёмкую задачу, например перемножение больших матриц, и сравните скорость CPU и GPU. А что получится для задачи с небольшим объёмом вычислений?</li>
+<li>Как нам читать и записывать параметры модели на GPU?</li>
+<li>Замерьте время, необходимое для перемножения 1000 матриц размера <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">100</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">100</span></span></span></span>, и запишите норму Фробениуса выходной матрицы после каждого результата, а не сохраняйте журнал на GPU и не передавайте только итоговый результат.</li>
+<li>Замерьте время одновременного выполнения двух умножений матриц на двух GPU и последовательного выполнения тех же двух умножений на одном GPU. Подсказка: должно получиться почти линейное масштабирование.</li>
+</ol>
+<p><strong>MXNet:</strong>
+<a href="https://discuss.d2l.ai/t/1843">Обсуждение</a></p>
+<p><strong>PyTorch:</strong>
+<a href="https://discuss.d2l.ai/t/1841">Обсуждение</a></p>
+<p><strong>TensorFlow:</strong>
+<a href="https://discuss.d2l.ai/t/1842">Обсуждение</a></p>
+<p><strong>PaddlePaddle:</strong>
+<a href="https://discuss.d2l.ai/t/11782">Обсуждение</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="05_05_read_write.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="06_convolutional_neural_networks.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="05_05_read_write.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="06_convolutional_neural_networks.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/framework-tabs-0e82dc29.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

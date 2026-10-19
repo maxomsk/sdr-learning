@@ -1,0 +1,649 @@
+<!DOCTYPE HTML>
+<html lang="ru" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>3.3 Линейная регрессия: краткая реализация - Погружение в глубокое обучение</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Русскоязычное издание учебника «Dive into Deep Learning» (动手学深度学习) с кодом на Python. Переведены главы 1 «Введение», 2 «Предварительные знания», 3 «Линейные нейронные сети», 4 «Многослойные перцептроны», 5 «Вычисления глубокого обучения», 6 «Свёрточные нейронные сети», 7 «Современные свёрточные нейронные сети», 8 «Рекуррентные нейронные сети», 9 «Современные рекуррентные нейронные сети», 10 «Механизмы внимания», 11 «Алгоритмы оптимизации», 12 «Вычислительная производительность», 13 «Компьютерное зрение», 14 «Обработка естественного языка: предобучение» и 15 «Обработка естественного языка: приложения»; предисловие, приложение и список литературы переведены.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/framework-tabs-7543ad04.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-e2003210.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-1598951f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Погружение в глубокое обучение</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus/edit/main/books/dive-into-deep-learning/src/src/03_03_linear_regression_concise.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="33-линейная-регрессия-краткая-реализация"><a class="header" href="03_03_linear_regression_concise.html#33-линейная-регрессия-краткая-реализация">3.3 Линейная регрессия: краткая реализация</a></h1>
+<p>За последние годы благодаря большому интересу к глубокому обучению многие компании, учёные и энтузиасты создали множество зрелых открытых фреймворков.
+Эти фреймворки автоматизируют повторяющуюся работу, которая встречается во всех алгоритмах обучения на основе градиентов.
+В разделе 3.2 мы использовали только две возможности:
+(1) хранение данных и линейную алгебру с помощью тензоров;
+(2) вычисление градиентов с помощью автоматического дифференцирования.
+На практике же итераторы данных, функции потерь, оптимизаторы и слои нейронных сетей встречаются так часто, что современные библиотеки глубокого обучения уже реализуют все эти компоненты.</p>
+<p>В этом разделе мы покажем, как <strong>с помощью фреймворка глубокого обучения кратко реализовать</strong> линейную регрессию из раздела 3.2.</p>
+<h2 id="331-генерация-набора-данных"><a class="header" href="03_03_linear_regression_concise.html#331-генерация-набора-данных">3.3.1 Генерация набора данных</a></h2>
+<p>Как и в разделе 3.2, сначала <strong>сгенерируем набор данных</strong>.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">from d2l import mxnet as d2l
+from mxnet import autograd, gluon, np, npx
+npx.set_np()
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">from d2l import torch as d2l
+import numpy as np
+import torch
+from torch.utils import data
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">from d2l import tensorflow as d2l
+import numpy as np
+import tensorflow as tf
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">from d2l import paddle as d2l
+import warnings
+warnings.filterwarnings("ignore")
+import numpy as np
+import paddle
+</code></pre>
+<pre><code class="language-python">true_w = d2l.tensor([2, -3.4])
+true_b = 4.2
+features, labels = d2l.synthetic_data(true_w, true_b, 1000)
+</code></pre>
+</div>
+
+</div>
+
+<h2 id="332-чтение-набора-данных"><a class="header" href="03_03_linear_regression_concise.html#332-чтение-набора-данных">3.3.2 Чтение набора данных</a></h2>
+<p>Вместо того чтобы писать итератор самостоятельно, мы можем <strong>вызвать готовый API фреймворка для чтения данных</strong>.
+Передадим в API массивы <code>features</code> и <code>labels</code>, а размер батча задаём через итератор данных.
+Булев параметр <code>is_train</code> определяет, нужно ли итератору перемешивать данные на каждой эпохе.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">def load_array(data_arrays, batch_size, is_train=True):  #@save
+    """Построение итератора данных Gluon"""
+    dataset = gluon.data.ArrayDataset(*data_arrays)
+    return gluon.data.DataLoader(dataset, batch_size, shuffle=is_train)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">def load_array(data_arrays, batch_size, is_train=True):  #@save
+    """Построение итератора данных PyTorch"""
+    dataset = data.TensorDataset(*data_arrays)
+    return data.DataLoader(dataset, batch_size, shuffle=is_train)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">def load_array(data_arrays, batch_size, is_train=True):  #@save
+    """Построение итератора данных TensorFlow"""
+    dataset = tf.data.Dataset.from_tensor_slices(data_arrays)
+    if is_train:
+        dataset = dataset.shuffle(buffer_size=1000)
+    dataset = dataset.batch(batch_size)
+    return dataset
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">#@save
+def load_array(data_arrays, batch_size, is_train=True):
+    """Построение итератора данных Paddle"""
+    dataset = paddle.io.TensorDataset(data_arrays)
+    return paddle.io.DataLoader(dataset, batch_size=batch_size,
+                                shuffle=is_train,
+                                return_list=True)
+</code></pre>
+<pre><code class="language-python">batch_size = 10
+data_iter = load_array((features, labels), batch_size)
+</code></pre>
+</div>
+
+</div>
+
+<p>Использовать <code>data_iter</code> мы будем так же, как функцию <code>data_iter</code> в разделе 3.2.
+Чтобы проверить, что всё работает, прочитаем и выведем первый минибатч.
+В отличие от раздела 3.2, здесь мы создаём итератор Python с помощью <code>iter</code> и получаем из него первый элемент с помощью <code>next</code>.</p>
+<pre><code class="language-python">next(iter(data_iter))
+</code></pre>
+<h2 id="333-определение-модели"><a class="header" href="03_03_linear_regression_concise.html#333-определение-модели">3.3.3 Определение модели</a></h2>
+<p>В разделе 3.2 мы явно задавали параметры модели и писали вычисления через базовые операции линейной алгебры.
+Но когда модели становятся сложнее, а строить их приходится почти каждый день, хочется упростить эту работу.
+Это похоже на создание страницы блога с нуля: один раз это полезно, но если на каждый новый блог инженеру приходится тратить месяц, это неэффективно.</p>
+<p>Для стандартных моделей глубокого обучения можно <strong>использовать готовые слои фреймворка</strong>.
+Тогда остаётся только выбрать, из каких слоёв строить модель, и не нужно заботиться о деталях их реализации.
+Сначала определим переменную модели <code>net</code> — экземпляр класса <code>Sequential</code>.
+Класс <code>Sequential</code> соединяет слои последовательно: при подаче входных данных <code>Sequential</code> передаёт их первому слою, затем выход первого слоя становится входом второго, и так далее.
+В примере ниже модель состоит из одного слоя, поэтому <code>Sequential</code> здесь формально не нужен.
+Но почти все следующие модели будут многослойными, и уже сейчас стоит познакомиться со «стандартным конвейером».</p>
+<p>Вспомним однослойную сеть с рис. 3.1.2.
+Этот слой называется <em>полносвязным</em> (fully-connected layer), потому что каждый его вход через матрично-векторное умножение связан с каждым выходом.</p>
+<p><strong>MXNet:</strong> в Gluon полносвязный слой определяется классом <code>Dense</code>.
+Поскольку нам нужен только один скалярный выход, число выходов задаём равным 1.</p>
+<p>Для удобства Gluon не требует указывать размерность входа для каждого слоя.
+Поэтому здесь не нужно говорить, сколько входов поступает в слой.
+Когда мы впервые передаём данные в модель, например при вызове <code>net(X)</code>, Gluon сам определяет размерности входов каждого слоя.
+Подробнее этот механизм будет описан ниже в этом разделе.</p>
+<p><strong>PyTorch:</strong> в PyTorch полносвязный слой определяется классом <code>Linear</code>.
+Обратите внимание, что в <code>nn.Linear</code> передаются два аргумента.
+Первый задаёт размерность входных признаков (2), второй — размерность выходных признаков, которая равна 1, так как выход — один скаляр.</p>
+<p><strong>TensorFlow:</strong> в Keras полносвязный слой определяется классом <code>Dense</code>.
+Поскольку нам нужен только один скалярный выход, число выходов задаём равным 1.</p>
+<p>Для удобства Keras не требует указывать размерность входа для каждого слоя.
+Поэтому здесь не нужно говорить, сколько входов поступает в слой.
+Когда мы впервые передаём данные в модель, например при вызове <code>net(X)</code>, Keras сам определяет размерности входов каждого слоя.
+Подробнее этот механизм будет описан ниже в этом разделе.</p>
+<p><strong>PaddlePaddle:</strong> в PaddlePaddle полносвязный слой определяется классом <code>Linear</code>.
+Обратите внимание, что в <code>nn.Linear</code> передаются два аргумента.
+Первый задаёт размерность входных признаков (2), второй — размерность выходных признаков, которая равна 1, так как выход — один скаляр.</p>
+<pre><code class="language-python"># nn — сокращение от neural network (нейронная сеть)
+from mxnet.gluon import nn
+net = nn.Sequential()
+net.add(nn.Dense(1))
+</code></pre>
+<pre><code class="language-python"># nn — сокращение от neural network (нейронная сеть)
+from torch import nn
+net = nn.Sequential(nn.Linear(2, 1))
+</code></pre>
+<pre><code class="language-python"># keras — высокоуровневый API TensorFlow
+net = tf.keras.Sequential()
+net.add(tf.keras.layers.Dense(1))
+</code></pre>
+<pre><code class="language-python"># nn — сокращение от neural network (нейронная сеть)
+from paddle import nn
+net = nn.Sequential(nn.Linear(2, 1))
+</code></pre>
+<h2 id="334-инициализация-параметров-модели"><a class="header" href="03_03_linear_regression_concise.html#334-инициализация-параметров-модели">3.3.4 Инициализация параметров модели</a></h2>
+<p>Прежде чем использовать <code>net</code>, нужно инициализировать параметры модели: веса и смещение линейной регрессии.
+Фреймворки обычно предоставляют готовые методы инициализации.
+Здесь мы задаём, что каждый вес случайно выбирается из нормального распределения со средним 0 и стандартным отклонением 0.01, а смещение инициализируется нулём.</p>
+<p><strong>MXNet:</strong> мы импортируем модуль <code>initializer</code> из MXNet, который содержит различные методы инициализации параметров.
+В Gluon <code>init</code> — сокращённое обращение к пакету <code>initializer</code>.
+Способ инициализации весов задаётся вызовом <code>init.Normal(sigma=0.01)</code>.
+По умолчанию смещения инициализируются нулями.</p>
+<p><strong>PyTorch:</strong> так же как и при создании <code>nn.Linear</code>, где мы задаём размерности входа и выхода, теперь мы можем напрямую обращаться к параметрам и задавать их начальные значения.
+Первый слой сети выбирается как <code>net[0]</code>, а доступ к параметрам осуществляется через атрибуты <code>weight.data</code> и <code>bias.data</code>.
+Значения параметров можно также перезаписать методами с суффиксом <code>_</code> — <code>normal_</code> и <code>fill_</code>.</p>
+<p><strong>TensorFlow:</strong> модуль <code>initializers</code> в TensorFlow предоставляет различные методы инициализации параметров.
+В Keras самый простой способ задать инициализацию — указать параметр <code>kernel_initializer</code> при создании слоя.
+Здесь мы заново создаём <code>net</code>.</p>
+<p><strong>PaddlePaddle:</strong> так же как и при создании <code>nn.Linear</code>, где мы задаём размерности входа и выхода, теперь мы можем напрямую обращаться к параметрам и задавать их начальные значения.
+Первый слой сети выбирается как <code>net[0]</code>, а доступ к параметрам осуществляется через атрибуты <code>weight</code> и <code>bias</code>.
+Метод инициализации весов задаётся вызовом <code>nn.initializer.Normal(0, 0.01)</code>.
+По умолчанию смещения инициализируются нулями.</p>
+<pre><code class="language-python">from mxnet import init
+net.initialize(init.Normal(sigma=0.01))
+</code></pre>
+<pre><code class="language-python">net[0].weight.data.normal_(0, 0.01)
+net[0].bias.data.fill_(0)
+</code></pre>
+<pre><code class="language-python">initializer = tf.initializers.RandomNormal(stddev=0.01)
+net = tf.keras.Sequential()
+net.add(tf.keras.layers.Dense(1, kernel_initializer=initializer))
+</code></pre>
+<pre><code class="language-python">weight_attr = paddle.ParamAttr(initializer=
+                               paddle.nn.initializer.Normal(0, 0.01))
+bias_attr = paddle.ParamAttr(initializer=None)
+net = nn.Sequential(nn.Linear(2, 1, weight_attr=weight_attr,
+                              bias_attr=bias_attr))
+</code></pre>
+<p><strong>MXNet:</strong> код выше может показаться простым, но здесь есть одна важная деталь.
+Мы инициализируем параметры сети, хотя Gluon ещё не знает, сколько входов будет у модели.
+Вход может иметь 2 признака, а может и 2000.
+Gluon обходит эту проблему: инициализация на самом деле выполняется <em>отложенно</em> (deferred) — только тогда, когда мы впервые передаём данные через сеть.
+Заметьте, что до этого параметры не инициализированы, поэтому обращаться к ним или изменять их нельзя.</p>
+<p><strong>TensorFlow:</strong> код выше может показаться простым, но здесь есть одна важная деталь.
+Мы инициализируем параметры сети, хотя Keras ещё не знает, сколько входов будет у модели.
+Вход может иметь 2 признака, а может и 2000.
+Keras обходит эту проблему: инициализация выполняется <em>отложенно</em> (deferred) — только тогда, когда мы впервые передаём данные через сеть.
+Заметьте, что до этого параметры не инициализированы, поэтому обращаться к ним или изменять их нельзя.</p>
+<h2 id="335-определение-функции-потерь"><a class="header" href="03_03_linear_regression_concise.html#335-определение-функции-потерь">3.3.5 Определение функции потерь</a></h2>
+<p><strong>MXNet:</strong> в Gluon модуль <code>loss</code> содержит различные функции потерь.
+В этом примере мы используем среднеквадратичную ошибку Gluon (<code>L2Loss</code>).</p>
+<p><strong>PyTorch:</strong> <strong>среднеквадратичная ошибка вычисляется классом <code>MSELoss</code>, также известным как квадрат <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>-нормы</strong>.
+По умолчанию он возвращает среднее значение потерь по всем примерам.</p>
+<p><strong>TensorFlow:</strong> среднеквадратичная ошибка вычисляется классом <code>MeanSquaredError</code>, также известным как квадрат <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>-нормы.
+По умолчанию он возвращает среднее значение потерь по всем примерам.</p>
+<p><strong>PaddlePaddle:</strong> <strong>среднеквадратичная ошибка вычисляется классом <code>MSELoss</code>, также известным как квадрат <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>-нормы</strong>.
+По умолчанию он возвращает среднее значение потерь по всем примерам.</p>
+<pre><code class="language-python">loss = gluon.loss.L2Loss()
+</code></pre>
+<pre><code class="language-python">loss = nn.MSELoss()
+</code></pre>
+<pre><code class="language-python">loss = tf.keras.losses.MeanSquaredError()
+</code></pre>
+<pre><code class="language-python">loss = nn.MSELoss()
+</code></pre>
+<h2 id="336-определение-алгоритма-оптимизации"><a class="header" href="03_03_linear_regression_concise.html#336-определение-алгоритма-оптимизации">3.3.6 Определение алгоритма оптимизации</a></h2>
+<p>Минибатчевый стохастический градиентный спуск — стандартный инструмент для оптимизации нейронных сетей.
+Фреймворки реализуют множество его вариантов.</p>
+<p><strong>MXNet:</strong> Gluon реализует этот алгоритм и его варианты через класс <code>Trainer</code>.
+При создании <code>Trainer</code> мы указываем параметры, которые нужно оптимизировать (их можно получить из модели <code>net</code> через <code>net.collect_params()</code>), алгоритм оптимизации (<code>sgd</code>) и словарь гиперпараметров, необходимых алгоритму.
+Для минибатчевого стохастического градиентного спуска достаточно задать <code>learning_rate</code>; здесь он равен 0.03.</p>
+<p><strong>PyTorch:</strong> минибатчевый стохастический градиентный спуск — стандартный инструмент для оптимизации нейронных сетей, а PyTorch реализует множество его вариантов в модуле <code>optim</code>.
+Когда мы <strong>создаём экземпляр <code>SGD</code></strong>, мы указываем параметры для оптимизации (их можно получить из модели через <code>net.parameters()</code>) и словарь гиперпараметров, нужных алгоритму.
+Для минибатчевого стохастического градиентного спуска достаточно задать <code>lr</code>; здесь он равен 0.03.</p>
+<p><strong>TensorFlow:</strong> минибатчевый стохастический градиентный спуск — стандартный инструмент для оптимизации нейронных сетей, а Keras реализует множество его вариантов в модуле <code>optimizers</code>.
+Для минибатчевого стохастического градиентного спуска достаточно задать <code>learning_rate</code>; здесь он равен 0.03.</p>
+<p><strong>PaddlePaddle:</strong> минибатчевый стохастический градиентный спуск — стандартный инструмент для оптимизации нейронных сетей, а PaddlePaddle реализует множество его вариантов в модуле <code>optimizer</code>.
+Для минибатчевого стохастического градиентного спуска достаточно задать <code>learning_rate</code>; здесь он равен 0.03.</p>
+<pre><code class="language-python">from mxnet import gluon
+trainer = gluon.Trainer(net.collect_params(), 'sgd', {'learning_rate': 0.03})
+</code></pre>
+<pre><code class="language-python">trainer = torch.optim.SGD(net.parameters(), lr=0.03)
+</code></pre>
+<pre><code class="language-python">trainer = tf.keras.optimizers.SGD(learning_rate=0.03)
+</code></pre>
+<pre><code class="language-python">trainer =  paddle.optimizer.SGD(learning_rate=0.03,
+                                parameters=net.parameters())
+</code></pre>
+<h2 id="337-обучение"><a class="header" href="03_03_linear_regression_concise.html#337-обучение">3.3.7 Обучение</a></h2>
+<p>Реализовать модель с помощью высокоуровневого API фреймворка можно достаточно коротким кодом.
+Нам не нужно отдельно выделять параметры, задавать функцию потерь или вручную реализовывать минибатчевый стохастический градиентный спуск.
+По мере усложнения моделей преимущества высокоуровневого API становятся всё заметнее.
+Когда все базовые компоненты готовы, <strong>код обучения очень похож на тот, что мы писали с нуля</strong>.</p>
+<p>Напомним: в каждой эпохе мы полностью проходим набор данных (<code>train_data</code>) и последовательно получаем из него минибатчи входов и соответствующих меток.
+Для каждого минибатча выполняем следующие шаги:</p>
+<ul>
+<li>вызываем <code>net(X)</code>, получаем предсказание и вычисляем потери <code>l</code> (прямое распространение);</li>
+<li>вычисляем градиенты с помощью обратного распространения ошибки;</li>
+<li>обновляем параметры модели, вызывая оптимизатор.</li>
+</ul>
+<p>Чтобы оценить качество обучения, после каждой эпохи вычисляем потери на всём наборе данных и выводим их для контроля процесса.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">num_epochs = 3
+for epoch in range(num_epochs):
+    for X, y in data_iter:
+        with autograd.record():
+            l = loss(net(X), y)
+        l.backward()
+        trainer.step(batch_size)
+    l = loss(net(features), labels)
+    print(f'эпоха {epoch + 1}, потери {l.mean().asnumpy():f}')
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">num_epochs = 3
+for epoch in range(num_epochs):
+    for X, y in data_iter:
+        l = loss(net(X) ,y)
+        trainer.zero_grad()
+        l.backward()
+        trainer.step()
+    l = loss(net(features), labels)
+    print(f'эпоха {epoch + 1}, потери {l:f}')
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">num_epochs = 3
+for epoch in range(num_epochs):
+    for X, y in data_iter:
+        with tf.GradientTape() as tape:
+            l = loss(net(X, training=True), y)
+        grads = tape.gradient(l, net.trainable_variables)
+        trainer.apply_gradients(zip(grads, net.trainable_variables))
+    l = loss(net(features), labels)
+    print(f'эпоха {epoch + 1}, потери {l:f}')
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">num_epochs = 3
+for epoch in range(num_epochs):
+    for i,(X, y) in enumerate (data_iter()):
+        l = loss(net(X) ,y)
+        trainer.clear_grad()
+        l.backward()
+        trainer.step()
+    l = loss(net(features), labels)
+    print(f'эпоха {epoch + 1},'f'потери {l}')
+</code></pre>
+</div>
+
+</div>
+
+<p>Теперь сравним <strong>истинные параметры, использованные при генерации набора данных, с параметрами модели, полученными в результате обучения на ограниченных данных</strong>.
+Чтобы получить параметры, обращаемся к нужному слою <code>net</code>, а затем читаем его веса и смещение.
+Как и в разделе 3.2, оцененные параметры оказываются очень близки к истинным.</p>
+<div class="fw-tabs">
+<div class="fw-panel" data-fw="MXNet">
+<p class="fw-label"><strong>MXNet:</strong></p>
+
+<pre><code class="language-python">w = net[0].weight.data()
+print(f'Ошибка оценки w: {true_w - d2l.reshape(w, true_w.shape)}')
+b = net[0].bias.data()
+print(f'Ошибка оценки b: {true_b - b}')
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PyTorch">
+<p class="fw-label"><strong>PyTorch:</strong></p>
+
+<pre><code class="language-python">w = net[0].weight.data
+print('Ошибка оценки w:', true_w - d2l.reshape(w, true_w.shape))
+b = net[0].bias.data
+print('Ошибка оценки b:', true_b - b)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="TensorFlow">
+<p class="fw-label"><strong>TensorFlow:</strong></p>
+
+<pre><code class="language-python">w = net.get_weights()[0]
+print('Ошибка оценки w:', true_w - d2l.reshape(w, true_w.shape))
+b = net.get_weights()[1]
+print('Ошибка оценки b:', true_b - b)
+</code></pre>
+</div>
+
+<div class="fw-panel" data-fw="PaddlePaddle">
+<p class="fw-label"><strong>PaddlePaddle:</strong></p>
+
+<pre><code class="language-python">w = net[0].weight
+print('Ошибка оценки w:', true_w - w.reshape(true_w.shape))
+b = net[0].bias
+print('Ошибка оценки b:', true_b - b)
+</code></pre>
+</div>
+
+</div>
+
+<h2 id="резюме"><a class="header" href="03_03_linear_regression_concise.html#резюме">Резюме</a></h2>
+<p><strong>MXNet:</strong></p>
+<ul>
+<li>Модель можно реализовать в Gluon более кратко.</li>
+<li>В Gluon модуль <code>data</code> содержит инструменты для обработки данных, модуль <code>nn</code> — большое число слоёв нейронных сетей, а модуль <code>loss</code> — многие распространённые функции потерь.</li>
+<li>Модуль <code>initializer</code> в MXNet предоставляет различные методы инициализации параметров модели.</li>
+<li>Размерности и хранение данных определяются автоматически, но не следует пытаться обращаться к параметрам до их инициализации.</li>
+</ul>
+<p><strong>PyTorch:</strong></p>
+<ul>
+<li>Модель можно реализовать в PyTorch с помощью высокоуровневого API более кратко.</li>
+<li>В PyTorch модуль <code>data</code> содержит инструменты для обработки данных, а модуль <code>nn</code> — большое число слоёв нейронных сетей и распространённых функций потерь.</li>
+<li>Параметры можно инициализировать, заменяя их значения методами с суффиксом <code>_</code>.</li>
+</ul>
+<p><strong>TensorFlow:</strong></p>
+<ul>
+<li>Модель можно реализовать в TensorFlow с помощью высокоуровневого API более кратко.</li>
+<li>В TensorFlow модуль <code>data</code> содержит инструменты для обработки данных, а модуль <code>keras</code> — большое число слоёв нейронных сетей и распространённых функций потерь.</li>
+<li>Модуль <code>initializers</code> в TensorFlow предоставляет различные методы инициализации параметров модели.</li>
+<li>Размерности и хранение данных определяются автоматически, но не следует пытаться обращаться к параметрам до их инициализации.</li>
+</ul>
+<h2 id="упражнения"><a class="header" href="03_03_linear_regression_concise.html#упражнения">Упражнения</a></h2>
+<ol>
+<li>Как нужно изменить скорость обучения, если вместо суммарных потерь минибатча использовать среднее значение потерь по минибатчу?</li>
+<li>Посмотрите документацию фреймворков: какие функции потерь и методы инициализации они предоставляют? Замените исходную функцию потерь на функцию Хубера (Huber loss):
+<span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0519em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:3em;vertical-align:-1.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size4">{</span></span><span class="mord"><span class="mtable"><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6954em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">σ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">σ</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:1em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord text"><span class="mord"> </span><span class="mord cyrillic_fallback">если</span><span class="mord"> </span></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord text"><span class="mord"> </span><span class="mord cyrillic_fallback">в</span><span class="mord"> </span><span class="mord cyrillic_fallback">остальных</span><span class="mord"> </span><span class="mord cyrillic_fallback">случаях</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></li>
+<li>Как получить доступ к градиентам линейной регрессии?</li>
+</ol>
+<p><strong>MXNet:</strong>
+<a href="https://discuss.d2l.ai/t/1782">Обсуждение</a></p>
+<p><strong>PyTorch:</strong>
+<a href="https://discuss.d2l.ai/t/1781">Обсуждение</a></p>
+<p><strong>TensorFlow:</strong>
+<a href="https://discuss.d2l.ai/t/1780">Обсуждение</a></p>
+<p><strong>PaddlePaddle:</strong>
+<a href="https://discuss.d2l.ai/t/11690">Обсуждение</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="03_02_linear_regression_scratch.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="03_04_softmax_regression.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="03_02_linear_regression_scratch.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="03_04_softmax_regression.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/framework-tabs-0e82dc29.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html lang="ru" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>12.4 Аппаратное обеспечение - Погружение в глубокое обучение</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Русскоязычное издание учебника «Dive into Deep Learning» (动手学深度学习) с кодом на Python. Переведены главы 1 «Введение», 2 «Предварительные знания», 3 «Линейные нейронные сети», 4 «Многослойные перцептроны», 5 «Вычисления глубокого обучения», 6 «Свёрточные нейронные сети», 7 «Современные свёрточные нейронные сети», 8 «Рекуррентные нейронные сети», 9 «Современные рекуррентные нейронные сети», 10 «Механизмы внимания», 11 «Алгоритмы оптимизации», 12 «Вычислительная производительность», 13 «Компьютерное зрение», 14 «Обработка естественного языка: предобучение» и 15 «Обработка естественного языка: приложения»; предисловие, приложение и список литературы переведены.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/framework-tabs-7543ad04.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-e2003210.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-1598951f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Погружение в глубокое обучение</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/r007/AI-Robotics-Rus/edit/main/books/dive-into-deep-learning/src/src/12_04_hardware.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="124-аппаратное-обеспечение"><a class="header" href="12_04_hardware.html#124-аппаратное-обеспечение">12.4 Аппаратное обеспечение</a></h1>
+<p>Чтобы строить системы с хорошей производительностью и улавливать статистические особенности задачи, нужно хорошо понимать алгоритмы и модели. При этом необходимо хотя бы примерно представлять, как устроено нижележащее аппаратное обеспечение. Этот раздел не заменяет курсов по проектированию аппаратуры и систем. Скорее, он служит отправной точкой для понимания того, почему одни алгоритмы работают эффективнее других и как добиться хорошей пропускной способности. Хорошо продуманная конструкция может дать разницу на порядки: одна и та же сеть либо обучается за одну неделю, либо не обучается вовсе, когда на обучение уходит три месяца и срок сдачи оказывается сорван. Начнём с компьютера в целом, затем подробно рассмотрим CPU и GPU, а в конце посмотрим, как соединяются между собой несколько компьютеров в дата-центре или в облаке.</p>
+<blockquote>
+<p><strong>Рис. 12.4.1.</strong> Инфографика «Задержки, которые должен знать каждый программист» (из интерактивной публикации Колина Скотта по данным лекции Джеффа Дина, Stanford, 2010) не включена в перевод. Её данные приведены в таблицах 12.4.1 и 12.4.2 ниже</p>
+</blockquote>
+<p>Общее представление о порядках величин даёт инфографика выше, а также таблицы в конце этого раздела. Они основаны на исследовании, которое отражает прогресс последнего десятилетия. Ниже обсуждаются базовые принципы этих чисел и то, как они помогают выбирать алгоритмы. Обсуждение очень общее и приблизительное. Разумеется, оно не заменяет полноценный курс, а лишь даёт статистическим моделистам достаточно сведений, чтобы принимать обоснованные проектные решения. Для углублённого знакомства с архитектурой компьютеров рекомендуем (Hennessy and Patterson, 2011) или актуальный курс по этой теме, например курс Krste Asanović.</p>
+<h2 id="1241-компьютер"><a class="header" href="12_04_hardware.html#1241-компьютер">12.4.1 Компьютер</a></h2>
+<p>Большинство исследователей и практиков глубокого обучения могут работать на компьютере с достаточным объёмом памяти, вычислительными ресурсами и каким-либо ускорителем, например одним или несколькими GPU. Компьютер состоит из следующих ключевых компонентов:</p>
+<ul>
+<li>процессор (также называемый CPU), который, помимо работы операционной системы и многих других функций, выполняет заданные программы. Обычно он содержит <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span> или более ядер;</li>
+<li>оперативная память (RAM), в которой хранятся и из которой извлекаются результаты вычислений: векторы весов, параметры активаций, а также обучающие данные;</li>
+<li>один или несколько сетевых интерфейсов Ethernet, скорость которых варьируется от 1 ГБ/с до 100 ГБ/с. На высокопроизводительных серверах могут использоваться более совершенные соединения;</li>
+<li>высокоскоростная шина расширения (PCIe), которая связывает систему с одним или несколькими GPU. Серверы поддерживают до <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span> ускорителей, обычно соединённых по более сложной топологии, а настольные системы имеют <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> или <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> ускорителя в зависимости от бюджета пользователя и мощности блока питания;</li>
+<li>энергонезависимые устройства хранения, например жёсткие диски и твердотельные накопители, которые во многих случаях подключаются через высокоскоростную шину расширения. Они обеспечивают достаточную скорость передачи для обучающих данных и промежуточных контрольных точек.</li>
+</ul>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="images/mobo-symbol.svg" alt="Соединение компонентов компьютера"><span class="img-wrapper"><img src="images/mobo-symbol.svg" alt="Соединение компонентов компьютера"></span></label></p>
+<p><strong>Рис. 12.4.2.</strong> Соединение компонентов компьютера</p>
+<p>Как показано на рис. 12.4.2, высокоскоростная шина расширения состоит из нескольких линий, которые напрямую подключены к CPU и связывают его с большинством компонентов: сетью, GPU и хранилищем. Например, у AMD Threadripper 3 есть <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">64</span></span></span></span> линии PCIe 4.0, каждая из которых может передавать данные в обоих направлениях со скоростью 16 Гбит/с. Память напрямую подключена к CPU, а её суммарная пропускная способность достигает 100 ГБ/с.</p>
+<p>Когда мы запускаем код на компьютере, данные нужно передать процессору (CPU или GPU) для вычислений, а затем вернуть результаты в оперативную и постоянную память. Поэтому для хорошей производительности нужно, чтобы все шаги работы стыковались без задержек и ни одна часть системы не становилась узким местом. Например, если изображения загружаются медленно, процессор будет простаивать. Точно так же, если матрицы медленно передаются в CPU (или GPU), вычислительное устройство не сможет работать на полной скорости. Наконец, если нужно синхронизировать несколько компьютеров по сети, сеть не должна замедлять вычисления. Один из вариантов — чередовать коммуникацию и вычисления. Далее мы подробнее рассмотрим каждый компонент.</p>
+<h2 id="1242-память"><a class="header" href="12_04_hardware.html#1242-память">12.4.2 Память</a></h2>
+<p>Ключевые характеристики оперативной памяти — <em>пропускная способность</em> (bandwidth) и <em>задержка</em> (latency). То же справедливо и для устройств хранения, только различия между ними могут быть гораздо больше.</p>
+<h3 id="12421-жёсткие-диски"><a class="header" href="12_04_hardware.html#12421-жёсткие-диски">12.4.2.1 Жёсткие диски</a></h3>
+<p><em>Жёсткий диск</em> (hard disk drive, HDD) используется уже полвека. Проще говоря, он содержит множество вращающихся пластин, над которыми может быть установлена головка для чтения и записи на любой заданной дорожке. Старшие модели вмещают до 16 ТБ на девяти пластинах. Одно из главных достоинств жёсткого диска — относительно низкая цена, а его многочисленные недостатки — характерные катастрофические режимы отказа и довольно высокая задержка чтения.</p>
+<p>Чтобы понять последнее, нужно знать, что жёсткие диски вращаются примерно со скоростью 7200 оборотов в минуту. Быстрее вращать их нельзя: центробежная сила разрушила бы пластины. При обращении к определённому сектору диска есть ещё одна существенная проблема: нужно дождаться, пока пластина повернётся нужным местом под головку (головку можно перемещать, а раскрутить диск заново нельзя). Поэтому на получение нужных данных может уйти <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span> миллисекунд. Обычно говорят, что жёсткий диск работает примерно со скоростью 100 IOPS (операций ввода-вывода в секунду), и за последние двадцать лет эта цифра почти не изменилась. Не менее неприятно и то, что пропускная способность (около 100–200 МБ/с) тоже плохо растёт. Ведь каждая головка считывает биты одной дорожки, поэтому скорость передачи растёт лишь пропорционально квадратному корню из плотности записи. Поэтому для очень больших наборов данных жёсткие диски быстро переходят в роль архивного и низкоуровневого хранилища.</p>
+<h3 id="12422-твердотельные-накопители"><a class="header" href="12_04_hardware.html#12422-твердотельные-накопители">12.4.2.2 Твердотельные накопители</a></h3>
+<p><em>Твердотельные накопители</em> (solid state drives, SSD) хранят информацию во флеш-памяти. Это позволяет получать сохранённые записи гораздо быстрее. Современные SSD способны выполнять <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10</span></span></span></span>–<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">50</span></span></span></span> тысяч IOPS, то есть примерно на три порядка быстрее жёстких дисков. Их пропускная способность составляет 1–3 ГБ/с, то есть примерно на порядок выше. Эти улучшения кажутся невероятными, но из-за особенностей устройства SSD у них остаются следующие дополнительные ограничения.</p>
+<ul>
+<li>SSD хранят информацию блоками (256 КБ и больше). Блок можно записать только целиком, поэтому запись отдельных битов в случайном порядке занимает много времени и производительность SSD при таком режиме очень низкая. Кроме того, запись часто требует много времени, потому что блок нужно сначала прочитать, стереть, а затем записать заново с новой информацией. Контроллеры и прошивка современных SSD уже содержат алгоритмы, которые смягчают эту проблему. Тем не менее запись всё равно остаётся гораздо медленнее чтения, особенно у накопителей QLC (четырёхуровневых ячеек). Ключ к производительности — поддерживать очередь операций, в которой чтение и запись крупных блоков по возможности выполняются в первую очередь;</li>
+<li>ячейки памяти в SSD изнашиваются довольно быстро (обычно после нескольких тысяч циклов записи). Алгоритмы выравнивания износа распределяют деградацию между многими ячейками. Поэтому SSD не рекомендуется использовать для файлов подкачки или больших журналов;</li>
+<li>наконец, резкий рост пропускной способности вынудил разработчиков компьютеров подключать SSD к шине PCIe. Такие накопители называют NVMe (энергонезависимая память с расширенным интерфейсом); они могут использовать до <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span> линий PCIe. На PCIe 4.0 их скорость достигает 8 ГБ/с.</li>
+</ul>
+<h3 id="12423-облачное-хранилище"><a class="header" href="12_04_hardware.html#12423-облачное-хранилище">12.4.2.3 Облачное хранилище</a></h3>
+<p>Облачное хранилище предлагает набор настраиваемых характеристик производительности. Иными словами, объём и скорость хранилища виртуальной машины можно динамически подбирать под потребности пользователя. Если задержка слишком велика (например, при обучении с большим количеством мелких записей), рекомендуется увеличить количество IOPS в настройках.</p>
+<h2 id="1243-cpu"><a class="header" href="12_04_hardware.html#1243-cpu">12.4.3 CPU</a></h2>
+<p>Центральный процессор (central processing unit, CPU) — основа любого компьютера. Он состоит из многих ключевых компонентов: <em>ядер процессора</em> (processor cores), которые выполняют машинный код; <em>шины</em> (bus), которая связывает разные компоненты (шины заметно различаются в зависимости от модели процессора, поколения и производителя); <em>кэша</em> (cache), который обеспечивает более высокую пропускную способность чтения и меньшую задержку по сравнению с основной памятью. Наконец, поскольку высокопроизводительная линейная алгебра и свёртки широко используются в обработке мультимедиа и машинном обучении, почти все современные CPU содержат <em>векторный процессорный блок</em> (vector processing unit), который помогает выполнять эти вычисления.</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="images/skylake.svg" alt="Потребительский четырёхъядерный CPU Intel Skylake"><span class="img-wrapper"><img src="images/skylake.svg" alt="Потребительский четырёхъядерный CPU Intel Skylake"></span></label></p>
+<p><strong>Рис. 12.4.3.</strong> Потребительский четырёхъядерный CPU Intel Skylake</p>
+<p>На рис. 12.4.3 показан потребительский четырёхъядерный CPU Intel Skylake. Он включает встроенный GPU, кэш и кольцевую шину, которая соединяет четыре ядра. Периферийные устройства, такие как Ethernet, Wi-Fi, Bluetooth, контроллер SSD и USB, либо входят в состав чипсета, либо подключаются к CPU напрямую через PCIe.</p>
+<h3 id="12431-микроархитектура"><a class="header" href="12_04_hardware.html#12431-микроархитектура">12.4.3.1 Микроархитектура</a></h3>
+<p>Каждое ядро процессора состоит из довольно сложного набора компонентов. Хотя подробности у разных поколений и производителей различаются, базовые функции стандартны. Фронтенд загружает инструкции и пытается предсказать, по какому пути они пойдут (например, для управления потоком), а затем декодирует инструкции из ассемблерного кода в микроинструкции. Ассемблерный код обычно не является самым низкоуровневым кодом, который выполняет процессор: сложные микроинструкции могут декодироваться в набор более простых операций, которые затем обрабатываются исполнительными ядрами. Обычно исполнительное ядро способно одновременно выполнять много операций. Например, ядро ARM Cortex A77 на рис. 12.4.4 может одновременно выполнять до <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span> операций.</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="images/a77.svg" alt="Микроархитектура ARM Cortex A77"><span class="img-wrapper"><img src="images/a77.svg" alt="Микроархитектура ARM Cortex A77"></span></label></p>
+<p><strong>Рис. 12.4.4.</strong> Микроархитектура ARM Cortex A77</p>
+<p>Это означает, что эффективная программа может выполнять несколько инструкций за один такт, если эти инструкции независимы друг от друга. Не все блоки обработки одинаковы: одни предназначены для целочисленных инструкций, а другие оптимизированы для операций с плавающей точкой. Чтобы повысить пропускную способность, процессор может одновременно выполнять несколько путей кода в ветвлениях, а затем отбрасывать результаты невыбранных ветвей. Поэтому блок предсказания ветвлений во фронтенде важен: дальше продолжается выполнение только самых перспективных путей.</p>
+<h3 id="12432-векторизация"><a class="header" href="12_04_hardware.html#12432-векторизация">12.4.3.2 Векторизация</a></h3>
+<p>Объём вычислений в глубоком обучении очень велик. Поэтому, чтобы справляться с задачами машинного обучения, CPU должен выполнять много операций за один такт. Такой режим работы обеспечивают векторные процессорные блоки. На ARM они называются NEON, а на x86 — <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions">AVX2</a>. Типичная их возможность — выполнение операций по схеме SIMD (single instruction multiple data, одна инструкция — много данных). На рис. 12.4.5 показано, как на ARM за один такт выполняется <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span> целочисленных сложений.</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="images/neon128.svg" alt="128-битная векторизация NEON"><span class="img-wrapper"><img src="images/neon128.svg" alt="128-битная векторизация NEON"></span></label></p>
+<p><strong>Рис. 12.4.5.</strong> 128-битная векторизация NEON</p>
+<p>В зависимости от архитектуры такие регистры могут достигать <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">512</span></span></span></span> бит и объединять до <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">64</span></span></span></span> пар чисел. Например, можно перемножить два числа и прибавить к результату третье. Эта операция называется слиянием умножения и сложения (fused multiply-add). Intel OpenVINO использует именно эти процессоры, чтобы получать ощутимую пропускную способность при глубоком обучении на серверных CPU. Однако стоит отметить, что по сравнению с возможностями GPU эта цифра выглядит скромно. Например, у NVIDIA RTX 2080 Ti есть <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4352</span></span></span></span> CUDA-ядра, каждое из которых может выполнять такую операцию в любой момент.</p>
+<h3 id="12433-кэш"><a class="header" href="12_04_hardware.html#12433-кэш">12.4.3.3 Кэш</a></h3>
+<p>Рассмотрим такой случай: у нас есть CPU среднего размера с <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span> ядрами, как показано на рис. 12.4.3, работающий на частоте 2 ГГц. Пусть векторный процессорный блок поддерживает AVX2 с шириной <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">256</span></span></span></span> бит, а количество инструкций за такт (IPC) равно 1. Предположим также, что для каждой операции AVX2 хотя бы один регистр должен получить инструкцию из памяти. Тогда CPU потребляет <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">256</span><span class="mord text"><span class="mord"> </span><span class="mord cyrillic_fallback">бит</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">128</span><span class="mord text"><span class="mord"> </span><span class="mord cyrillic_fallback">байт</span></span></span></span></span> данных за каждый такт. Если мы не сможем передавать процессору <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">128</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">256</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span> байт в секунду, он будет испытывать нехватку данных. К сожалению, интерфейс памяти этого чипа поддерживает только 20–40 Гбит/с, то есть на порядок меньше. Выход — по возможности не загружать новые данные из памяти, а хранить их в кэше CPU. Для этого и используется кэш. Обычно он состоит из следующих уровней.</p>
+<ul>
+<li><strong>Регистры</strong> строго говоря не относятся к кэшу. Они помогают организовать выполнение инструкций. То есть регистры — это места хранения, к которым CPU обращается на тактовой скорости без задержки. У CPU есть несколько десятков регистров, поэтому эффективное их использование зависит от компилятора (или программиста). Например, в языке C есть ключевое слово <code>register</code>;</li>
+<li><strong>кэш первого уровня (L1)</strong> — первый рубеж защиты от высоких требований к пропускной способности памяти. Он очень мал (обычно 32–64 КБ) и делится на данные и инструкции. Если нужные данные найдены в кэше L1, доступ к ним очень быстрый. Если их там нет, поиск продолжается вниз по иерархии кэша;</li>
+<li><strong>кэш второго уровня (L2)</strong> — следующий уровень. В зависимости от архитектуры и размера процессора он может быть эксклюзивным или общим, то есть использоваться только одним ядром либо разделяться между несколькими ядрами. Кэш L2 больше L1 (обычно 256–512 КБ на ядро), но медленнее. Кроме того, сначала нужно проверить, что данных нет в L1, и только потом обращаться к L2, что добавляет небольшую задержку;</li>
+<li><strong>кэш третьего уровня (L3)</strong> разделяется между несколькими ядрами и может быть очень большим. Серверные CPU AMD EPYC 3 имеют до 256 МБ кэша на нескольких кристаллах. Более типичные значения — 4–8 МБ.</li>
+</ul>
+<p>Предсказание того, какие данные понадобятся дальше, — один из ключевых параметров при проектировании чипа. Например, рекомендуется обходить память <em>вперёд</em>, поскольку большинство алгоритмов кэширования пытаются читать данные <em>заранее</em> по возрастанию адресов, а не назад. Кроме того, хорошим способом повысить производительность является сохранение локальности обращений к памяти.</p>
+<p>Добавление кэша — палка о двух концах. С одной стороны, он гарантирует, что ядрам процессора не будет не хватать данных. С другой стороны, он увеличивает размер чипа и занимает площадь, которую можно было бы использовать для повышения вычислительной мощности. Кроме того, <em>промах кэша</em> может оказаться очень дорогим. Рассмотрим худший случай — <em>ложное разделение</em> (false sharing), показанное на рис. 12.4.6. Когда поток на процессоре <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> запрашивает данные, ячейка памяти кэширована на процессоре <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>. Чтобы удовлетворить запрос, процессор <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> должен приостановить текущую работу, записать данные обратно в основную память, и только после этого процессор <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> может прочитать их из памяти. На время этой операции оба процессора простаивают. По сравнению с эффективной однопроцессорной реализацией такой код на нескольких процессорах может работать значительно медленнее. Это ещё одна причина, по которой размер кэша ограничен, помимо его физического размера.</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="images/falsesharing.svg" alt="Ложное разделение (иллюстрация предоставлена Intel)"><span class="img-wrapper"><img src="images/falsesharing.svg" alt="Ложное разделение (иллюстрация предоставлена Intel)"></span></label></p>
+<p><strong>Рис. 12.4.6.</strong> Ложное разделение (иллюстрация предоставлена Intel)</p>
+<h2 id="1244-gpu-и-другие-ускорители"><a class="header" href="12_04_hardware.html#1244-gpu-и-другие-ускорители">12.4.4 GPU и другие ускорители</a></h2>
+<p>Без GPU глубокого обучения не было бы. Не будет преувеличением сказать, что именно глубокое обучение заметно увеличило доходы производителей GPU. Эта совместная эволюция аппаратуры и алгоритмов привела к тому, что глубокое обучение стало, к лучшему или к худшему, предпочтительной парадигмой статистического моделирования. Поэтому полезно понимать, в чём преимущества GPU и других ускорителей, например TPU (Jouppi et al., 2017).</p>
+<p>На практике часто важно различие между ускорителями, оптимизированными для обучения, и теми, что оптимизированы для вывода (инференса). Для вывода достаточно вычислить прямое распространение в сети. Обратное распространение не требует хранения промежуточных данных. Кроме того, часто не нужна очень высокая точность вычислений (обычно достаточно FP16 или INT8). При обучении все промежуточные результаты нужно хранить, чтобы вычислять градиенты. Накопление градиентов также требует более высокой точности, чтобы избежать численного антипереполнения (или переполнения). Поэтому минимальный вариант — FP16 или смешанная точность FP16/FP32. Всё это требует более быстрой и более ёмкой памяти (HBM2 или GDDR6) и большей вычислительной мощности. Например, NVIDIA оптимизировала GPU <a href="https://devblogs.nvidia.com/nvidia-turing-architecture-in-depth/">Turing</a> T4 для вывода, а GPU V100 — для обучения.</p>
+<p>Вспомним векторизацию, показанную на рис. 12.4.5. Добавление векторных процессорных блоков в ядра CPU заметно повышает пропускную способность. Например, в примере на рис. 12.4.5 можно одновременно выполнить <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span> операций. Во-первых, что даст добавление операций, оптимизированных не только для векторных, но и для матричных вычислений? Позже мы обсудим тензорные ядра (tensor cores), созданные по этой стратегии. Во-вторых, что если добавить больше ядер? Коротко говоря, это две стратегии проектирования GPU. На рис. 12.4.7 показан общий вид базового блока обработки.</p>
+<blockquote>
+<p><strong>Рис. 12.4.7.</strong> Блок обработки NVIDIA Turing (иллюстрация производителя) не включена в перевод. Блок содержит <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span> целочисленных и <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span> блоков с плавающей точкой, а также два тензорных ядра, которые ускоряют узкий набор операций глубокого обучения. Каждый потоковый мультипроцессор состоит из четырёх таких блоков</p>
+</blockquote>
+<p>Далее <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">12</span></span></span></span> потоковых мультипроцессоров объединяются в графические кластеры, из которых строится высокопроизводительный процессор TU102. Достаточное количество каналов памяти и кэш второго уровня дополняют конфигурацию. Подробности приведены на рис. 12.4.8. Причина такого проектирования — возможность независимо добавлять или удалять модули, что помогает создавать более компактные чипы и учитывать выход годных кристаллов (неисправные модули могут не включаться). К счастью, программирование таких устройств скрыто за CUDA и уровнем фреймворков, так что исследователь в глубоком обучении обычно этого не замечает. В частности, на GPU можно одновременно выполнять несколько программ, пока есть свободные ресурсы. Тем не менее полезно знать ограничения устройства, чтобы не выбрать модель памяти, которая не подходит по размеру.</p>
+<blockquote>
+<p><strong>Рис. 12.4.8.</strong> Архитектура NVIDIA Turing (иллюстрация производителя) не включена в перевод. Она показывает кластеры потоковых мультипроцессоров, каналы памяти и кэш второго уровня</p>
+</blockquote>
+<p>Наконец, стоит отдельно упомянуть <em>тензорные ядра</em> (tensor cores). Они являются примером растущей тенденции добавлять специализированные схемы оптимизации, которые особенно эффективны для глубокого обучения. Например, в TPU добавлена систолическая матрица для быстрого умножения матриц (Kung, 1988). Она рассчитана на очень большие операции над очень малым количеством данных (в TPU первого поколения — на одну величину). Тензорные ядра идут в противоположном направлении: они оптимизированы для небольших операций над матрицами размером <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span> и <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">16</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span> в зависимости от числовой точности. Обзор оптимизаций приведён на рис. 12.4.9.</p>
+<blockquote>
+<p><strong>Рис. 12.4.9.</strong> Тензорные ядра в архитектуре NVIDIA Turing (иллюстрация производителя) не включена в перевод</p>
+</blockquote>
+<p>Очевидно, что при оптимизации вычислений приходится идти на некоторые компромиссы. Один из них: GPU плохо справляются с разреженными данными и прерываниями. Хотя есть заметные исключения, например <a href="https://github.com/gunrock/gunrock">Gunrock</a> (Wang et al., 2016), высокая пропускная способность GPU при чтении пакетами не подходит для шаблонов доступа к разреженным матрицам и векторам. Задачи эффективного доступа к разреженным данным и обработки прерываний активно исследуются. Например, существует библиотека <a href="http://dgl.ai">DGL</a>, созданная специально для глубокого обучения на графах.</p>
+<h2 id="1245-сеть-и-шины"><a class="header" href="12_04_hardware.html#1245-сеть-и-шины">12.4.5 Сеть и шины</a></h2>
+<p>Когда одного устройства недостаточно для оптимизации, данные приходится передавать туда и обратно, чтобы выполнять синхронизированную обработку, и тогда на первый план выходят сеть и шины. У них много параметров проектирования: пропускная способность, стоимость, расстояние и гибкость. На краю сети находится Wi-Fi: он очень удобен в использовании, охватывает хорошую зону и дёшев (ведь не нужны кабели), но даёт относительно скромную пропускную способность и высокую задержку. Ни один разумный исследователь машинного обучения не станет строить на нём серверный кластер. Далее мы сосредоточимся на соединениях, подходящих для глубокого обучения.</p>
+<ul>
+<li><strong>PCIe</strong> — специализированная шина для высокой пропускной способности при соединении точка-точка (на каждой линии в слоте x16 — до 32 ГБ/с для PCIe 4.0) с задержкой порядка нескольких микросекунд (5 мкс). Линии PCIe очень ценны. Количество линий, которое есть у процессора: у AMD EPYC 3 — <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">128</span></span></span></span>, у Intel Xeon — <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">48</span></span></span></span> на чип; у настольных CPU — <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">20</span></span></span></span> (Ryzen 9) и <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span> (Core i9). Поскольку у GPU обычно <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span> линий, число GPU, которые могут работать на полной пропускной способности с CPU, ограничено. К тому же им приходится делить канал с другими высокоскоростными периферийными устройствами, например с хранилищем и Ethernet. Как и в случае с оперативной памятью, передача больших пакетов данных эффективнее, потому что уменьшаются накладные расходы на пакеты;</li>
+<li><strong>Ethernet</strong> — самый распространённый способ подключения компьютеров. Он гораздо медленнее PCIe, но его установка очень дешева, он очень гибок и покрывает значительно большие расстояния. Типичная пропускная способность недорогих серверов составляет 1 Гбит/с. Высокопроизводительные устройства (например, <a href="https://aws.amazon.com/ec2/instance-types/c5/">экземпляры C5</a> в облаке) обеспечивают 10–100 Гбит/с. Как и во всех предыдущих случаях, передача данных сопряжена с большими накладными расходами. Обратите внимание, что «голый» Ethernet почти никогда не используется напрямую: поверх физического соединения работают протоколы (например, UDP или TCP/IP), которые добавляют ещё больше накладных расходов. Как и PCIe, Ethernet предназначен для соединения двух устройств, например компьютера и коммутатора;</li>
+<li><strong>коммутатор</strong> — способ соединить несколько устройств так, что любые два из них могут одновременно обмениваться данными по соединению «точка-точка» (обычно на полной пропускной способности). Например, Ethernet-коммутатор может с высокой пропускной способностью соединять <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">40</span></span></span></span> серверов. Коммутаторы встречаются не только в традиционных компьютерных сетях. Даже линии PCIe могут коммутироваться, например в <a href="https://aws.amazon.com/ec2/instance-types/p2/">экземплярах P2</a>, где много GPU подключаются к одному хост-процессору;</li>
+<li><strong>NVLink</strong> — альтернатива PCIe для очень высокопроизводительных соединений. Он обеспечивает скорость передачи до 300 Гбит/с на одну линию. Серверный GPU (Volta V100) имеет шесть линий, а потребительский GPU (RTX 2080 Ti) — только одну, и его скорость снижена до 100 Гбит/с. Для высокоскоростного обмена данными между GPU рекомендуется использовать <a href="https://github.com/NVIDIA/nccl">NCCL</a>.</li>
+</ul>
+<h2 id="1246-дополнительные-задержки"><a class="header" href="12_04_hardware.html#1246-дополнительные-задержки">12.4.6 Дополнительные задержки</a></h2>
+<p>Сводки из раздела выше взяты из работы <a href="https://gist.github.com/eshelman">Eliot Eshelman</a>, который сохранил обновлённую версию чисел в <a href="https://gist.github.com/eshelman/343a1c46cb3fba142c1afdcdeec17646">GitHub gist</a>. Они приведены в таблицах 12.4.1 и 12.4.2.</p>
+<p><strong>Таблица 12.4.1.</strong> Общие задержки</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">Операция</th><th style="text-align: right">Время</th><th style="text-align: left">Примечания</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left">Обращение к L1 / попадание в L1</td><td style="text-align: right">1.5 нс</td><td style="text-align: left">4 такта</td></tr>
+<tr><td style="text-align: left">Сложение, умножение и FMA с плавающей точкой</td><td style="text-align: right">1.5 нс</td><td style="text-align: left">4 такта</td></tr>
+<tr><td style="text-align: left">Обращение к L2 / попадание в L2</td><td style="text-align: right">5 нс</td><td style="text-align: left">12–17 тактов</td></tr>
+<tr><td style="text-align: left">Ошибочное предсказание ветвления</td><td style="text-align: right">6 нс</td><td style="text-align: left">15–20 тактов</td></tr>
+<tr><td style="text-align: left">Попадание в L3 (кэш не разделяется)</td><td style="text-align: right">16 нс</td><td style="text-align: left">42 такта</td></tr>
+<tr><td style="text-align: left">Попадание в L3 (разделяется с другим ядром)</td><td style="text-align: right">25 нс</td><td style="text-align: left">65 тактов</td></tr>
+<tr><td style="text-align: left">Блокировка и разблокировка мьютекса</td><td style="text-align: right">25 нс</td><td style="text-align: left"></td></tr>
+<tr><td style="text-align: left">Попадание в L3 (строка изменена в другом ядре)</td><td style="text-align: right">29 нс</td><td style="text-align: left">75 тактов</td></tr>
+<tr><td style="text-align: left">Попадание в L3 (на удалённом сокете CPU)</td><td style="text-align: right">40 нс</td><td style="text-align: left">100–300 тактов (40–116 нс)</td></tr>
+<tr><td style="text-align: left">Переход по QPI к другому CPU (за один переход)</td><td style="text-align: right">40 нс</td><td style="text-align: left"></td></tr>
+<tr><td style="text-align: left">Обращение к памяти 64 МБ (локальный CPU)</td><td style="text-align: right">46 нс</td><td style="text-align: left">TinyMemBench на Broadwell E5-2690v4</td></tr>
+<tr><td style="text-align: left">Обращение к памяти 64 МБ (удалённый CPU)</td><td style="text-align: right">70 нс</td><td style="text-align: left">TinyMemBench на Broadwell E5-2690v4</td></tr>
+<tr><td style="text-align: left">Обращение к памяти 256 МБ (локальный CPU)</td><td style="text-align: right">75 нс</td><td style="text-align: left">TinyMemBench на Broadwell E5-2690v4</td></tr>
+<tr><td style="text-align: left">Случайная запись в Intel Optane</td><td style="text-align: right">94 нс</td><td style="text-align: left">UCSD Non-Volatile Systems Lab</td></tr>
+<tr><td style="text-align: left">Обращение к памяти 256 МБ (удалённый CPU)</td><td style="text-align: right">120 нс</td><td style="text-align: left">TinyMemBench на Broadwell E5-2690v4</td></tr>
+<tr><td style="text-align: left">Случайное чтение из Intel Optane</td><td style="text-align: right">305 нс</td><td style="text-align: left">UCSD Non-Volatile Systems Lab</td></tr>
+<tr><td style="text-align: left">Отправка 4 КБ по HPC-сети 100 Гбит/с</td><td style="text-align: right">1 мкс</td><td style="text-align: left">MVAPICH2 поверх Intel Omni-Path</td></tr>
+<tr><td style="text-align: left">Сжатие 1 КБ алгоритмом Google Snappy</td><td style="text-align: right">3 мкс</td><td style="text-align: left"></td></tr>
+<tr><td style="text-align: left">Отправка 4 КБ по Ethernet 10 Гбит/с</td><td style="text-align: right">10 мкс</td><td style="text-align: left"></td></tr>
+<tr><td style="text-align: left">Случайная запись 4 КБ на NVMe SSD</td><td style="text-align: right">30 мкс</td><td style="text-align: left">DC P3608 NVMe SSD (QoS 99%: 500 мкс)</td></tr>
+<tr><td style="text-align: left">Передача 1 МБ к GPU с NVLink и обратно</td><td style="text-align: right">30 мкс</td><td style="text-align: left">~33 ГБ/с, NVIDIA 40GB NVLink</td></tr>
+<tr><td style="text-align: left">Передача 1 МБ к GPU через PCIe и обратно</td><td style="text-align: right">80 мкс</td><td style="text-align: left">~12 ГБ/с, линия PCIe 3.0 x16</td></tr>
+<tr><td style="text-align: left">Случайное чтение 4 КБ с NVMe SSD</td><td style="text-align: right">120 мкс</td><td style="text-align: left">DC P3608 NVMe SSD (QoS 99%)</td></tr>
+<tr><td style="text-align: left">Последовательное чтение 1 МБ с NVMe SSD</td><td style="text-align: right">208 мкс</td><td style="text-align: left">~4.8 ГБ/с, DC P3608 NVMe SSD</td></tr>
+<tr><td style="text-align: left">Случайная запись 4 КБ на SATA SSD</td><td style="text-align: right">500 мкс</td><td style="text-align: left">DC S3510 SATA SSD (QoS 99.9%)</td></tr>
+<tr><td style="text-align: left">Случайное чтение 4 КБ с SATA SSD</td><td style="text-align: right">500 мкс</td><td style="text-align: left">DC S3510 SATA SSD (QoS 99.9%)</td></tr>
+<tr><td style="text-align: left">Полный цикл внутри одного дата-центра</td><td style="text-align: right">500 мкс</td><td style="text-align: left">Односторонний пинг ~250 мкс</td></tr>
+<tr><td style="text-align: left">Последовательное чтение 1 МБ с SATA SSD</td><td style="text-align: right">2 мс</td><td style="text-align: left">~550 МБ/с, DC S3510 SATA SSD</td></tr>
+<tr><td style="text-align: left">Последовательное чтение 1 МБ с диска</td><td style="text-align: right">5 мс</td><td style="text-align: left">~200 МБ/с, серверный HDD</td></tr>
+<tr><td style="text-align: left">Случайный доступ к диску (поиск и вращение)</td><td style="text-align: right">10 мс</td><td style="text-align: left"></td></tr>
+<tr><td style="text-align: left">Отправка пакета Калифорния → Нидерланды → Калифорния</td><td style="text-align: right">150 мс</td><td style="text-align: left"></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Таблица 12.4.2.</strong> Задержки GPU NVIDIA Tesla</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">Операция</th><th style="text-align: right">Время</th><th style="text-align: left">Примечания</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left">Доступ к разделяемой памяти GPU</td><td style="text-align: right">30 нс</td><td style="text-align: left">30–90 тактов (конфликты банков добавляют задержку)</td></tr>
+<tr><td style="text-align: left">Доступ к глобальной памяти GPU</td><td style="text-align: right">200 нс</td><td style="text-align: left">200–800 тактов</td></tr>
+<tr><td style="text-align: left">Запуск ядра CUDA на GPU</td><td style="text-align: right">10 мкс</td><td style="text-align: left">Хост-CPU даёт GPU команду начать выполнение ядра</td></tr>
+<tr><td style="text-align: left">Передача 1 МБ к GPU с NVLink и обратно</td><td style="text-align: right">30 мкс</td><td style="text-align: left">~33 ГБ/с, NVIDIA 40GB NVLink</td></tr>
+<tr><td style="text-align: left">Передача 1 МБ к GPU через PCIe и обратно</td><td style="text-align: right">80 мкс</td><td style="text-align: left">~12 ГБ/с, линия PCI-Express x16</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="резюме"><a class="header" href="12_04_hardware.html#резюме">Резюме</a></h2>
+<ul>
+<li>У устройств есть накладные расходы на запуск. Поэтому передавать данные лучше крупными порциями и реже, а не мелкими и часто. Это относится к оперативной памяти, твердотельным накопителям, сети и GPU.</li>
+<li>Векторизация — ключ к производительности. Важно хорошо знать специфические возможности ускорителя. Например, некоторые процессоры Intel Xeon особенно подходят для операций INT8, GPU NVIDIA Volta хорошо справляются с матричными операциями FP16, а NVIDIA Turing работает с FP16, INT8 и INT4.</li>
+<li>Переполнение, возникающее из-за слишком малых типов данных в процессе обучения, может быть проблемой (при выводе оно обычно менее важно).</li>
+<li>Наложение данных (aliasing) может сильно ухудшить производительность. CPU с 64-битной архитектурой следует выравнивать по 64-битным границам. На GPU рекомендуется выравнивать размеры свёрток, например под тензорные ядра.</li>
+<li>Согласуйте алгоритм с аппаратурой (например, по объёму памяти и пропускной способности). Если параметры помещаются в кэш, можно получить ускорение на порядки.</li>
+<li>Прежде чем проверять результаты экспериментов, полезно набросать производительность нового алгоритма на бумаге. Это важно потому, что речь идёт о разнице на порядки и больше.</li>
+<li>Для поиска узких мест в производительности используйте отладчик и профилировщик.</li>
+<li>Аппаратура для обучения и аппаратура для вывода различаются по производительности и цене, и у каждой есть свои достоинства.</li>
+</ul>
+<h2 id="упражнения"><a class="header" href="12_04_hardware.html#упражнения">Упражнения</a></h2>
+<ol>
+<li>Напишите программу на C, которая проверит, есть ли разница в скорости доступа к выровненной и невыровненной памяти. (Подсказка: учитывайте влияние кэша.)</li>
+<li>Проверьте разницу в скорости при последовательном доступе к памяти и при доступе с заданным шагом.</li>
+<li>Как измерить размер кэша на CPU?</li>
+<li>Как распределить данные по нескольким каналам памяти, чтобы получить максимальную пропускную способность? Как это сделать, если есть много мелких потоков?</li>
+<li>Жёсткий диск корпоративного класса вращается со скоростью 10 000 оборотов в минуту. В худшем случае за какое минимальное время диск может прочитать данные (считая, что головка перемещается почти мгновенно)? Почему 2,5-дюймовые жёсткие диски становятся всё популярнее в серверах по сравнению с 3,5- и 5,25-дюймовыми?</li>
+<li>Допустим, производитель HDD увеличил плотность записи с 1 Тбит на квадратный дюйм до 5 Тбит на квадратный дюйм. Сколько информации поместится на одном кольце 2,5-дюймового жёсткого диска? Есть ли разница между внутренней и внешней дорожками?</li>
+<li>При переходе от 8-битных типов данных к 16-битным количество кремния примерно увеличивается в четыре раза. Почему? Почему NVIDIA добавила операции INT4 в свои GPU Turing?</li>
+<li>На сколько быстрее чтение в памяти вперёд, чем назад? Отличается ли эта цифра у разных компьютеров и производителей CPU? Почему? Напишите код на C, чтобы провести эксперимент.</li>
+<li>Можно ли измерить размер кэша диска? Каков типичный размер у жёсткого диска? Нужен ли кэш твердотельному накопителю?</li>
+<li>Измерьте накладные расходы на пакеты при отправке сообщения по Ethernet. Найдите различия между соединениями UDP и TCP/IP.</li>
+<li>Прямой доступ к памяти (DMA) позволяет устройствам вне CPU напрямую записывать данные в память (и читать из неё). Зачем это нужно?</li>
+<li>Посмотрите на показатели производительности GPU Turing T4. Почему производительность при переходе от FP16 к INT8 и INT4 только удваивается?</li>
+<li>Сколько времени занимает путь пакета в оба конца от Сан-Франциско до Амстердама? Подсказка: можно считать, что расстояние составляет 10 000 км.</li>
+</ol>
+<p><a href="https://discuss.d2l.ai/t/5717">Обсуждение</a></p>
+<h2 id="литература"><a class="header" href="12_04_hardware.html#литература">Литература</a></h2>
+<ul>
+<li>Hennessy, J. L., &amp; Patterson, D. A. (2011). <em>Computer architecture: A quantitative approach</em>. Elsevier.</li>
+<li>Kung, S. Y. (1988). <em>VLSI array processors</em>. Prentice Hall.</li>
+<li>Jouppi, N. P., Young, C., Patil, N., Patterson, D., et al. (2017). In-datacenter performance analysis of a tensor processing unit. <em>Proceedings of the 44th Annual International Symposium on Computer Architecture (ISCA)</em>, 1–12.</li>
+<li>Wang, Y., Davidson, A., Pan, Y., Wu, Y., Riffel, A., &amp; Owens, J. D. (2016). Gunrock: A high-performance graph processing library on the GPU. <em>ACM SIGPLAN Notices</em>, 51(8), 11.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="12_03_auto_parallelism.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="12_05_multiple_gpus.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="12_03_auto_parallelism.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="12_05_multiple_gpus.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/framework-tabs-0e82dc29.js"></script>
+
+
+
+    </div>
+    </body>
+</html>
